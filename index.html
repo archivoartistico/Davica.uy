@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galería Davica - Obras de Arte</title>
+    <meta name="description" content="Galería virtual del artista Davica. Explora sus pinturas, cuadros y obras de arte con detalles técnicos completos.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'azul-claro': '#E6F3FF',
+                        'azul-medio': '#4A90E2',
+                        'azul-oscuro': '#1A365D',
+                        'azul-profundo': '#0A2540',
+                        'azul-hover': '#2D74DA'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'serif': ['Playfair Display', 'Georgia', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .modal-overlay {
+            background-color: rgba(10, 37, 64, 0.9);
+        }
+        
+        .artwork-image {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .artwork-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tab-active {
+            position: relative;
+        }
+        
+        .tab-active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #4A90E2;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-azul-claro font-sans text-gray-800">
+    <!-- Header y Navegación -->
+    <header class="bg-azul-profundo text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center py-4">
+                <div class="mb-4 md:mb-0">
+                    <h1 class="text-2xl md:text-3xl font-bold font-serif">Galería <span class="text-azul-medio">Davica</span></h1>
+                    <p class="text-sm text-azul-claro mt-1">Arte ACA PONE COMO TE DEFINIS</p>
+                </div>
+                
+                <nav class="w-full md:w-auto">
+                    <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8">
+                        <li>
+                            <button id="tab-inicio" class="tab-active text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
+                                <i class="fas fa-home mr-2"></i>Inicio
+                            </button>
+                        </li>
+                        <li>
+                            <button id="tab-galeria" class="text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
+                                <i class="fas fa-images mr-2"></i>Galería
+                            </button>
+                        </li>
+                        <li>
+                            <button id="tab-artista" class="text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
+                                <i class="fas fa-user mr-2"></i>Artista
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Sección Inicio (activa por defecto) -->
+        <section id="contenido-inicio" class="content-section">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-serif font-bold text-azul-oscuro mb-4">Bienvenido a la Galería Virtual</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Explora la colección de obras del artista Davica. Cada pintura cuenta una historia única y refleja la evolución de su técnica a lo largo de los años.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-4">Creación del Mes</h3>
+                    <div class="artwork-image cursor-pointer" data-id="1">
+                        <img src="Imagenes/obra.jpeg" alt="Obra destacada del mes - Composición abstracta en azules" class="w-full h-64 object-cover rounded-lg mb-4" loading="lazy">
+                        <h4 class="text-xl font-semibold text-azul-profundo">"ACA PONE EL NOMBRE DE LA OBRA"</h4>
+                        <p class="text-gray-600 mt-2">ACA DESCRIBÍ LA OBRA</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6">
+                    <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-4">Próxima Exposición</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="bg-azul-medio text-white rounded-lg p-3 mr-4">
+                                <i class="fas fa-calendar-alt text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-azul-profundo">Aún no hay exposiciones</h4>
+                                <p class="text-gray-600">Fecha:</p>
+                                <p class="text-sm text-gray-500">Ubicación:</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="bg-azul-oscuro text-white rounded-lg p-3 mr-4">
+                                <i class="fas fa-palette text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-azul-profundo">Nuevas Técnicas:</h4>
+                                <p class="text-gray-600">Nada ha sido publicado aún</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <button id="explorar-galeria" class="bg-azul-medio hover:bg-azul-hover text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
+                    <i class="fas fa-eye mr-2"></i>Explorar Galería Completa
+                </button>
+            </div>
+        </section>
+
+        <!-- Sección Galería (oculta por defecto) -->
+        <section id="contenido-galeria" class="content-section hidden">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-serif font-bold text-azul-oscuro mb-4">Galería de Obras</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Haz clic en cualquier obra para ver sus detalles técnicos completos: medidas, ubicación, técnica, año y descripción.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galeria-grid">
+                <!-- Las obras se cargan dinámicamente con JavaScript -->
+            </div>
+        </section>
+
+        <!-- Sección Artista (oculta por defecto) -->
+        <section id="contenido-artista" class="content-section hidden">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-serif font-bold text-azul-oscuro mb-4">Davica - El Artista</h2>
+                    <p class="text-lg text-gray-600">ACA PONE UNA FRASE QUE TE GUSTE QSY</p>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                    <div>
+                        <img src="Imagenes/obra.jpeg" alt="Davica en su estudio de arte" class="w-full h-auto rounded-xl shadow-lg" loading="lazy">
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-8">
+                        <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-6">Biografía</h3>
+                        
+                        <div class="space-y-4">
+                            <p class="text-gray-700">
+                                Davica es un artista contemporáneo español especializado en la exploración del color azul en todas sus dimensiones. Con más de 15 años de experiencia, ha desarrollado una técnica única que combina tradición y modernidad.
+                            </p>
+                            
+                            <p class="text-gray-700">
+                                Su obra se caracteriza por el uso predominante de tonalidades azules, desde los celestes más sutiles hasta los azules marinos más profundos, creando un lenguaje visual propio que evoca emociones y paisajes mentales.
+                            </p>
+                            
+                            <div class="mt-6">
+                                <h4 class="font-semibold text-azul-profundo mb-3">Formación y Trayectoria</h4>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-graduation-cap text-azul-medio mt-1 mr-3"></i>
+                                        <span>Licenciatura en Bellas Artes, Universidad Complutense de Madrid</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-award text-azul-medio mt-1 mr-3"></i>
+                                        <span>Premio Nacional de Pintura Contemporánea 2020</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-globe-europe text-azul-medio mt-1 mr-3"></i>
+                                        <span>Exposiciones internacionales en París, Nueva York y Tokio</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 pt-6 border-t border-gray-200">
+                            <h4 class="font-semibold text-azul-profundo mb-4">Conecta con Davica</h4>
+                            <div class="flex items-center">
+                                <a href="https://instagram.com/davica.uy" target="_blank" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center">
+                                    <i class="fab fa-instagram text-xl mr-3"></i>
+                                    <span>Seguir en Instagram</span>
+                                </a>
+                                <span class="ml-4 text-gray-600">@davica_art</span>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-3">Únete a más de 50,000 seguidores que disfrutan de su proceso creativo</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-azul-oscuro text-white rounded-xl shadow-lg p-8">
+                    <h3 class="text-2xl font-serif font-semibold mb-6">Declaración Artística</h3>
+                    <blockquote class="text-lg italic border-l-4 border-azul-medio pl-6 py-2">
+                        "El azul no es solo un color; es un universo de emociones, una profundidad que invita a la reflexión y un espacio donde la mente puede perderse y encontrarse simultáneamente. Cada tono de azul en mis obras representa un estado de ánimo, un recuerdo, una posibilidad."
+                    </blockquote>
+                    <p class="text-right mt-4 text-azul-claro">- Davica</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-azul-profundo text-white mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-serif font-semibold mb-4">Galería Davica</h3>
+                    <p class="text-azul-claro">
+                        Espacio virtual dedicado a la exhibición y apreciación del arte contemporáneo con enfoque en la exploración cromática.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Contacto</h4>
+                    <ul class="space-y-2 text-azul-claro">
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3"></i>
+                            <span>info@galeriadavica.com</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone mr-3"></i>
+                            <span>+34 912 345 678</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-3"></i>
+                            <span>Calle del Arte, 123, Madrid</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Sígueme</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://instagram.com/davica.uy" target="_blank" class="bg-white text-azul-profundo hover:bg-azul-claro w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <p class="text-sm text-azul-claro mt-4">© 2024 Galería Davica. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal para detalles de la obra -->
+    <div id="modal-obra" class="fixed inset-0 z-50 hidden modal-overlay">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 id="modal-titulo" class="text-3xl font-serif font-bold text-azul-oscuro"></h3>
+                        <button id="cerrar-modal" class="text-gray-500 hover:text-gray-700 text-2xl">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <img id="modal-imagen" src="" alt="" class="w-full h-auto rounded-lg shadow-lg" loading="lazy">
+                        </div>
+                        
+                        <div>
+                            <div class="space-y-6">
+                                <div>
+                                    <h4 class="text-lg font-semibold text-azul-profundo mb-2">Descripción</h4>
+                                    <p id="modal-descripcion" class="text-gray-700"></p>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div class="bg-azul-claro p-4 rounded-lg">
+                                        <h5 class="font-semibold text-azul-oscuro mb-1">Medidas</h5>
+                                        <p id="modal-medidas" class="text-gray-700"></p>
+                                    </div>
+                                    
+                                    <div class="bg-azul-claro p-4 rounded-lg">
+                                        <h5 class="font-semibold text-azul-oscuro mb-1">Técnica</h5>
+                                        <p id="modal-tecnica" class="text-gray-700"></p>
+                                    </div>
+                                    
+                                    <div class="bg-azul-claro p-4 rounded-lg">
+                                        <h5 class="font-semibold text-azul-oscuro mb-1">Año</h5>
+                                        <p id="modal-ano" class="text-gray-700"></p>
+                                    </div>
+                                    
+                                    <div class="bg-azul-claro p-4 rounded-lg">
+                                        <h5 class="font-semibold text-azul-oscuro mb-1">Ubicación</h5>
+                                        <p id="modal-ubicacion" class="text-gray-700"></p>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-lg font-semibold text-azul-profundo mb-2">Detalles Técnicos</h4>
+                                    <ul id="modal-detalles" class="list-disc pl-5 text-gray-700 space-y-1"></ul>
+                                </div>
+                                
+                                <div class="pt-4 border-t border-gray-200">
+                                    <p class="text-sm text-gray-500">
+                                        <i class="fas fa-info-circle mr-2"></i>
+                                        Para consultas sobre esta obra, contáctanos a través de nuestro formulario de contacto.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de las obras de arte
+        const obras = [
+            {
+                "id": 1,
+                "titulo": "Viernes de Truco en la Esquina",
+                "imagen": "Imagenes/Viernes de truco en la esquina.jpg",
+                "descripcion": "Una exploración profunda del color azul en todas sus dimensiones y matices. Esta obra representa la transición entre el cielo y el mar, donde los límites se difuminan y surge una nueva perspectiva.",
+                "medidas": "73 x 89 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2025",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 2,
+                "titulo": "Cortazar",
+                "imagen": "Imagenes/Cortazar.jpg",
+                "descripcion": "Inspirada en las profundidades del océano, esta obra captura la misteriosa belleza del mundo submarino a través de tonos azules intensos y contrastes lumínicos.",
+                "medidas": "72 x 89 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Pertenecienta a serie: Artistas y Legado",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 3,
+                "titulo": "Pou",
+                "imagen": "Imagenes/Pou.jpg",
+                "descripcion": "Representación abstracta de un cielo estrellado donde el azul oscuro se encuentra con destellos de luz, creando un efecto de movimiento y profundidad.",
+                "medidas": "89,5 x 72,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Pertenecienta a serie: Artistas y Legado",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 4,
+                "titulo": "Baudelaire",
+                "imagen": "Imagenes/Baudelaire.jpg",
+                "descripcion": "Estudio de la luz y su interacción con el agua, capturando el momento en que el sol se refleja en la superficie creando patrones azules cambiantes.",
+                "medidas": "73 x 89 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Pertenecienta a serie: Artistas y Legado",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 5,
+                "titulo": "Paul Cézanne",
+                "imagen": "Imagenes/Cézanne.jpg",
+                "descripcion": "Interpretación abstracta de la ciudad al atardecer, donde la arquitectura se funde con el cielo en una paleta de azules urbanos y grises atmosféricos.",
+                "medidas": "73 x 87,3 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Pertenecienta a serie: Artistas y Legado",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 6,
+                "titulo": "Monet",
+                "imagen": "Imagenes/Monet.jpg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "73 x 89,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Pertenecienta a serie: Artistas y Legado",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 7,
+                "titulo": "Magritte",
+                "imagen": "Imagenes/Magritte.jpg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "72,5 x 89,5 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona de margen derecho",
+                    "Pertenecienta a serie: Artistas y Legado",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 8,
+                "titulo": "Nostalgias de Vincent",
+                "imagen": "Imagenes/Nostalgias de Vincent.jpg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "72,7 x 89,4 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 9,
+                "titulo": "Kafka",
+                "imagen": "Imagenes/.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 10,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 11,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 12,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 13,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 14,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 15,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 16,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 17,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 18,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 19,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 20,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+             {
+                "id": 21,
+                "titulo": "Susurros del Viento",
+                "imagen": "Imagenes/obra.jpeg",
+                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "medidas": "70 x 100 cm",
+                "tecnica": "Óleo y medios mixtos",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            }
+        ];
+
+        // Elementos del DOM
+        const tabInicio = document.getElementById("tab-inicio");
+        const tabGaleria = document.getElementById("tab-galeria");
+        const tabArtista = document.getElementById("tab-artista");
+        const contenidoInicio = document.getElementById("contenido-inicio");
+        const contenidoGaleria = document.getElementById("contenido-galeria");
+        const contenidoArtista = document.getElementById("contenido-artista");
+        const galeriaGrid = document.getElementById("galeria-grid");
+        const explorarGaleriaBtn = document.getElementById("explorar-galeria");
+        const modalObra = document.getElementById("modal-obra");
+        const cerrarModal = document.getElementById("cerrar-modal");
+        const modalTitulo = document.getElementById("modal-titulo");
+        const modalImagen = document.getElementById("modal-imagen");
+        const modalDescripcion = document.getElementById("modal-descripcion");
+        const modalMedidas = document.getElementById("modal-medidas");
+        const modalTecnica = document.getElementById("modal-tecnica");
+        const modalAno = document.getElementById("modal-ano");
+        const modalUbicacion = document.getElementById("modal-ubicacion");
+        const modalDetalles = document.getElementById("modal-detalles");
+
+        // Función para cambiar pestañas
+        function cambiarTab(tab) {
+            // Remover clase activa de todas las pestañas
+            [tabInicio, tabGaleria, tabArtista].forEach(t => {
+                t.classList.remove("tab-active");
+            });
+            
+            // Ocultar todos los contenidos
+            [contenidoInicio, contenidoGaleria, contenidoArtista].forEach(c => {
+                c.classList.add("hidden");
+            });
+            
+            // Activar pestaña seleccionada y mostrar contenido correspondiente
+            switch(tab) {
+                case "inicio":
+                    tabInicio.classList.add("tab-active");
+                    contenidoInicio.classList.remove("hidden");
+                    break;
+                case "galeria":
+                    tabGaleria.classList.add("tab-active");
+                    contenidoGaleria.classList.remove("hidden");
+                    break;
+                case "artista":
+                    tabArtista.classList.add("tab-active");
+                    contenidoArtista.classList.remove("hidden");
+                    break;
+            }
+        }
+
+        // Función para crear tarjeta de obra
+        function crearTarjetaObra(obra) {
+            return `
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden artwork-image cursor-pointer" data-id="${obra.id}">
+                    <img src="${obra.imagen}" alt="${obra.titulo}" class="w-full h-64 object-cover" loading="lazy">
+                    <div class="p-6">
+                        <h4 class="text-xl font-semibold text-azul-profundo mb-2">${obra.titulo}</h4>
+                        <div class="flex justify-between text-sm text-gray-600 mb-3">
+                            <span><i class="fas fa-ruler-combined mr-1"></i>${obra.medidas}</span>
+                            <span><i class="fas fa-calendar-alt mr-1"></i>${obra.ano}</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">${obra.descripcion.substring(0, 100)}...</p>
+                        <div class="flex items-center text-azul-medio font-medium">
+                            <span>Ver detalles</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Función para mostrar detalles de la obra en modal
+        function mostrarDetallesObra(id) {
+            const obra = obras.find(o => o.id === id);
+            if (!obra) return;
+            
+            modalTitulo.textContent = obra.titulo;
+            modalImagen.src = obra.imagen;
+            modalImagen.alt = obra.titulo;
+            modalDescripcion.textContent = obra.descripcion;
+            modalMedidas.textContent = obra.medidas;
+            modalTecnica.textContent = obra.tecnica;
+            modalAno.textContent = obra.ano;
+            modalUbicacion.textContent = obra.ubicacion;
+            
+            // Limpiar y agregar detalles
+            modalDetalles.innerHTML = "";
+            obra.detalles.forEach(detalle => {
+                const li = document.createElement("li");
+                li.textContent = detalle;
+                modalDetalles.appendChild(li);
+            });
+            
+            // Mostrar modal
+            modalObra.classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+        }
+
+        // Inicializar galería
+        function inicializarGaleria() {
+            galeriaGrid.innerHTML = "";
+            obras.forEach(obra => {
+                galeriaGrid.innerHTML += crearTarjetaObra(obra);
+            });
+            
+            // Agregar event listeners a las tarjetas
+            document.querySelectorAll(".artwork-image").forEach(card => {
+                card.addEventListener("click", function() {
+                    const id = parseInt(this.getAttribute("data-id"));
+                    mostrarDetallesObra(id);
+                });
+            });
+        }
+
+        // Event Listeners
+        tabInicio.addEventListener("click", () => cambiarTab("inicio"));
+        tabGaleria.addEventListener("click", () => cambiarTab("galeria"));
+        tabArtista.addEventListener("click", () => cambiarTab("artista"));
+        
+        explorarGaleriaBtn.addEventListener("click", () => {
+            cambiarTab("galeria");
+        });
+        
+        cerrarModal.addEventListener("click", () => {
+            modalObra.classList.add("hidden");
+            document.body.style.overflow = "auto";
+        });
+        
+        // Cerrar modal al hacer clic fuera del contenido
+        modalObra.addEventListener("click", (e) => {
+            if (e.target === modalObra) {
+                modalObra.classList.add("hidden");
+                document.body.style.overflow = "auto";
+            }
+        });
+        
+        // Cerrar modal con tecla Escape
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && !modalObra.classList.contains("hidden")) {
+                modalObra.classList.add("hidden");
+                document.body.style.overflow = "auto";
+            }
+        });
+
+        // Inicializar la página
+        document.addEventListener("DOMContentLoaded", () => {
+            inicializarGaleria();
+            
+            // Prevenir comportamiento por defecto de enlaces
+            document.querySelectorAll("a").forEach(link => {
+                link.addEventListener("click", function(e) {
+                    if (this.getAttribute("href") === "#") {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
