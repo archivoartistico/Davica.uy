@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <base target="_self">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galería Davica - Obras de Arte</title>
-    <meta name="description" content="Galería virtual del artista Davica. Explora sus pinturas, cuadros y obras de arte con detalles técnicos completos.">
+    <meta name="description"
+        content="Galería virtual del artista Davica. Explora sus pinturas, cuadros y obras de arte con detalles técnicos completos.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -27,25 +29,27 @@
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         .modal-overlay {
             background-color: rgba(10, 37, 64, 0.9);
         }
-        
+
         .artwork-image {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         .artwork-image:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
-        
+
         .tab-active {
             position: relative;
         }
-        
+
         .tab-active::after {
             content: '';
             position: absolute;
@@ -58,30 +62,36 @@
         }
     </style>
 </head>
+
 <body class="min-h-screen bg-azul-claro font-sans text-gray-800">
     <!-- Header y Navegación -->
     <header class="bg-azul-profundo text-white shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center py-4">
                 <div class="mb-4 md:mb-0">
-                    <h1 class="text-2xl md:text-3xl font-bold font-serif">Galería <span class="text-azul-medio">Davica</span></h1>
-                    <p class="text-sm text-azul-claro mt-1">Arte ACA PONE COMO TE DEFINIS</p>
+                    <h1 class="text-2xl md:text-3xl font-bold font-serif">Galería <span
+                            class="text-azul-medio">Davica</span></h1>
+                    <p class="text-sm text-azul-claro mt-1">Arte contemporáneo con influencias impresionistas y
+                        expresionistas</p>
                 </div>
-                
+
                 <nav class="w-full md:w-auto">
                     <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8">
                         <li>
-                            <button id="tab-inicio" class="tab-active text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
+                            <button id="tab-inicio"
+                                class="tab-active text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
                                 <i class="fas fa-home mr-2"></i>Inicio
                             </button>
                         </li>
                         <li>
-                            <button id="tab-galeria" class="text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
+                            <button id="tab-galeria"
+                                class="text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
                                 <i class="fas fa-images mr-2"></i>Galería
                             </button>
                         </li>
                         <li>
-                            <button id="tab-artista" class="text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
+                            <button id="tab-artista"
+                                class="text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
                                 <i class="fas fa-user mr-2"></i>Artista
                             </button>
                         </li>
@@ -98,20 +108,22 @@
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-serif font-bold text-azul-oscuro mb-4">Bienvenido a la Galería Virtual</h2>
                 <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    Explora la colección de obras del artista Davica. Cada pintura cuenta una historia única y refleja la evolución de su técnica a lo largo de los años.
+                    Explora la colección de obras del artista Davica. Cada pintura cuenta una historia única y refleja
+                    la evolución de su técnica a lo largo de los años.
                 </p>
             </div>
-            
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                 <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-4">Creación del Mes</h3>
+                    <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-4">Creación más reciente</h3>
                     <div class="artwork-image cursor-pointer" data-id="1">
-                        <img src="Imagenes/obra.jpeg" alt="Obra destacada del mes - Composición abstracta en azules" class="w-full h-64 object-cover rounded-lg mb-4" loading="lazy">
+                        <img src="Imagenes/obra.jpeg" alt="Obra destacada del mes - Composición abstracta en azules"
+                            class="w-full h-64 object-cover rounded-lg mb-4" loading="lazy">
                         <h4 class="text-xl font-semibold text-azul-profundo">"ACA PONE EL NOMBRE DE LA OBRA"</h4>
                         <p class="text-gray-600 mt-2">ACA DESCRIBÍ LA OBRA</p>
                     </div>
                 </div>
-                
+
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-4">Próxima Exposición</h3>
                     <div class="space-y-4">
@@ -125,22 +137,25 @@
                                 <p class="text-sm text-gray-500">Ubicación:</p>
                             </div>
                         </div>
-                        
+
                         <div class="flex items-start">
                             <div class="bg-azul-oscuro text-white rounded-lg p-3 mr-4">
                                 <i class="fas fa-palette text-xl"></i>
                             </div>
                             <div>
-                                <h4 class="font-semibold text-azul-profundo">Nuevas Técnicas:</h4>
-                                <p class="text-gray-600">Nada ha sido publicado aún</p>
+                                <h4 class="font-semibold text-azul-profundo">Proyectos futuros:</h4>
+                                <p class="text-gray-600"> •Personajes y su entorno</p>
+                                <p class="text-gray-600"> •Biografías en una imagen</p>
+                                <p class="text-gray-600"> •Finalizar la serie: Cazando Ninfas</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="text-center">
-                <button id="explorar-galeria" class="bg-azul-medio hover:bg-azul-hover text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
+                <button id="explorar-galeria"
+                    class="bg-azul-medio hover:bg-azul-hover text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
                     <i class="fas fa-eye mr-2"></i>Explorar Galería Completa
                 </button>
             </div>
@@ -151,10 +166,11 @@
             <div class="text-center mb-12">
                 <h2 class="text-4xl font-serif font-bold text-azul-oscuro mb-4">Galería de Obras</h2>
                 <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    Haz clic en cualquier obra para ver sus detalles técnicos completos: medidas, ubicación, técnica, año y descripción.
+                    Haz clic en cualquier obra para ver sus detalles técnicos completos: medidas, ubicación, técnica,
+                    año y descripción.
                 </p>
             </div>
-            
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galeria-grid">
                 <!-- Las obras se cargan dinámicamente con JavaScript -->
             </div>
@@ -165,63 +181,92 @@
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-4xl font-serif font-bold text-azul-oscuro mb-4">Davica - El Artista</h2>
-                    <p class="text-lg text-gray-600">ACA PONE UNA FRASE QUE TE GUSTE QSY</p>
+                    <p class="text-lg text-gray-600">"Envejecer es obligatorio, crecer es opcional."</p>
                 </div>
-                
+
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                     <div>
-                        <img src="Imagenes/obra.jpeg" alt="Davica en su estudio de arte" class="w-full h-auto rounded-xl shadow-lg" loading="lazy">
+                        <img src="Imagenes/DAVICA1.jpeg" alt="Davica en su estudio de arte"
+                            class="w-full h-auto rounded-xl shadow-lg" loading="lazy">
                     </div>
-                    
+
                     <div class="bg-white rounded-xl shadow-lg p-8">
                         <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-6">Biografía</h3>
-                        
+
                         <div class="space-y-4">
                             <p class="text-gray-700">
-                                Davica es un artista contemporáneo español especializado en la exploración del color azul en todas sus dimensiones. Con más de 15 años de experiencia, ha desarrollado una técnica única que combina tradición y modernidad.
+                                Mi nombre es Hugo David Sosa Cadiac. Nací el 5 de Julio de 1978 en la ciudad de
+                                Mercedes, en Soriano, Uruguay, donde resido. Soy profesor de Lengua y Literatura
+                                egresado del CERP del Suroeste en el año 2005 y profesor de Comunicación Visual egresado
+                                del IPA en 2017. Desde hace un par de años le dedico mucho tiempo a la pintura, buscando
+                                un estilo propio y realizando todo el proceso de creación de los lienzos. Desde cortar
+                                la madera a medida hasta preparar los bastidores.
                             </p>
-                            
+
                             <p class="text-gray-700">
-                                Su obra se caracteriza por el uso predominante de tonalidades azules, desde los celestes más sutiles hasta los azules marinos más profundos, creando un lenguaje visual propio que evoca emociones y paisajes mentales.
+                                Participé en la elaboración de los libros: "19 artistas uruguayos", presentando a Ariel
+                                Galain como escultor y a Cristina Galeano como artista femenina. He participado en
+                                varias muestras colectivas en Soriano en Casa de la Cultura de Cardona y Mercedes,
+                                muestras colectivas en espacios públicos y en el espacio Barradas en Montevideo con el
+                                grupo "Mondon Art", muestras colectivas con el taller de Gustavo Roselló y actualmente
+                                participo de Taller al Sur, a cargo del profesor Ariel Galain, donde
+                                realizamos muestras colectivas integrando pintura, fotografía, escultura, cerámica,
+                                grabado y música junto a la escuela de "Jazz a la Calle".
                             </p>
-                            
+
                             <div class="mt-6">
                                 <h4 class="font-semibold text-azul-profundo mb-3">Formación y Trayectoria</h4>
                                 <ul class="space-y-2 text-gray-700">
                                     <li class="flex items-start">
                                         <i class="fas fa-graduation-cap text-azul-medio mt-1 mr-3"></i>
-                                        <span>Licenciatura en Bellas Artes, Universidad Complutense de Madrid</span>
+                                        <span>Profesorado en Lengua, Literatura y Dibujo</span>
                                     </li>
                                     <li class="flex items-start">
                                         <i class="fas fa-award text-azul-medio mt-1 mr-3"></i>
-                                        <span>Premio Nacional de Pintura Contemporánea 2020</span>
+                                        <span>Semifinalista en competencia internacional de pintura "TARTGET PRIZE
+                                            2025"</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-award text-azul-medio mt-1 mr-3"></i>
+                                        <span>Reconocimiento por alta calidad de pintura por "Luxembourg Art Prize
+                                            2024"</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-award text-azul-medio mt-1 mr-3"></i>
+                                        <span>Reconocimiento por participación en "Festival Multicultural Literarte
+                                            2024"</span>
                                     </li>
                                     <li class="flex items-start">
                                         <i class="fas fa-globe-europe text-azul-medio mt-1 mr-3"></i>
-                                        <span>Exposiciones internacionales en París, Nueva York y Tokio</span>
+                                        <span>Exposiciones virtuales internacionales en México, España y
+                                            Luxemburgo</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                        
+
                         <div class="mt-8 pt-6 border-t border-gray-200">
                             <h4 class="font-semibold text-azul-profundo mb-4">Conecta con Davica</h4>
                             <div class="flex items-center">
-                                <a href="https://instagram.com/davica.uy" target="_blank" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center">
+                                <a href="https://instagram.com/davica.uy" target="_blank"
+                                    class="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center">
                                     <i class="fab fa-instagram text-xl mr-3"></i>
                                     <span>Seguir en Instagram</span>
                                 </a>
-                                <span class="ml-4 text-gray-600">@davica_art</span>
+                                <span class="ml-4 text-gray-600">@davica.uy</span>
                             </div>
-                            <p class="text-sm text-gray-500 mt-3">Únete a más de 50,000 seguidores que disfrutan de su proceso creativo</p>
+                            <p class="text-sm text-gray-500 mt-3">Únete a disfrutar de su
+                                proceso creativo</p>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="bg-azul-oscuro text-white rounded-xl shadow-lg p-8">
                     <h3 class="text-2xl font-serif font-semibold mb-6">Declaración Artística</h3>
                     <blockquote class="text-lg italic border-l-4 border-azul-medio pl-6 py-2">
-                        "El azul no es solo un color; es un universo de emociones, una profundidad que invita a la reflexión y un espacio donde la mente puede perderse y encontrarse simultáneamente. Cada tono de azul en mis obras representa un estado de ánimo, un recuerdo, una posibilidad."
+                        "El azul no es solo un color; es un universo de emociones, una profundidad que invita a la
+                        reflexión y un espacio donde la mente puede perderse y encontrarse simultáneamente. Cada tono de
+                        azul en mis obras representa un estado de ánimo, un recuerdo, una posibilidad."
                     </blockquote>
                     <p class="text-right mt-4 text-azul-claro">- Davica</p>
                 </div>
@@ -236,36 +281,33 @@
                 <div>
                     <h3 class="text-xl font-serif font-semibold mb-4">Galería Davica</h3>
                     <p class="text-azul-claro">
-                        Espacio virtual dedicado a la exhibición y apreciación del arte contemporáneo con enfoque en la exploración cromática.
+                        Espacio virtual dedicado a la exhibición y apreciación del arte contemporáneo con enfoque en la
+                        exploración.
                     </p>
                 </div>
-                
+
                 <div>
                     <h4 class="font-semibold mb-4">Contacto</h4>
                     <ul class="space-y-2 text-azul-claro">
                         <li class="flex items-center">
                             <i class="fas fa-envelope mr-3"></i>
-                            <span>info@galeriadavica.com</span>
+                            <span>davica78@gmail.com</span>
                         </li>
                         <li class="flex items-center">
                             <i class="fas fa-phone mr-3"></i>
-                            <span>+34 912 345 678</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-map-marker-alt mr-3"></i>
-                            <span>Calle del Arte, 123, Madrid</span>
+                            <span>+598 95 138 939</span>
                         </li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h4 class="font-semibold mb-4">Sígueme</h4>
                     <div class="flex space-x-4">
-                        <a href="https://instagram.com/davica.uy" target="_blank" class="bg-white text-azul-profundo hover:bg-azul-claro w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200">
+                        <a href="https://instagram.com/davica.uy" target="_blank"
+                            class="bg-white text-azul-profundo hover:bg-azul-claro w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
-                    <p class="text-sm text-azul-claro mt-4">© 2024 Galería Davica. Todos los derechos reservados.</p>
                 </div>
             </div>
         </div>
@@ -282,50 +324,52 @@
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
-                    
+
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div>
-                            <img id="modal-imagen" src="" alt="" class="w-full h-auto rounded-lg shadow-lg" loading="lazy">
+                            <img id="modal-imagen" src="" alt="" class="w-full h-auto rounded-lg shadow-lg"
+                                loading="lazy">
                         </div>
-                        
+
                         <div>
                             <div class="space-y-6">
                                 <div>
                                     <h4 class="text-lg font-semibold text-azul-profundo mb-2">Descripción</h4>
-                                    <p id="modal-descripcion" class="text-gray-700"></p>
+                                    <p id="modal-descripcion" class="text-gray-700 text-justify leading-relaxed break-words"></p>
                                 </div>
-                                
+
                                 <div class="grid grid-cols-2 gap-4">
                                     <div class="bg-azul-claro p-4 rounded-lg">
                                         <h5 class="font-semibold text-azul-oscuro mb-1">Medidas</h5>
                                         <p id="modal-medidas" class="text-gray-700"></p>
                                     </div>
-                                    
+
                                     <div class="bg-azul-claro p-4 rounded-lg">
                                         <h5 class="font-semibold text-azul-oscuro mb-1">Técnica</h5>
                                         <p id="modal-tecnica" class="text-gray-700"></p>
                                     </div>
-                                    
+
                                     <div class="bg-azul-claro p-4 rounded-lg">
                                         <h5 class="font-semibold text-azul-oscuro mb-1">Año</h5>
                                         <p id="modal-ano" class="text-gray-700"></p>
                                     </div>
-                                    
+
                                     <div class="bg-azul-claro p-4 rounded-lg">
                                         <h5 class="font-semibold text-azul-oscuro mb-1">Ubicación</h5>
                                         <p id="modal-ubicacion" class="text-gray-700"></p>
                                     </div>
                                 </div>
-                                
+
                                 <div>
                                     <h4 class="text-lg font-semibold text-azul-profundo mb-2">Detalles Técnicos</h4>
                                     <ul id="modal-detalles" class="list-disc pl-5 text-gray-700 space-y-1"></ul>
                                 </div>
-                                
+
                                 <div class="pt-4 border-t border-gray-200">
                                     <p class="text-sm text-gray-500">
                                         <i class="fas fa-info-circle mr-2"></i>
-                                        Para consultas sobre esta obra, contáctanos a través de nuestro formulario de contacto.
+                                        Para consultas sobre esta obra, contáctanos a través de nuestro formulario de
+                                        contacto.
                                     </p>
                                 </div>
                             </div>
@@ -341,12 +385,60 @@
         const obras = [
             {
                 "id": 1,
-                "titulo": "Viernes de Truco en la Esquina",
-                "imagen": "Imagenes/Viernes de truco en la esquina.jpg",
-                "descripcion": "Una exploración profunda del color azul en todas sus dimensiones y matices. Esta obra representa la transición entre el cielo y el mar, donde los límites se difuminan y surge una nueva perspectiva.",
-                "medidas": "73 x 89 cm",
+                "titulo": "Kafka",
+                "imagen": "Imagenes/OBRA NO TERMINADA.jpg",
+                "descripcion": "Franz Kafka fue un escritor checo en lengua alemana cuya obra señala el inicio de la profunda renovación que experimentaría la novela europea en las primeras décadas del siglo XX. Sus novelas reflejan una realidad en apariencia reconocible y cotidiana, pero sometida a inquietantes mutaciones que sumergen al lector en una opresiva y asfixiante pesadilla, plasmación de las angustias e incertidumbres que embargan al hombre contemporáneo.",
+                "medidas": "72,5 x 89 cm",
                 "tecnica": "Acrílico sobre lienzo",
-                "ano": "2025",
+                "ano": "2026",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Perteneciente a serie: Artistas y Legado",
+                    "Fondo trabajado con espátula",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 2,
+                "titulo": "Noche en el Cabo",
+                "imagen": "Imagenes/Noche en el Cabo.jpg",
+                "descripcion": "Cabo Polonio es caracterizado por su belleza natural agreste y su estilo de vida único, habitado por una pequeña comunidad que vive en armonía con la naturaleza, siendo famoso por sus colonias de lobos marinos, el faro y la experiencia de desconexión total.",
+                "medidas": "40 x 50 cm",
+                "tecnica": "Acrílico sobre cartón entelado",
+                "ano": "2026",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Se alterna la espátula y el pincel",
+                    "Punto focal central",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 3,
+                "titulo": "Rinconcitos del Diablo",
+                "imagen": "Imagenes/Rinconcitos del Diablo.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "58 x 66 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2026",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Pintura basada en fotografía tomada por el artista",
+                    "Alternancia de tonos pasteles",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 4,
+                "titulo": "Pueblito de Pescadores",
+                "imagen": "Imagenes/Pueblito de Pescadores.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "48 x 45 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2026",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
                     "Firma en zona inferior izquierda",
@@ -356,138 +448,298 @@
                 ]
             },
             {
-                "id": 2,
-                "titulo": "Cortazar",
-                "imagen": "Imagenes/Cortazar.jpg",
-                "descripcion": "Inspirada en las profundidades del océano, esta obra captura la misteriosa belleza del mundo submarino a través de tonos azules intensos y contrastes lumínicos.",
-                "medidas": "72 x 89 cm",
+                "id": 5,
+                "titulo": "Rancho de la Calera",
+                "imagen": "Imagenes/Rancho de la Calera.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "55 x 37 cm",
                 "tecnica": "Acrílico sobre lienzo",
-                "ano": "2024",
-                "ubicacion": "Mercedes, Soriano, Uruguay",
-                "detalles": [
-                    "Firma en zona inferior izquierda",
-                    "Pertenecienta a serie: Artistas y Legado",
-                    "CCCCC",
-                    "Disponible para venta"
-                ]
-            },
-            {
-                "id": 3,
-                "titulo": "Pou",
-                "imagen": "Imagenes/Pou.jpg",
-                "descripcion": "Representación abstracta de un cielo estrellado donde el azul oscuro se encuentra con destellos de luz, creando un efecto de movimiento y profundidad.",
-                "medidas": "89,5 x 72,5 cm",
-                "tecnica": "Acrílico sobre lienzo",
-                "ano": "2024",
-                "ubicacion": "Mercedes, Soriano, Uruguay",
-                "detalles": [
-                    "Firma en zona inferior izquierda",
-                    "Pertenecienta a serie: Artistas y Legado",
-                    "CCCCC",
-                    "Disponible para venta"
-                ]
-            },
-            {
-                "id": 4,
-                "titulo": "Baudelaire",
-                "imagen": "Imagenes/Baudelaire.jpg",
-                "descripcion": "Estudio de la luz y su interacción con el agua, capturando el momento en que el sol se refleja en la superficie creando patrones azules cambiantes.",
-                "medidas": "73 x 89 cm",
-                "tecnica": "Acrílico sobre lienzo",
-                "ano": "2024",
+                "ano": "2026",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
                     "Firma en zona inferior derecha",
-                    "Pertenecienta a serie: Artistas y Legado",
-                    "CCCCC",
-                    "Disponible para venta"
-                ]
-            },
-            {
-                "id": 5,
-                "titulo": "Paul Cézanne",
-                "imagen": "Imagenes/Cézanne.jpg",
-                "descripcion": "Interpretación abstracta de la ciudad al atardecer, donde la arquitectura se funde con el cielo en una paleta de azules urbanos y grises atmosféricos.",
-                "medidas": "73 x 87,3 cm",
-                "tecnica": "Acrílico sobre lienzo",
-                "ano": "2024",
-                "ubicacion": "Mercedes, Soriano, Uruguay",
-                "detalles": [
-                    "Firma en zona inferior izquierda",
-                    "Pertenecienta a serie: Artistas y Legado",
+                    "BBBBB",
                     "CCCCC",
                     "Disponible para venta"
                 ]
             },
             {
                 "id": 6,
-                "titulo": "Monet",
-                "imagen": "Imagenes/Monet.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "73 x 89,5 cm",
+                "titulo": "Cazando Ninfas VI",
+                "imagen": "Imagenes/Cazando Ninfas VI.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "73 x 87 cm",
                 "tecnica": "Acrílico sobre lienzo",
-                "ano": "2024",
+                "ano": "2025",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
                     "Firma en zona inferior izquierda",
-                    "Pertenecienta a serie: Artistas y Legado",
-                    "CCCCC",
-                    "Disponible para venta"
-                ]
-            },
-            {
-                "id": 7,
-                "titulo": "Magritte",
-                "imagen": "Imagenes/Magritte.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "72,5 x 89,5 cm",
-                "tecnica": "Acrílico sobre lienzo",
-                "ano": "2024",
-                "ubicacion": "Mercedes, Soriano, Uruguay",
-                "detalles": [
-                    "Firma en zona de margen derecho",
-                    "Pertenecienta a serie: Artistas y Legado",
+                    "Perteneciente a serie: Cazando Ninfas",
                     "CCCCC",
                     "Disponible para venta"
                 ]
             },
             {
                 "id": 8,
-                "titulo": "Nostalgias de Vincent",
-                "imagen": "Imagenes/Nostalgias de Vincent.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "72,7 x 89,4 cm",
+                "titulo": "Viernes de Truco en la Esquina",
+                "imagen": "Imagenes/Viernes de truco en la esquina.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "73 x 89 cm",
                 "tecnica": "Acrílico sobre lienzo",
-                "ano": "2022",
+                "ano": "2025",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
-                    "Firma en zona",
-                    "Pertenecienta a serie: Artistas y Legado",
-                    "CCCCC",
+                    "Firma en zona inferior izquierda",
+                    "Uso de pintura metalizada en parilla",
+                    "Punto de fuga a la derecha del espectador",
                     "Disponible para venta"
                 ]
             },
             {
                 "id": 9,
-                "titulo": "Kafka",
-                "imagen": "Imagenes/OBRA NO TERMINADA.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "/ x / cm",
+                "titulo": "Historia I",
+                "imagen": "Imagenes/Historia I.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "72,5 x 89,5 cm",
                 "tecnica": "Acrílico sobre lienzo",
-                "ano": "202/",
+                "ano": "2025",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
-                    "Firma en zona /",
-                    "Pertenecienta a serie: Artistas y Legado",
-                    "Inconclusa",
-                    "Aún no disponible para venta"
+                    "Firma en zona inferior izquierda",
+                    "Técnica de chorreado",
+                    "Detalles en espátula",
+                    "Disponible para venta"
                 ]
             },
             {
                 "id": 10,
+                "titulo": "Historia II",
+                "imagen": "Imagenes/Historia II.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "72 x 89 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2025",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Detalles en lámina de plata",
+                    "Paleta de colores basada en las banderas nacionales",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 11,
+                "titulo": "Cortázar",
+                "imagen": "Imagenes/Cortazar.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "72 x 89 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Artistas y Legado",
+                    "Composición en tonos cálidos y fríos",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 12,
+                "titulo": "Las Sombras de Poe",
+                "imagen": "Imagenes/Pou.jpg",
+                "descripcion": "Las Sombras de Poe en esta obra se muestra parte de su personalidad y de su vida. Un hombre solitario con temor a la oscuridad y a ser enterrado vivo, esto último puede apreciarse en el reflejo de un ataúd en sus ojos. También aparecen un gato negro y un cuervo, al primero le falta un ojo y tiene la marca de una cuerda en su cuello haciendo referencia al cuento El Gato Negro y el segundo hace referencia al famoso poema El Cuervo, en una de sus patas tiene un diente que evoca uno de sus cuentos, Berenice.",
+                "medidas": "89,5 x 72,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Artistas y Legado",
+                    "Trabajo en espátula casi en su totalidad",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 13,
+                "titulo": "Baudelaire",
+                "imagen": "Imagenes/Baudelaire.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "73 x 89 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Perteneciente a serie: Artistas y Legado",
+                    "Preponderancia de zonas oscuras y tonos fríos",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 14,
+                "titulo": "Paul Cézanne",
+                "imagen": "Imagenes/Cézanne.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "73 x 87,3 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Artistas y Legado",
+                    "Contraste de su figura con el entorno colorido",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 15,
+                "titulo": "Nostalgias de Monet",
+                "imagen": "Imagenes/Monet.jpg",
+                "descripcion": "Esta obra muestra muestra al genio del impresionismo rodeado de referencias a algunas de sus obras, los jardines, las casas del parlamento e impresión sol naciente, un viaje al pasado y la mirada del artista.",
+                "medidas": "73 x 89,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Artistas y Legado",
+                    "Fundido de figura fondo",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 16,
+                "titulo": "Mundo Magritte",
+                "imagen": "Imagenes/Magritte.jpg",
+                "descripcion": "Mundo Magritte está obra muestra a uno de los genios del surrealismo con su traje y su bombín característico. Está rodeado de referencias a su mundo onírico, el ojo en un botón, las rocas, los huevos flotando con los sombreros, la paloma recortada en el cielo sosteniendo la manzana verde, y la pipa que no es una pipa.",
+                "medidas": "72,5 x 89,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona de margen derecho",
+                    "Perteneciente a serie: Artistas y Legado",
+                    "Surrealismo explícito",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 17,
+                "titulo": "Nostalgias de Vincent",
+                "imagen": "Imagenes/Nostalgias de Vincent.jpg",
+                "descripcion": "Esta obra es un homenaje al genio del post impresionismo. Rodeado de algunas de sus obras más conocidas, recordando su mundo, imitando su paleta y sus pinceladas, los cuervos en el trigal, la noche estrellada y su habitación de Arles son un viaje al pasado y a la vida de Van Gogh.",
+                "medidas": "72,7 x 89,4 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona",
+                    "Perteneciente a serie: Artistas y Legado",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 18,
+                "titulo": "Gabo y 100 años",
+                "imagen": "Imagenes/Gabo.jpg",
+                "descripcion": "Es una obra que tiene como figura principal a Gabriel García Márquez y se encuentra rodeado de varias referencias a su obra cumbre Cien años de soledad. Se pueden ver los bananos, el arroyo del pueblo Macondo, sus casitas, la semilla del Macondo, y en sus ojos los pescaditos de oro que fabricaba Aureliano.",
+                "medidas": "70 x 90 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Colonia del Sacramento, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Obra en colección privada en Colonia del Sacramento",
+                    "Referencias a famosa obra literaria",
+                    "No disponible para venta"
+                ]
+            },
+            {
+                "id": 19,
+                "titulo": "Cazando Ninfas V",
+                "imagen": "Imagenes/Cazando Ninfas V.jpg",
+                "descripcion": "Uno de los rinconcitos del rio Negro son las escolleras de piedra que se adentran en el rio y crean espacios de recreación y descanso.",
+                "medidas": "48,5 x 69,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Perteneciente a serie: Cazando Ninfas",
+                    "Trabajado exclusivamente con espátula",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 20,
+                "titulo": "Puerto Mercedes",
+                "imagen": "Imagenes/Puerto Mercedes.jpg",
+                "descripcion": "Es una obra que muestra un paisaje cotidiano en las costas del río negro, las chalanas y el encargado de sacarle el agua que logra filtrarse. De fondo aparece el puerto de Mercedes.",
+                "medidas": "74,5 x 74,2 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Basado en fotografía del artista",
+                    "Escena cotidiana de la ciudad de Mercedes",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 21,
+                "titulo": "Noche, Fuego y Contrabajo",
+                "imagen": "Imagenes/Noche, Fuego y Contrabajo.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "80 x 79,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 22,
+                "titulo": "Traversa",
+                "imagen": "Imagenes/Traversa.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "78 x 78 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 23,
+                "titulo": "Compinches",
+                "imagen": "Imagenes/Compinches.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "79 x 79 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 24,
                 "titulo": "Cazando Ninfas IV",
                 "imagen": "Imagenes/Cazando Ninfas IV.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "descripcion": "Uno de los rinconcitos del rio Negro son las escolleras de piedra que se adentran en el rio y crean espacios de recreación y descanso.",
                 "medidas": "63 x 87 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2024",
@@ -495,31 +747,15 @@
                 "detalles": [
                     "Firma en zona inferior derecha",
                     "Perteneciente a serie: Cazando Ninfas",
-                    "CCCCC",
+                    "Trabajado exclusivamente con espátula",
                     "Disponible para venta"
                 ]
             },
             {
-                "id": 11,
-                "titulo": "Puerto Mercedes",
-                "imagen": "Imagenes/Puerto Mercedes.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "74,5 x 74,2 cm",
-                "tecnica": "Acrílico sobre lienzo",
-                "ano": "2024",
-                "ubicacion": "Mercedes, Soriano, Uruguay",
-                "detalles": [
-                    "Firma en zona inferior izquierda",
-                    "BBBBB",
-                    "CCCCC",
-                    "Disponible para venta"
-                ]
-            },
-            {
-                "id": 12,
+                "id": 25,
                 "titulo": "Flamenco",
                 "imagen": "Imagenes/Flamenco.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "descripcion": "DESCRIBIR",
                 "medidas": "79,5 x 79,5 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2024",
@@ -532,10 +768,154 @@
                 ]
             },
             {
-                "id": 13,
-                "titulo": "AMARILLA GRANDE",
+                "id": 26,
+                "titulo": "Salsa",
+                "imagen": "Imagenes/Salsa.jpg",
+                "descripcion": "Es una composición basada en el propio ritmo musical rescatando los instrumentos que dieron vida y origen a este ritmo. Los colores son muy vivos, imprimiendo una vitalidad propia de cuando es escuchada.",
+                "medidas": "79,5 x 79,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Perteneciente a serie: Ritmos Musicales",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 27,
+                "titulo": "Bossa Nova",
+                "imagen": "Imagenes/Bossa Nova.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "80 x 80 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Perteneciente a serie: Ritmos Musicales",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 28,
+                "titulo": "Rock",
+                "imagen": "Imagenes/Rock.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "79,5 x 79,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Ritmos Musicales",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 29,
+                "titulo": "Candombe",
+                "imagen": "Imagenes/Candombe.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "79,5 x 79,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Perteneciente a serie: Ritmos Musicales",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 30,
+                "titulo": "Reggae",
+                "imagen": "Imagenes/Reggae.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "80 x 79,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Ritmos Musicales",
+                    "Detalles en lámina de oro",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 31,
+                "titulo": "Country",
+                "imagen": "Imagenes/Country.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "80 x 80 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Perteneciente a serie: Ritmos Musicales",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 32,
+                "titulo": "Tango",
+                "imagen": "Imagenes/Tango.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "79,5 x 79,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Perteneciente a serie: Ritmos Musicales",
+                    "Detalles con lámina de oro, cartón e hilo",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 33,
+                "titulo": "Jazz",
+                "imagen": "Imagenes/Jazz.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "79 x 79 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Ritmos Musicales",
+                    "Detalles en lámina de oro",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 34,
+                "titulo": "Ranchera",
+                "imagen": "Imagenes/Ranchera.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "79,5 x 79,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2024",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Ritmos Musicales",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 35,
+                "titulo": "Narciso",
                 "imagen": "Imagenes/FLOR AMARILLA.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "descripcion": "Los narcisos representan la esperanza, la renovación y los nuevos comienzos, y emergen al final del invierno para anunciar la llegada de la primavera.",
                 "medidas": "80 x 80 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2023",
@@ -548,27 +928,155 @@
                 ]
             },
             {
-                "id": 14,
-                "titulo": "ROSADA FONDO GRIS",
+                "id": 36,
+                "titulo": "Niviarsiaq",
                 "imagen": "Imagenes/FLORES ROSADAS.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "descripcion": "Es la flor nacional de Groenlandia, conocida comúnmente como Jovencita en groenlandés. Es una planta resistente de flores rosadas, símbolo de supervivencia por su capacidad de colonizar rápidamente terrenos árticos rocosos.",
                 "medidas": "79,4 x 79,5 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2023",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
                     "Firma en zona inferior derecha",
-                    "BBBBB",
+                    "Perteneciente a serie: Flores del Mundo",
+                    "Contraste de color y técnica mostrando la vida sobreviviendo al frío de la oscuridad",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 37,
+                "titulo": "Jacarandá",
+                "imagen": "Imagenes/FLORES VIOLETAS.jpg",
+                "descripcion": "El jacarandá representa renovación, la sabiduría, la esperanza y la belleza. Estas son símbolo de la transformación, la espiritualidad y la magia.",
+                "medidas": "79 x 79 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Perteneciente a serie: Flores del Mundo",
+                    "Observación y boceto de árbol público",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 38,
+                "titulo": "Cerezo",
+                "imagen": "Imagenes/Cerezo.jpg",
+                "descripcion": "Estas florecen por un corto período de tiempo, representando la belleza efímera y el afecto. Es usada comunmente como tema en la poesía y el arte. ",
+                "medidas": "79 x 79 cm",
+                "tecnica": "Acrílico acuarelado y tinta",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Flores del Mundo",
+                    "Acuarela y acrílico acuarelado",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 39,
+                "titulo": "Hibiscos",
+                "imagen": "Imagenes/Hibiscos.jpg",
+                "descripcion": "Esta hermosa y exótica flor ha sido utilizada a lo largo de la historia en diferentes culturas como un símbolo de belleza, amor y delicadeza.",
+                "medidas": "79,5 x 79 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Flores del Mundo",
+                    "Textura con gasa",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 40,
+                "titulo": "Girasoles",
+                "imagen": "Imagenes/Girasoles.jpg",
+                "descripcion": "El girasol es el símbolo del sol, simbolizando el amor y la admiración, pero también la felicidad, el positivismo, la vitalidad y la energía.",
+                "medidas": "79 x 80 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Flores del Mundo",
                     "CCCCC",
                     "Disponible para venta"
                 ]
             },
             {
-                "id": 15,
-                "titulo": "VIOLETA FONDO VERDE",
-                "imagen": "Imagenes/FLORES VIOLETAS.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "79 x 79 cm",
+                "id": 41,
+                "titulo": "Tulipanes",
+                "imagen": "Imagenes/Tulipanes.jpg",
+                "descripcion": "Los tulipanes tienen importancia como símbolos de amor, renovación y belleza, y son apreciados por su elegancia y gran significado en diferentes culturas.",
+                "medidas": "79,5 x 79,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Flores del Mundo",
+                    "Detalles en papel y gasa",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 42,
+                "titulo": "Margaritas",
+                "imagen": "Imagenes/Margaritas.jpg",
+                "descripcion": "La margarita blanca simboliza principalmente la pureza, la inocencia, sinceridad y nuevos comienzos. Debido a su fresco y simple aspecto, representan el amor tierno y alegría.",
+                "medidas": "79,5 x 79,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Perteneciente a serie: Flores del Mundo",
+                    "Acrílico con bajorrelieve en yeso",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 43,
+                "titulo": "Calas",
+                "imagen": "Imagenes/OBRA NO TERMINADA.jpg",
+                "descripcion": "La flor de la cala blanca simboliza la pureza, la inocencia y la nobleza. También se las considera como un símbolo de respeto y admiración.",
+                "medidas": "80 x 80 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Perteneciente a serie: Flores del Mundo",
+                    "Bajorrelieve en yeso",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 44,
+                "titulo": "El Horizonte se Confunde",
+                "imagen": "Imagenes/El Horizonte se Confunde.jpg",
+                "descripcion": "Es una obra que muestra un momento privado entre tres amigas que comparten una conversación, en lugar donde se mezclan las palabras con la naturaleza, el silencio y un momento en sus memorias.",
+                "medidas": "99,5 x 120 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Textura en arena",
+                    "Basado en fotografía tomada por el artista",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 45,
+                "titulo": "Ella en Claroscuro",
+                "imagen": "Imagenes/Ella en Claroscuro.jpg",
+                "descripcion": "Trata de una mujer en su soledad elegida dando la espalda al espectador. Los tonos fríos de su piel contrastan con los cálidos de su pantalón. La luz que entra por la ventana a su derecha genera sugerentes manchas en su cuerpo y la pared.",
+                "medidas": "99 x 119,5 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2023",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
@@ -580,12 +1088,92 @@
                 ]
             },
             {
-                "id": 16,
-                "titulo": "Cerezo",
-                "imagen": "Imagenes/Cerezo.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "79 x 79 cm",
-                "tecnica": "Acrílico acuarelado y tinta",
+                "id": 46,
+                "titulo": "Viejo en Vaticano",
+                "imagen": "Imagenes/Viejo en Vaticano.jpg",
+                "descripcion": "Es una obra basada en una fotografía tomada por el artista en las calles de la ciudad-estado. En este trabajo se proyecta la sensación de vejez y transcurso en el tiempo, no solo del protagonista que es un anciano caminando lentamente con las manos en su espalda, sino también la antiguedad de los muros y el simbólico lugar.",
+                "medidas": "99,5 x 120 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 47,
+                "titulo": "Viejo Francés",
+                "imagen": "Imagenes/Viejo Francés.jpg",
+                "descripcion": "En un viaje realizado por el artista hace unos años, caminando por una hermosa ciudad, se cruzó con esta persona. Un anciano con andar cansino de vestimenta precaria que parecía no haber sido elegida. Al cruzar en frente de él, levantó su mirada y con una mueca parecida a una sonrisa dijo algo, tomado como un saludo, antes de que el artista siguiera su camino. Al generar una mezcla de tristeza y nostalgia, Davica pretende mantenerlo vivo en su recuerdo a través de la pintura.",
+                "medidas": "99 x 99 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 48,
+                "titulo": "Entretiempo",
+                "imagen": "Imagenes/Entretiempo.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "99 x 120 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 49,
+                "titulo": "Encuentro en Arlés",
+                "imagen": "Imagenes/Encuentro en Arlés.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "100 x 120,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "Transferencia: Girasoles (Van Gogh) y referencia a Kandinsky",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 50,
+                "titulo": "Tres Cuervos",
+                "imagen": "Imagenes/Tres Cuervos.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "90 x 99,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 51,
+                "titulo": "Una Musa",
+                "imagen": "Imagenes/Una Musa.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "98,5 x 99 cm",
+                "tecnica": "Acrílico sobre lienzo",
                 "ano": "2023",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
@@ -596,27 +1184,43 @@
                 ]
             },
             {
-                "id": 17,
-                "titulo": "Hibiscos",
-                "imagen": "Imagenes/Hibiscos.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "79,5 x 79 cm",
+                "id": 52,
+                "titulo": "Camino de las Letras",
+                "imagen": "Imagenes/Camino de las Letras.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "99 x 99 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2023",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
-                    "Firma en zona inferior izquierda",
-                    "Textura con gasas",
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
                     "CCCCC",
                     "Disponible para venta"
                 ]
             },
-            {
-                "id": 18,
-                "titulo": "Girasoles",
-                "imagen": "Imagenes/Girasoles.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "79 x 80 cm",
+                        {
+                "id": 53,
+                "titulo": "Punta Del Diablo",
+                "imagen": "Imagenes/Punta del Diablo.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "75 x 75,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Textura en arena",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+                        {
+                "id": 54,
+                "titulo": "Los Buscadores del Rey",
+                "imagen": "Imagenes/Los Buscadores del Rey.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "82 x 57 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2023",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
@@ -628,58 +1232,122 @@
                 ]
             },
             {
-                "id": 19,
-                "titulo": "Tulipanes",
-                "imagen": "Imagenes/Tulipanes.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "79,5 x 79,5 cm",
+                "id": 55,
+                "titulo": "Assisi",
+                "imagen": "Imagenes/Assisi.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "90,5 x 90,5 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2023",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
-                    "Firma en zona inferior izquierda",
-                    "Detalles en papel y gasa",
-                    "CCCCC",
-                    "Disponible para venta"
-                ]
-            },
-            {
-                "id": 20,
-                "titulo": "Margaritas",
-                "imagen": "Imagenes/Margaritas.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "79,5 x 79,5 cm",
-                "tecnica": "Acrílico sobre lienzo",
-                "ano": "2023",
-                "ubicacion": "Mercedes, Soriano, Uruguay",
-                "detalles": [
-                    "Firma en zona inferior izquierda",
-                    "Acrílico con bajorelieve en yeso",
-                    "CCCCC",
-                    "Disponible para venta"
-                ]
-            },
-             {
-                "id": 21,
-                "titulo": "Calas",
-                "imagen": "Imagenes/OBRA NO TERMINADA.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
-                "medidas": "/ x / cm",
-                "tecnica": "Acrílico sobre lienzo",
-                "ano": "2023",
-                "ubicacion": "Mercedes, Soriano, Uruguay",
-                "detalles": [
-                    "Firma en zona /",
+                    "Firma en zona inferior derecha",
                     "BBBBB",
                     "CCCCC",
                     "Disponible para venta"
                 ]
             },
             {
-                "id": 22,
+                "id": 56,
+                "titulo": "Arregladores del Mundo",
+                "imagen": "Imagenes/Arregladores del Mundo.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "85 x 100 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 57,
+                "titulo": "Cazando Ninfas III",
+                "imagen": "Imagenes/Cazando Ninfas III.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "69,5 x 69,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 58,
+                "titulo": "Cazando Ninfas II",
+                "imagen": "Imagenes/Cazando Ninfas II.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "61,5 x 72,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2023",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 59,
+                "titulo": "Testigo Azul",
+                "imagen": "Imagenes/Testigo Azul.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "75 x 89 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior izquierda",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 60,
+                "titulo": "Cazando Ninfas I",
+                "imagen": "Imagenes/Cazando Ninfas I.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "70 x 69,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 61,
+                "titulo": "De Música",
+                "imagen": "Imagenes/De Música.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "57,5 x 79 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona superior izquierda",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 62,
                 "titulo": "Sin Pausa",
                 "imagen": "Imagenes/Sin Pausa.jpg",
-                "descripcion": "Obra que evoca la sensación del viento moviéndose a través de un campo abierto, utilizando pinceladas fluidas y tonos azules translúcidos.",
+                "descripcion": "DESCRIBIR",
                 "medidas": "79 x 79,5 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2022",
@@ -688,6 +1356,54 @@
                     "Firma en zona superior izquierda",
                     "BBBBB",
                     "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 63,
+                "titulo": "Besos de Piedra",
+                "imagen": "Imagenes/Besos de Piedra.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "110 x 110 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2022",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Texturas en yeso y pastina para cerámica",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 64,
+                "titulo": "Dos Caminos",
+                "imagen": "Imagenes/Dos Caminos.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "112,5 x 124,5 cm",
+                "tecnica": "Acrílico sobre lienzo",
+                "ano": "2021",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "BBBBB",
+                    "CCCCC",
+                    "Disponible para venta"
+                ]
+            },
+            {
+                "id": 65,
+                "titulo": "Ellas",
+                "imagen": "Imagenes/Ellas.jpg",
+                "descripcion": "DESCRIBIR",
+                "medidas": "70 x 99 cm",
+                "tecnica": "Tinta china sobre lámina",
+                "ano": "2015",
+                "ubicacion": "Mercedes, Soriano, Uruguay",
+                "detalles": [
+                    "Firma en zona inferior derecha",
+                    "Firma diferente",
+                    "Tinta china",
                     "Disponible para venta"
                 ]
             }
@@ -719,14 +1435,14 @@
             [tabInicio, tabGaleria, tabArtista].forEach(t => {
                 t.classList.remove("tab-active");
             });
-            
+
             // Ocultar todos los contenidos
             [contenidoInicio, contenidoGaleria, contenidoArtista].forEach(c => {
                 c.classList.add("hidden");
             });
-            
+
             // Activar pestaña seleccionada y mostrar contenido correspondiente
-            switch(tab) {
+            switch (tab) {
                 case "inicio":
                     tabInicio.classList.add("tab-active");
                     contenidoInicio.classList.remove("hidden");
@@ -767,7 +1483,7 @@
         function mostrarDetallesObra(id) {
             const obra = obras.find(o => o.id === id);
             if (!obra) return;
-            
+
             modalTitulo.textContent = obra.titulo;
             modalImagen.src = obra.imagen;
             modalImagen.alt = obra.titulo;
@@ -776,7 +1492,7 @@
             modalTecnica.textContent = obra.tecnica;
             modalAno.textContent = obra.ano;
             modalUbicacion.textContent = obra.ubicacion;
-            
+
             // Limpiar y agregar detalles
             modalDetalles.innerHTML = "";
             obra.detalles.forEach(detalle => {
@@ -784,7 +1500,7 @@
                 li.textContent = detalle;
                 modalDetalles.appendChild(li);
             });
-            
+
             // Mostrar modal
             modalObra.classList.remove("hidden");
             document.body.style.overflow = "hidden";
@@ -796,10 +1512,10 @@
             obras.forEach(obra => {
                 galeriaGrid.innerHTML += crearTarjetaObra(obra);
             });
-            
+
             // Agregar event listeners a las tarjetas
             document.querySelectorAll(".artwork-image").forEach(card => {
-                card.addEventListener("click", function() {
+                card.addEventListener("click", function () {
                     const id = parseInt(this.getAttribute("data-id"));
                     mostrarDetallesObra(id);
                 });
@@ -810,16 +1526,16 @@
         tabInicio.addEventListener("click", () => cambiarTab("inicio"));
         tabGaleria.addEventListener("click", () => cambiarTab("galeria"));
         tabArtista.addEventListener("click", () => cambiarTab("artista"));
-        
+
         explorarGaleriaBtn.addEventListener("click", () => {
             cambiarTab("galeria");
         });
-        
+
         cerrarModal.addEventListener("click", () => {
             modalObra.classList.add("hidden");
             document.body.style.overflow = "auto";
         });
-        
+
         // Cerrar modal al hacer clic fuera del contenido
         modalObra.addEventListener("click", (e) => {
             if (e.target === modalObra) {
@@ -827,7 +1543,7 @@
                 document.body.style.overflow = "auto";
             }
         });
-        
+
         // Cerrar modal con tecla Escape
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape" && !modalObra.classList.contains("hidden")) {
@@ -839,10 +1555,10 @@
         // Inicializar la página
         document.addEventListener("DOMContentLoaded", () => {
             inicializarGaleria();
-            
+
             // Prevenir comportamiento por defecto de enlaces
             document.querySelectorAll("a").forEach(link => {
-                link.addEventListener("click", function(e) {
+                link.addEventListener("click", function (e) {
                     if (this.getAttribute("href") === "#") {
                         e.preventDefault();
                     }
@@ -851,4 +1567,5 @@
         });
     </script>
 </body>
+
 </html>
