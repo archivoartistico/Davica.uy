@@ -65,7 +65,7 @@
 
 <body class="min-h-screen bg-azul-claro font-sans text-gray-800">
     <!-- Header y Navegación -->
-    <header class="bg-azul-profundo text-white shadow-lg sticky top-0 z-50">
+    <header id="main-header" class="bg-azul-profundo text-white shadow-lg sticky top-0 z-50 transition-transform duration-300">
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row justify-between items-center py-4">
                 <div class="mb-4 md:mb-0">
@@ -391,14 +391,14 @@
                 "titulo": "Autorretrato IV",
                 "imagen": "Imagenes/Autorretrato 4.jpg",
                 "descripcion": "Una cuarta obra que retrata a su artista.",
-                "medidas": "X x X cm",
+                "medidas": "44 x 49 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2026",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
-                    "Firma en zona",
-                    "BBBBB",
-                    "CCCCC",
+                    "Firma en zona inferior derecha",
+                    "Basado en el artista",
+                    "Tonos monocromáticos",
                     "Disponible para venta"
                 ]
             },
@@ -407,14 +407,14 @@
                 "titulo": "Autorretrato III",
                 "imagen": "Imagenes/Autorretrato 3.jpg",
                 "descripcion": "Una tercera obra que retrata a su artista.",
-                "medidas": "X x X cm",
+                "medidas": "44,5 x 41 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2026",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
                     "Firma en zona",
-                    "BBBBB",
-                    "CCCCC",
+                    "Basado en el artista",
+                    "Trabajo en tonos cálidos",
                     "Disponible para venta"
                 ]
             },
@@ -423,14 +423,14 @@
                 "titulo": "Autorretrato II",
                 "imagen": "Imagenes/Autorretrato 2.jpg",
                 "descripcion": "Una segunda obra que retrata a su artista.",
-                "medidas": "X x X cm",
+                "medidas": "44 x 48,5 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2026",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
                     "Firma en zona",
-                    "BBBBB",
-                    "CCCCC",
+                    "Basado en el artista",
+                    "Trabajo en tonos fríos con toques de calidez",
                     "Disponible para venta"
                 ]
             },
@@ -439,14 +439,14 @@
                 "titulo": "Autorretrato",
                 "imagen": "Imagenes/Autorretrato 1.jpg",
                 "descripcion": "Una primera obra que retrata a su artista, siendo el primer autorretrato hecho por Davica.",
-                "medidas": "X x X cm",
+                "medidas": "44,5 x 50 cm",
                 "tecnica": "Acrílico sobre lienzo",
                 "ano": "2026",
                 "ubicacion": "Mercedes, Soriano, Uruguay",
                 "detalles": [
                     "Firma en zona",
-                    "BBBBB",
-                    "CCCCC",
+                    "Basado en el artista",
+                    "Tonos verdes y naranjas",
                     "Disponible para venta"
                 ]
             },
@@ -1632,6 +1632,22 @@
                 });
             });
         });
+    </script>
+        <script id="scroll-hide-header">
+    let lastScroll = 0;
+    const header = document.getElementById("main-header");
+
+    window.addEventListener("scroll", () => {
+        let currentScroll = window.pageYOffset;
+
+        if (currentScroll > lastScroll) {
+            header.style.transform = "translateY(-100%)";
+        } else {
+            header.style.transform = "translateY(0)";
+        }
+
+        lastScroll = currentScroll;
+    });
     </script>
 </body>
 
