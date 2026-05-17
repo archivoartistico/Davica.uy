@@ -310,7 +310,7 @@
 
     <!-- Detalles de la obra -->
     <div id="modal-obra" class="fixed inset-0 z-50 hidden modal-overlay">
-        <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="flex items-start justify-center min-h-screen p-4 py-10">
             <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
                 <div class="p-6">
                     <div class="flex justify-between items-start mb-6">
@@ -1562,6 +1562,7 @@
 
             // Mostrar modal
             modalObra.classList.remove("hidden");
+            document.body.classList.add("modal-open");
             document.body.style.overflow = "hidden";
         }
 
@@ -1593,6 +1594,7 @@
         cerrarModal.addEventListener("click", () => {
             modalObra.classList.add("hidden");
             document.body.style.overflow = "auto";
+            document.body.classList.remove("modal-open");
         });
 
         // Cerrar modal al hacer clic fuera del contenido
@@ -1600,6 +1602,7 @@
             if (e.target === modalObra) {
                 modalObra.classList.add("hidden");
                 document.body.style.overflow = "auto";
+                document.body.classList.remove("modal-open");
             }
         });
 
@@ -1608,6 +1611,7 @@
             if (e.key === "Escape" && !modalObra.classList.contains("hidden")) {
                 modalObra.classList.add("hidden");
                 document.body.style.overflow = "auto";
+                document.body.classList.remove("modal-open");
             }
         });
 
