@@ -396,49 +396,50 @@
         const modalDetalles = document.getElementById("modal-detalles");
         const btnCerrarModal = document.getElementById("cerrar-modal");
 
-        // Secciones reales de tu HTML
+        // Secciones principales del HTML
         const seccionInicio = document.getElementById('inicio-section');
         const seccionGaleria = document.getElementById('galeria-section');
         const seccionArtista = document.getElementById('artista-section');
 
-        // 2. FUNCIÓN PARA CAMBIAR DE PESTAÑA REAL
+        // 2. FUNCIÓN CORREGIDA PARA CAMBIAR DE SECCIÓN
         function cambiarASeccion(nombreSeccion) {
-            // Ocultamos las tres secciones primero
+            // Ocultamos todas las secciones primero
             if (seccionInicio) seccionInicio.classList.add('hidden');
             if (seccionGaleria) seccionGaleria.classList.add('hidden');
             if (seccionArtista) seccionArtista.classList.add('hidden');
 
-            // Quitamos el diseño visual activo de todos los enlaces del menú
+            // Quitamos el diseño visual activo de los links del nav
             document.querySelectorAll("nav a").forEach(link => {
                 link.classList.remove('tab-active');
             });
 
-            // Mostramos la sección correcta y activamos su pestaña correspondiente
+            // Mostramos la sección correcta y aplicamos la clase de estilo al link
             if (nombreSeccion === 'inicio' && seccionInicio) {
                 seccionInicio.classList.remove('hidden');
-                 stretchMenuLink('Inicio');
+                marcarLinkActivo('inicio');
             } else if (nombreSeccion === 'galeria' && seccionGaleria) {
                 seccionGaleria.classList.remove('hidden');
-                stretchMenuLink('Galería');
+                marcarLinkActivo('galería');
             } else if (nombreSeccion === 'artista' && seccionArtista) {
                 seccionArtista.classList.remove('hidden');
-                stretchMenuLink('El Artista');
+                marcarLinkActivo('artista');
             }
 
-            // Subir al inicio de la pantalla suavemente
+            // Subir la pantalla automáticamente
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Función auxiliar para ponerle el color activo al enlace del menú
-        function stretchMenuLink(textoEnlace) {
+        // Remarca el botón activo del menú removiendo acentos de control
+        function marcarLinkActivo(textoBusqueda) {
             document.querySelectorAll("nav a").forEach(link => {
-                if (link.textContent.trim() === textoEnlace) {
+                const txt = link.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                if (txt.includes(textoBusqueda)) {
                     link.classList.add('tab-active');
                 }
             });
         }
 
-        // 3. CARGAR GALERÍA DESDE BASE DE DATOS SUPABASE
+        // 3. DESCARGAR LA GALERÍA DESDE SUPABASE
         async function cargarGaleriaDinamica() {
             const contenedorGaleria = document.getElementById('galeria-grid'); 
             if (!contenedorGaleria) return;
@@ -539,26 +540,35 @@
             document.body.style.overflow = "auto";
         }
 
-        // 5. INICIALIZADOR PRINCIPAL CON ENGANCHE POR TEXTO DE MENÚ
+        // 5. INICIALIZADOR PRINCIPAL SEGURO CONTRA ACENTOS Y ENLACES
         document.addEventListener("DOMContentLoaded", () => {
-            // Descargar imágenes de Supabase
             cargarGaleriaDinamica();
 
-            // Buscamos y enlazamos los clics de tu barra de navegación superior por su texto real
+            // Mapeamos los clics de tu menú removiendo tildes de forma segura
             document.querySelectorAll("nav a").forEach(link => {
-                const texto = link.textContent.trim().toLowerCase();
+                // Convertimos el texto a minúsculas y quitamos tildes (ej: "Galería" -> "galeria")
+                const textoLimpio = link.textContent.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                 
-                if (texto === 'inicio') {
+                if (textoLimpio === 'inicio') {
                     link.addEventListener('click', (e) => { e.preventDefault(); cambiarASeccion('inicio'); });
-                } else if (texto === 'galería' || texto === 'galeria') {
+                } else if (textoLimpio === 'galeria') {
                     link.addEventListener('click', (e) => { e.preventDefault(); cambiarASeccion('galeria'); });
-                } else if (texto === 'el artista' || texto === 'artista') {
+                } else if (textoLimpio === 'el artista' || textoLimpio === 'artista') {
                     link.addEventListener('click', (e) => { e.preventDefault(); cambiarASeccion('artista'); });
                 }
             });
 
-            // Enlazar el botón azul grande del inicio "Explorar Galería Completa"
-            const btnExplorar = document.getElementById('explorar-galeria');
+            // Capturar botón azul "Explorar Galería Completa" (usando el ID y buscando por contenido como respaldo)
+            let btnExplorar = document.getElementById('explorar-galeria');
+            if (!btnExplorar) {
+                // Si por alguna razón el ID fallara, lo encuentra por su clase y texto
+                document.querySelectorAll("a, button").forEach(el => {
+                    if (el.textContent.toLowerCase().includes("explorar galeria")) {
+                        btnExplorar = el;
+                    }
+                });
+            }
+
             if (btnExplorar) {
                 btnExplorar.addEventListener('click', (e) => { 
                     e.preventDefault(); 
