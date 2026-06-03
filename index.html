@@ -25,364 +25,119 @@
 
         .artwork-image:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         .tab-active {
-            position: relative;
-        }
-
-        .tab-active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background-color: #4A90E2;
-            border-radius: 2px;
+            color: var(--azul-medio) !important;
+            border-bottom: 2px solid var(--azul-medio);
         }
     </style>
 </head>
 
-<body class="min-h-screen bg-azul-claro font-sans text-gray-800">
-    <link rel="icon" href="/davcone.png" type="image/png">
-    <!-- Header y Navegación -->
-    <header id="main-header" class="bg-azul-profundo text-white shadow-lg sticky top-0 z-50 transition-transform duration-300">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center py-4">
-                <div class="mb-4 md:mb-0">
-                    <h1 class="text-2xl md:text-3xl font-bold font-serif">Galería <span
-                            class="text-azul-medio">Davica</span></h1>
-                    <p class="text-sm text-azul-claro mt-1">Arte contemporáneo con influencias impresionistas y
-                        expresionistas</p>
-                </div>
+<body class="bg-azul-claro min-h-screen text-azul-profundo font-sans flex flex-col">
 
-                <nav class="w-full md:w-auto">
-                    <ul class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-8">
-                        <li>
-                            <button id="tab-inicio"
-                                class="tab-active text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
-                                <i class="fas fa-home mr-2"></i>Inicio
-                            </button>
-                        </li>
-                        <li>
-                            <button id="tab-galeria"
-                                class="text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
-                                <i class="fas fa-images mr-2"></i>Galería
-                            </button>
-                        </li>
-                        <li>
-                            <button id="tab-artista"
-                                class="text-white hover:text-azul-medio transition-colors duration-200 font-medium py-2 px-1">
-                                <i class="fas fa-user mr-2"></i>Artista
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+    <header id="main-header"
+        class="bg-white shadow-md fixed top-0 left-0 right-0 z-50 transition-transform duration-300 w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="font-serif text-2xl font-bold tracking-wide text-azul-oscuro">Galería Davica</a>
+            <nav class="flex space-x-8">
+                <a href="#" class="text-azul-oscuro hover:text-azul-medio font-medium transition-colors tab-active">Inicio</a>
+                <a href="#" class="text-azul-oscuro hover:text-azul-medio font-medium transition-colors">Galería</a>
+                <a href="#" class="text-azul-oscuro hover:text-azul-medio font-medium transition-colors">El Artista</a>
+            </nav>
         </div>
     </header>
 
-    <!-- Contenido Principal -->
-    <main class="container mx-auto px-4 py-8">
-        <!-- Sección Inicio (activa por defecto) -->
-        <section id="contenido-inicio" class="content-section">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-serif font-bold text-azul-oscuro mb-4">Bienvenido a la Galería Virtual</h2>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    Explora la colección de obras del artista Davica. Cada pintura cuenta una historia única y refleja
-                    la evolución de su técnica a lo largo de los años.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-4">Creación más reciente</h3>
-                    <div class="artwork-image cursor-pointer" data-id="1">
-                        <img src="Imagenes/Autorretrato 4.jpg" alt="Obra destacada del mes - Composición abstracta en azules"
-                            class="w-full h-64 object-cover rounded-lg mb-4" loading="lazy">
-                        <h4 class="text-xl font-semibold text-azul-profundo">"Autoretrato IV"</h4>
-                        <p class="text-gray-600 mt-2">Una cuarta obra que retrata a su artista.</p>
+    <main class="flex-grow pt-20">
+        <section id="inicio-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h1 class="font-serif text-4xl md:text-6xl font-bold text-azul-oscuro leading-tight mb-6">
+                        El arte como ventana al alma
+                    </h1>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                        Explora la colección exclusiva de obras originales de Davica. Una fusión única de técnicas,
+                        colores y emociones plasmadas en el lienzo.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#" id="explorar-galeria"
+                            class="inline-flex items-center justify-center bg-azul-medio text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:bg-azul-hover transition-colors">
+                            Explorar Galería Completa
+                        </a>
                     </div>
                 </div>
-
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-4">Próxima Exposición</h3>
-                    <div class="space-y-4">
-                        <div class="flex items-start">
-                            <div class="bg-azul-medio text-white rounded-lg p-3 mr-4">
-                                <i class="fas fa-calendar-alt text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-azul-profundo">Aún no hay exposiciones</h4>
-                                <p class="text-gray-600">Fecha:</p>
-                                <p class="text-sm text-gray-500">Ubicación:</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start">
-                            <div class="bg-azul-oscuro text-white rounded-lg p-3 mr-4">
-                                <i class="fas fa-palette text-xl"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-azul-profundo">Proyectos futuros:</h4>
-                                <p class="text-gray-600"> •Personajes y su entorno</p>
-                                <p class="text-gray-600"> •Biografías en una imagen</p>
-                                <p class="text-gray-600"> •Finalizar la serie: Cazando Ninfas</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="relative">
+                    <div class="absolute inset-0 bg-blue-200 rounded-2xl transform rotate-3 scale-105 opacity-30 z-0"></div>
+                    <img src="davcone.png" alt="Obra Destacada"
+                        class="relative z-10 w-full h-[450px] object-cover rounded-2xl shadow-2xl">
                 </div>
-            </div>
-
-            <div class="text-center">
-                <button id="explorar-galeria"
-                    class="bg-azul-medio hover:bg-azul-hover text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
-                    <i class="fas fa-eye mr-2"></i>Explorar Galería Completa
-                </button>
             </div>
         </section>
 
-        <!-- Sección Galería (oculta por defecto) -->
-        <section id="contenido-galeria" class="content-section hidden">
+        <section id="galeria-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 hidden">
             <div class="text-center mb-12">
-                <h2 class="text-4xl font-serif font-bold text-azul-oscuro mb-4">Galería de Obras</h2>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                    Haz clic en cualquier obra para ver sus detalles técnicos completos: medidas, ubicación, técnica,
-                    año y descripción.
-                </p>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold text-azul-oscuro mb-4">Catálogo Completo</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Haz clic sobre cualquier obra para ver sus especificaciones técnicas detalladas.</p>
             </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galeria-grid">
-            </div>
+            <div id="galeria-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
         </section>
 
-        <!-- Sección Artista (oculta por defecto) -->
-        <section id="contenido-artista" class="content-section hidden">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-serif font-bold text-azul-oscuro mb-4">Davica - El Artista</h2>
-                    <p class="text-lg text-gray-600">"Envejecer es obligatorio, crecer es opcional."</p>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-                    <div>
-                        <img src="Imagenes/DAVICA1.jpeg" alt="Davica en su estudio de arte"
-                            class="w-full h-auto rounded-xl shadow-lg" loading="lazy">
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-lg p-8">
-                        <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-6">Biografía</h3>
-
-                        <div class="space-y-4">
-                            <p class="text-gray-700 text-justify leading-relaxed break-words">
-                                Mi nombre es Hugo David Sosa Cadiac. Nací el 5 de Julio de 1978 en la ciudad de
-                                Mercedes, en Soriano, Uruguay, donde resido. Soy profesor de Lengua y Literatura
-                                egresado del CERP del Suroeste en el año 2005 y profesor de Comunicación Visual egresado
-                                del IPA en 2017. Desde hace varios años le dedico mucho tiempo a la pintura, buscando
-                                un estilo propio y realizando todo el proceso de creación de los lienzos, desde cortar
-                                la madera a medida hasta preparar los bastidores.
-                            </p>
-
-                            <p class="text-gray-700 text-justify leading-relaxed break-words">
-                                Participé en la elaboración de los libros: "19 artistas uruguayos", presentando a Ariel
-                                Galain como escultor y a Cristina Galeano como artista femenina. He participado en
-                                varias muestras colectivas en Soriano en Casa de la Cultura de Cardona y Mercedes,
-                                muestras colectivas en espacios públicos y en el espacio Barradas en Montevideo con el
-                                grupo "Mondon Art", muestras colectivas con el taller de Gustavo Roselló y actualmente
-                                participo de Taller al Sur, a cargo del profesor Ariel Galain, donde
-                                realizamos muestras colectivas integrando pintura, fotografía, escultura, cerámica,
-                                grabado y música junto a la escuela de "Jazz a la Calle".
-                            </p>
-
-                            <div class="mt-6">
-                                <h4 class="font-semibold text-azul-profundo mb-3">Formación y Trayectoria</h4>
-                                <ul class="space-y-2 text-gray-700">
-                                    <li class="flex items-start">
-                                        <i class="fas fa-graduation-cap text-azul-medio mt-1 mr-3"></i>
-                                        <span>Profesorado en Lengua, Literatura y Dibujo</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <i class="fas fa-award text-azul-medio mt-1 mr-3"></i>
-                                        <span>Semifinalista en competencia internacional de pintura "TARTGET PRIZE
-                                            2025"</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <i class="fas fa-award text-azul-medio mt-1 mr-3"></i>
-                                        <span>Reconocimiento por alta calidad de pintura por "Luxembourg Art Prize
-                                            2024"</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <i class="fas fa-award text-azul-medio mt-1 mr-3"></i>
-                                        <span>Reconocimiento por participación en "Festival Multicultural Literarte
-                                            2024"</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <i class="fas fa-globe-europe text-azul-medio mt-1 mr-3"></i>
-                                        <span>Exposiciones virtuales internacionales en México, España y
-                                            Luxemburgo</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 pt-6 border-t border-gray-200">
-                            <h4 class="font-semibold text-azul-profundo mb-4">Conecta con Davica</h4>
-                            <div class="flex items-center">
-                                <a href="https://instagram.com/davica.uy" target="_blank"
-                                    class="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center">
-                                    <i class="fab fa-instagram text-xl mr-3"></i>
-                                    <span>Seguir en Instagram</span>
-                                </a>
-                                <span class="ml-4 text-gray-600">@davica.uy</span>
-                            </div>
-                        </div>
-                        <div class="mt-2 pt-2 border-t border-gray-200"></div>
-                            <div class="flex items-center">
-                                <a href="https://www.tiktok.com/@davica.uy" target="_blank"
-                                    class="bg-black hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center">
-                                    <i class="fab fa-tiktok text-xl mr-3"></i>
-                                    <span>Seguir en TikTok</span>
-                                </a>
-                                <span class="ml-4 text-gray-600">@davica.uy</span>
-                            </div>
-                            <p class="text-sm text-gray-500 mt-3"> Únete a disfrutar de su proceso creativo</p>
-                    </div>
-                </div>
-
-                <div class="bg-azul-oscuro text-white rounded-xl shadow-lg p-8">
-                    <h3 class="text-2xl font-serif font-semibold mb-6">Declaración Artística</h3>
-                    <blockquote
-                        class="text-lg italic border-l-4 border-azul-medio pl-6 py-2 text-justify leading-relaxed break-words">
-                        "El dibujo es una pasión que siempre me acompañó. Lo que me inspira, además de los grandes
-                        artistas que he estudiado, es el aprendizaje constante, la experimentación y la búsqueda de una
-                        expresión propia en la pintura. Una obra puede partir de un croquis, fotografía o canción y
-                        luego aparecen las imágenes y los colores. Hay algo artístico en cada uno de nosotros."
-                    </blockquote>
-                    <p class="text-right mt-4 text-azul-claro">- Davica</p>
+        <section id="artista-section" class="max-w-4xl mx-auto px-4 py-16 hidden">
+            <div class="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-blue-50">
+                <h2 class="font-serif text-3xl font-bold text-azul-oscuro mb-6 border-b pb-4">Sobre el Artista</h2>
+                <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                    Davica es un artista plástico contemporáneo cuya búsqueda visual se centra en capturar texturas orgánicas y atmósferas emocionales mediante el uso del color y la composición geométrica.
+                </p>
+                <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                    Cada una de las piezas exhibidas en esta galería virtual forma parte de un catálogo vivo, gestionado directamente por el autor para asegurar la autenticidad y el registro detallado de su producción técnica.
+                </p>
+                <div class="mt-8 pt-6 border-t border-gray-100 flex items-center space-x-4">
+                    <span class="text-sm font-semibold bg-blue-50 text-azul-medio px-4 py-2 rounded-full">Mercedes, Soriano, Uruguay</span>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-azul-profundo text-white mt-12">
-        <div class="container mx-auto px-4 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div id="modal-obra" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay hidden">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col md:flex-row relative">
+            <button id="cerrar-modal" class="absolute top-4 right-4 bg-white/80 hover:bg-white text-azul-oscuro p-2 rounded-full shadow-md z-10 transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="md:w-1/2 bg-gray-100 flex items-center justify-center p-6">
+                <img id="modal-imagen" src="" alt="" class="max-h-[60vh] md:max-h-[75vh] object-contain rounded-lg shadow-md">
+            </div>
+            <div class="md:w-1/2 p-8 flex flex-col justify-between">
                 <div>
-                    <h3 class="text-xl font-serif font-semibold mb-4">Galería Davica</h3>
-                    <p class="text-azul-claro">
-                        Espacio virtual dedicado a la exhibición y apreciación del arte contemporáneo con enfoque en la
-                        exploración.
-                    </p>
-                </div>
-
-                <div>
-                    <h4 class="font-semibold mb-4">Contacto</h4>
-                    <ul class="space-y-2 text-azul-claro">
-                        <li class="flex items-center">
-                            <i class="fas fa-envelope mr-3"></i>
-                            <span>davica78@gmail.com</span>
-                        </li>
-                        <li class="flex items-center">
-                            <i class="fas fa-phone mr-3"></i>
-                            <span>+598 95 138 939</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-semibold mb-4">Sígueme</h4>
-                    <div class="flex space-x-4">
-                        <a href="https://instagram.com/davica.uy" target="_blank"
-                            class="bg-white text-azul-profundo hover:bg-azul-claro w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://www.tiktok.com/@davica.uy" target="_blank"
-                            class="bg-white text-azul-profundo hover:bg-azul-claro w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-200">
-                            <i class="fab fa-tiktok"></i>
-                        </a>
+                    <h2 id="modal-titulo" class="font-serif text-3xl font-bold text-azul-oscuro mb-4"></h2>
+                    <p id="modal-descripcion" class="text-gray-600 leading-relaxed mb-6"></p>
+                    <div class="space-y-3 border-t border-b border-gray-100 py-4 mb-6">
+                        <div class="flex justify-between"><span class="text-gray-500">Dimensiones:</span><span id="modal-medidas" class="font-medium text-azul-oscuro"></span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Técnica:</span><span id="modal-tecnica" class="font-medium text-azul-oscuro"></span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Año de creación:</span><span id="modal-ano" class="font-medium text-azul-oscuro"></span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Ubicación actual:</span><span id="modal-ubicacion" class="font-medium text-azul-oscuro"></span></div>
                     </div>
                 </div>
+                <div>
+                    <h4 class="font-semibold text-azul-oscuro mb-2">Detalles Adicionales</h4>
+                    <ul id="modal-detalles" class="list-disc pl-5 text-gray-600 space-y-1 text-sm"></ul>
+                </div>
             </div>
+        </div>
+    </div>
+
+    <footer class="bg-azul-oscuro text-white py-8 w-full mt-auto">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm opacity-70">
+            &copy; 2026 Galería Davica. Todos los derechos reservados. Conectado a Supabase Engine.
         </div>
     </footer>
-    <div class="flex justify-center pb-2 bg-azul-profundo">
-    <a href="admin.html" target="_blank" class="w-1 h-1 bg-azul-oscuro rounded-full opacity-20 hover:opacity-100 transition-opacity cursor-default" title="A"></a>
-    </div>
 
-    <!-- Detalles de la obra -->
-    <div id="modal-obra" class="fixed inset-0 z-50 hidden modal-overlay overflow-y-auto">
-        <div class="flex items-start justify-center min-h-screen p-4 py-10 overflow-y-auto">
-            <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-6">
-                        <h3 id="modal-titulo" class="text-3xl font-serif font-bold text-azul-oscuro"></h3>
-                        <button id="cerrar-modal" class="text-gray-500 hover:text-gray-700 text-2xl">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div>
-                            <img id="modal-imagen" src="" alt="" class="w-full h-auto rounded-lg shadow-lg"
-                                loading="lazy">
-                        </div>
-
-                        <div>
-                            <div class="space-y-6">
-                                <div>
-                                    <h4 class="text-lg font-semibold text-azul-profundo mb-2">Descripción</h4>
-                                    <p id="modal-descripcion"
-                                        class="text-gray-700 text-justify leading-relaxed break-words"></p>
-                                </div>
-
-                                <div class="grid grid-cols-2 gap-4">
-                                    <div class="bg-azul-claro p-4 rounded-lg">
-                                        <h5 class="font-semibold text-azul-oscuro mb-1">Medidas</h5>
-                                        <p id="modal-medidas" class="text-gray-700"></p>
-                                    </div>
-
-                                    <div class="bg-azul-claro p-4 rounded-lg">
-                                        <h5 class="font-semibold text-azul-oscuro mb-1">Técnica</h5>
-                                        <p id="modal-tecnica" class="text-gray-700"></p>
-                                    </div>
-
-                                    <div class="bg-azul-claro p-4 rounded-lg">
-                                        <h5 class="font-semibold text-azul-oscuro mb-1">Año</h5>
-                                        <p id="modal-ano" class="text-gray-700"></p>
-                                    </div>
-
-                                    <div class="bg-azul-claro p-4 rounded-lg">
-                                        <h5 class="font-semibold text-azul-oscuro mb-1">Ubicación</h5>
-                                        <p id="modal-ubicacion" class="text-gray-700"></p>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <h4 class="text-lg font-semibold text-azul-profundo mb-2">Detalles Técnicos</h4>
-                                    <ul id="modal-detalles" class="list-disc pl-5 text-gray-700 space-y-1"></ul>
-                                </div>
-
-                                <div class="pt-4 border-t border-gray-200">
-                                    <p class="text-sm text-gray-500">
-                                        <i class="fas fa-info-circle mr-2"></i>
-                                        Para consultas sobre esta obra, contáctanos a través de los medios proporcionados al final de la página.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<script>
+    <script>
         // 1. CONFIGURACIÓN DE SUPABASE
         const SUPABASE_URL = "https://qvlhsggnxgapwqimhflw.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2bGhzZ2dueGdhcHdxaW1oZmx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0Mjk4NDksImV4cCI6MjA5NjAwNTg0OX0.SyZ34curAuUxn3oCiGc6sLN8_zL9kpUIZqaheDNy5Tg";
-        const supabase = supabase.createClient(https://qvlhsggnxgapwqimhflw.supabase.co, eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2bGhzZ2dueGdhcHdxaW1oZmx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0Mjk4NDksImV4cCI6MjA5NjAwNTg0OX0.SyZ34curAuUxn3oCiGc6sLN8_zL9kpUIZqaheDNy5Tg);
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // Elementos del Modal
         const modalObra = document.getElementById("modal-obra");
@@ -401,19 +156,16 @@
         const seccionGaleria = document.getElementById('galeria-section');
         const seccionArtista = document.getElementById('artista-section');
 
-        // 2. FUNCIÓN CORREGIDA PARA CAMBIAR DE SECCIÓN
+        // 2. FUNCIÓN PARA CAMBIAR DE SECCIÓN
         function cambiarASeccion(nombreSeccion) {
-            // Ocultamos todas las secciones primero
             if (seccionInicio) seccionInicio.classList.add('hidden');
             if (seccionGaleria) seccionGaleria.classList.add('hidden');
             if (seccionArtista) seccionArtista.classList.add('hidden');
 
-            // Quitamos el diseño visual activo de los links del nav
             document.querySelectorAll("nav a").forEach(link => {
                 link.classList.remove('tab-active');
             });
 
-            // Mostramos la sección correcta y aplicamos la clase de estilo al link
             if (nombreSeccion === 'inicio' && seccionInicio) {
                 seccionInicio.classList.remove('hidden');
                 marcarLinkActivo('inicio');
@@ -425,11 +177,9 @@
                 marcarLinkActivo('artista');
             }
 
-            // Subir la pantalla automáticamente
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Remarca el botón activo del menú removiendo acentos de control
         function marcarLinkActivo(textoBusqueda) {
             document.querySelectorAll("nav a").forEach(link => {
                 const txt = link.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -540,13 +290,11 @@
             document.body.style.overflow = "auto";
         }
 
-        // 5. INICIALIZADOR PRINCIPAL SEGURO CONTRA ACENTOS Y ENLACES
+        // 5. INICIALIZADOR DE EVENTOS
         document.addEventListener("DOMContentLoaded", () => {
             cargarGaleriaDinamica();
 
-            // Mapeamos los clics de tu menú removiendo tildes de forma segura
             document.querySelectorAll("nav a").forEach(link => {
-                // Convertimos el texto a minúsculas y quitamos tildes (ej: "Galería" -> "galeria")
                 const textoLimpio = link.textContent.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                 
                 if (textoLimpio === 'inicio') {
@@ -558,17 +306,7 @@
                 }
             });
 
-            // Capturar botón azul "Explorar Galería Completa" (usando el ID y buscando por contenido como respaldo)
-            let btnExplorar = document.getElementById('explorar-galeria');
-            if (!btnExplorar) {
-                // Si por alguna razón el ID fallara, lo encuentra por su clase y texto
-                document.querySelectorAll("a, button").forEach(el => {
-                    if (el.textContent.toLowerCase().includes("explorar galeria")) {
-                        btnExplorar = el;
-                    }
-                });
-            }
-
+            const btnExplorar = document.getElementById('explorar-galeria');
             if (btnExplorar) {
                 btnExplorar.addEventListener('click', (e) => { 
                     e.preventDefault(); 
@@ -595,4 +333,5 @@
         });
     </script>
 </body>
+
 </html>
