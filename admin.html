@@ -9,15 +9,9 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
     </style>
 </head>
 <body class="bg-azul-claro min-h-screen text-azul-profundo">
@@ -25,75 +19,232 @@
     <div id="login-container" class="flex items-center justify-center min-h-screen px-4">
         <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full border border-blue-100">
             <div class="text-center mb-6">
-                <h1 class="font-serif text-2xl font-bold text-azul-oscuro">Galería Davica</h1>
-                <p class="text-gray-500 text-sm mt-1">Panel de Administración</p>
+                <h1 class="font-serif text-3xl font-bold text-azul-oscuro mb-2">Galería Davica</h1>
+                <p class="text-sm text-gray-500">Panel de Administración Privado</p>
             </div>
-            
             <form id="login-form" class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
-                    <input type="email" id="login-email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-azul-medio focus:border-transparent outline-none">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-azul-oscuro mb-1">Correo Electrónico</label>
+                    <input type="email" id="login-email" required class="w-full p-3 border border-gray-200 rounded focus:outline-none focus:border-azul-medio transition-colors" placeholder="artista@davica.com">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-                    <input type="password" id="login-password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-azul-medio focus:border-transparent outline-none">
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-azul-oscuro mb-1">Contraseña</label>
+                    <input type="password" id="login-password" required class="w-full p-3 border border-gray-200 rounded focus:outline-none focus:border-azul-medio transition-colors" placeholder="••••••••">
                 </div>
-                
-                <div id="login-error" class="text-red-500 text-sm hidden"></div>
-                
-                <button type="submit" class="w-full bg-azul-medio hover:bg-azul-hover text-white font-semibold py-2 rounded-lg transition-colors shadow-md">
-                    Iniciar Sesión
+                <button type="submit" class="w-full bg-azul-oscuro text-white p-3 rounded font-medium hover:bg-azul-profundo transition-colors">
+                    Ingresar al Panel
                 </button>
+                <p id="login-error" class="text-red-500 text-sm text-center mt-2 hidden"></p>
             </form>
         </div>
     </div>
 
-    <div id="dashboard-container" class="hidden min-h-screen flex flex-col">
-        <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-            <h1 class="font-serif text-xl font-bold text-azul-oscuro">Panel de Control</h1>
-            <button id="btn-logout" class="text-gray-500 hover:text-red-600 font-medium transition-colors text-sm">
-                Cerrar Sesión
+    <div id="admin-dashboard" class="hidden">
+        <header class="bg-azul-profundo text-white px-6 py-4 flex justify-between items-center shadow-md">
+            <div>
+                <h1 class="font-serif text-2xl font-semibold tracking-wide">Davica Admin</h1>
+                <p class="text-xs text-azul-claro opacity-70">Gestión de contenidos de la galería</p>
+            </div>
+            <button id="btn-logout" class="bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded transition-colors">
+                <i class="fas fa-sign-out-alt mr-2"></i>Cerrar Sesión
             </button>
         </header>
 
-        <div class="flex flex-grow">
-            <aside class="w-64 bg-white border-r border-gray-200 p-4 space-y-2">
-                <button onclick="cambiarTab('obras')" class="w-full text-left px-4 py-2 rounded-lg font-medium text-sm transition-colors hover:bg-gray-50">
-                    Gestionar Obras
+        <div class="max-w-6xl mx-auto px-4 py-8">
+            <div class="flex border-b border-gray-200 mb-8 bg-white rounded-t shadow-sm">
+                <button class="tab-btn flex-1 py-4 px-2 text-center border-b-2 border-azul-medio font-medium text-azul-oscuro focus:outline-none" data-tab="tab-inicio">
+                    <i class="fas fa-home mr-2"></i>Inicio
                 </button>
-                <button onclick="cambiarTab('configuracion')" class="w-full text-left px-4 py-2 rounded-lg font-medium text-sm transition-colors hover:bg-gray-50">
-                    Configuración General
+                <button class="tab-btn flex-1 py-4 px-2 text-center border-b-2 border-transparent text-gray-500 hover:text-azul-oscuro font-medium focus:outline-none" data-tab="tab-catalogo">
+                    <i class="fas fa-images mr-2"></i>Catálogo (Cuadros)
                 </button>
-            </aside>
+                <button class="tab-btn flex-1 py-4 px-2 text-center border-b-2 border-transparent text-gray-500 hover:text-azul-oscuro font-medium focus:outline-none" data-tab="tab-artista">
+                    <i class="fas fa-user-style mr-2"></i>Artista
+                </button>
+                <button class="tab-btn flex-1 py-4 px-2 text-center border-b-2 border-transparent text-gray-500 hover:text-azul-oscuro font-medium focus:outline-none" data-tab="tab-footer">
+                    <i class="fas fa-info-circle mr-2"></i>Footer / Contacto
+                </button>
+            </div>
 
-            <main class="flex-grow p-8">
-                <div id="tab-obras" class="tab-content active">
-                    <h2 class="text-xl font-bold text-azul-oscuro mb-4">Mis Obras de Arte</h2>
-                    <p class="text-gray-600">Aquí podrás agregar, editar y eliminar las obras del catálogo virtual.</p>
+            <div class="bg-white p-6 rounded-b shadow-lg border border-gray-100">
+
+                <div id="tab-inicio" class="tab-content active space-y-6">
+                    <h2 class="text-xl font-bold border-b pb-2 mb-4 text-azul-oscuro">Sección Inicio</h2>
+                    <form id="form-inicio" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">ID de la Obra del Día</label>
+                            <input type="text" id="home-obra-dia" class="w-full p-2 border rounded" placeholder="Ej: 12345">
+                            <span class="text-xs text-gray-400">Introduce el identificador del cuadro que quieras destacar hoy.</span>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Proyectos Actuales</label>
+                            <textarea id="home-proyectos" rows="4" class="w-full p-2 border rounded" placeholder="Escribe aquí los proyectos en desarrollo..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Exposiciones Futuras</label>
+                            <textarea id="home-exposiciones" rows="4" class="w-full p-2 border rounded" placeholder="Lugar - Fecha - Detalles de próximas exposiciones..."></textarea>
+                        </div>
+                        <button type="submit" class="bg-azul-medio hover:bg-azul-hover text-white px-6 py-2 rounded font-medium transition-colors">Guardar Cambios Inicio</button>
+                    </form>
                 </div>
 
-                <div id="tab-configuracion" class="tab-content">
-                    <h2 class="text-xl font-bold text-azul-oscuro mb-4">Configuración General</h2>
-                    <p class="text-gray-600">Configura los datos del portafolio y enlaces principales.</p>
+                <div id="tab-catalogo" class="tab-content space-y-8">
+                    <div>
+                        <h2 class="text-xl font-bold border-b pb-2 mb-4 text-azul-oscuro">Añadir Nueva Obra</h2>
+                        <form id="form-catalogo" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Título de la Obra</label>
+                                <input type="text" id="obra-titulo" required class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Año</label>
+                                <input type="number" id="obra-anio" required class="w-full p-2 border rounded" value="2026">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Técnica</label>
+                                <input type="text" id="obra-tecnica" placeholder="Ej: Óleo sobre lienzo" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Medidas</label>
+                                <input type="text" id="obra-medidas" placeholder="Ej: 100 x 80 cm" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Ubicación / Colección</label>
+                                <input type="text" id="obra-lugar" placeholder="Ej: Taller Mercedes / Colección Privada" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Estado</label>
+                                <select id="obra-estado" class="w-full p-2 border rounded">
+                                    <option value="Disponible">Disponible</option>
+                                    <option value="Vendido">Vendido</option>
+                                    <option value="Exposición">En Exposición</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold mb-1">Imagen del Cuadro</label>
+                                <input type="file" id="obra-imagen" accept="image/*" class="w-full p-2 border border-dashed rounded bg-gray-50">
+                            </div>
+                            <div class="md:col-span-2 pt-2">
+                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-medium transition-colors">Publicar Obra</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div>
+                        <h2 class="text-xl font-bold border-b pb-2 mb-4 text-azul-oscuro">Obras Existentes</h2>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-gray-100 text-xs font-semibold uppercase text-gray-600 border-b">
+                                        <th class="p-3">Miniatura</th>
+                                        <th class="p-3">Título</th>
+                                        <th class="p-3">Año / Técnica</th>
+                                        <th class="p-3">Estado</th>
+                                        <th class="p-3 text-right">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-obras-body">
+                                    <tr>
+                                        <td colspan="5" class="p-4 text-center text-gray-400">Cargando obras del catálogo...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-            </main>
+
+                <div id="tab-artista" class="tab-content space-y-6">
+                    <h2 class="text-xl font-bold border-b pb-2 mb-4 text-azul-oscuro">Perfil del Artista (Davica)</h2>
+                    <form id="form-artista" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Biografía / Declaración de Artista</label>
+                            <textarea id="artista-bio" rows="6" class="w-full p-2 border rounded" placeholder="Escribe la biografía que se muestra al lado de la foto..."></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Enlace de Instagram</label>
+                                <input type="url" id="artista-instagram" class="w-full p-2 border rounded" placeholder="https://instagram.com/davica.art">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Enlace de Behance / Otras Redes</label>
+                                <input type="url" id="artista-red-alternativa" class="w-full p-2 border rounded" placeholder="https://behance.net/...">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Actualizar Foto de Perfil</label>
+                            <input type="file" id="artista-foto" accept="image/*" class="w-full p-2 border border-dashed rounded bg-gray-50">
+                        </div>
+                        <button type="submit" class="bg-azul-medio hover:bg-azul-hover text-white px-6 py-2 rounded font-medium transition-colors">Actualizar Perfil</button>
+                    </form>
+                </div>
+
+                <div id="tab-footer" class="tab-content space-y-6">
+                    <h2 class="text-xl font-bold border-b pb-2 mb-4 text-azul-oscuro">Información de Contacto</h2>
+                    <form id="form-footer" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Email Público de Contacto</label>
+                                <input type="email" id="footer-email" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Teléfono / WhatsApp</label>
+                                <input type="text" id="footer-telefono" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Ubicación del Taller principal</label>
+                                <input type="text" id="footer-ubicacion" class="w-full p-2 border rounded">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Horarios de Atención (Opcional)</label>
+                                <input type="text" id="footer-horario" class="w-full p-2 border rounded" placeholder="Ej: Lunes a Viernes de 16:00 a 20:00">
+                            </div>
+                        </div>
+                        <button type="submit" class="bg-azul-medio hover:bg-azul-hover text-white px-6 py-2 rounded font-medium transition-colors">Guardar Información de Contacto</button>
+                    </form>
+                </div>
+
+            </div>
         </div>
     </div>
 
     <script>
-        const SUPABASE_URL = "https://qvlhsggnxgapwqimhflw.supabase.co";
+        // CONFIGURACIÓN DE SUPABASE
+        // Reemplaza estos valores con las credenciales reales de tu consola de Supabase
+        const SUPABASE_URL = "https://qvlhsggnxgapwqimhflw.supabase.co"; 
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2bGhzZ2dueGdhcHdxaW1oZmx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0Mjk4NDksImV4cCI6MjA5NjAwNTg0OX0.SyZ34curAuUxn3oCiGc6sLN8_zL9kpUIZqaheDNy5Tg";
         
-        // CORRECCIÓN AQUÍ: Inicializamos directamente usando la constante sin redeclararla con 'const supabase ='
-        supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+        // Elementos del DOM
         const loginContainer = document.getElementById('login-container');
-        const dashboardContainer = document.getElementById('dashboard-container');
+        const adminDashboard = document.getElementById('admin-dashboard');
         const loginForm = document.getElementById('login-form');
         const loginError = document.getElementById('login-error');
         const btnLogout = document.getElementById('btn-logout');
 
-        // Verificar Sesión
+        // --- SISTEMA DE PESTAÑAS (TABS) ---
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetTab = button.getAttribute('data-tab');
+                
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('border-azul-medio', 'text-azul-oscuro');
+                    btn.classList.add('border-transparent', 'text-gray-500');
+                });
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                button.classList.remove('border-transparent', 'text-gray-500');
+                button.classList.add('border-azul-medio', 'text-azul-oscuro');
+                document.getElementById(targetTab).classList.add('active');
+            });
+        });
+
+        // --- CONTROL DE AUTENTICACIÓN CON SUPABASE ---
+        
+        // Verificar sesión activa al cargar
         async function verificarSesion() {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
@@ -105,19 +256,13 @@
 
         function mostrarDashboard() {
             loginContainer.classList.add('hidden');
-            dashboardContainer.classList.remove('hidden');
-            cargarDatosExistentes();
+            adminDashboard.classList.remove('hidden');
+            cargarDatosExistentes(); // Función para traer los datos de la BD al loguearse
         }
 
         function mostrarLogin() {
-            dashboardContainer.classList.add('hidden');
+            adminDashboard.classList.add('hidden');
             loginContainer.classList.remove('hidden');
-        }
-
-        // Cambiar de Pestaña administrativa
-        function cambiarTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
         }
 
         // Manejo del Formulario de Login
@@ -147,9 +292,11 @@
             mostrarLogin();
         });
 
-        // --- MANEJO DE BASE DE DATOS ---
+        // --- MANEJO DE BASE DE DATOS (MOCKUPS / PLANTILLA DE FUNCIONES) ---
+        
         async function cargarDatosExistentes() {
             console.log("Conectado con Supabase. Listo para descargar tablas de Obras y Configuración.");
+            // Aquí se programarán las lecturas automáticas a las tablas 'obras' y 'configuracion'
         }
 
         // Evento de inicialización
