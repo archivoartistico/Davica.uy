@@ -384,7 +384,7 @@
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2bGhzZ2dueGdhcHdxaW1oZmx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0Mjk4NDksImV4cCI6MjA5NjAwNTg0OX0.SyZ34curAuUxn3oCiGc6sLN8_zL9kpUIZqaheDNy5Tg";
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Capturamos los elementos del Modal que existen en tu HTML
+        // Elementos del Modal
         const modalObra = document.getElementById("modal-obra");
         const modalImagen = document.getElementById("modal-imagen");
         const modalTitulo = document.getElementById("modal-titulo");
@@ -396,31 +396,39 @@
         const modalDetalles = document.getElementById("modal-detalles");
         const btnCerrarModal = document.getElementById("cerrar-modal");
 
-        // 2. CONTROL DE PESTAÑAS (Inicio, Galería, Artista)
-        const tabs = {
-            'tab-inicio': document.getElementById('contenido-inicio'),
-            'tab-galeria': document.getElementById('contenido-galeria'),
-            'tab-artista': document.getElementById('contenido-artista')
+        // 2. CONTROL DE SECCIONES REALES (¡Corregido con tus IDs del HTML!)
+        const secciones = {
+            'tab-inicio': document.getElementById('inicio-section'),
+            'tab-galeria': document.getElementById('galeria-section'),
+            'tab-artista': document.getElementById('artista-section')
         };
 
         function cambiarPestana(tabActivaId) {
-            // Ocultar todas las secciones y quitar clases activas
-            Object.keys(tabs).forEach(id => {
+            // Recorrer los botones del menú superior para activar/desactivar el diseño visual
+            ['tab-inicio', 'tab-galeria', 'tab-artista'].forEach(id => {
                 const boton = document.getElementById(id);
                 if (boton) boton.classList.remove('tab-active');
-                if (tabs[id]) tabs[id].classList.add('hidden');
             });
 
-            // Mostrar la sección seleccionada y activar su pestaña
+            // Ocultar todas las secciones reales primero
+            Object.keys(secciones).forEach(key => {
+                if (secciones[key]) secciones[key].classList.add('hidden');
+            });
+
+            // Activar visualmente el botón seleccionado y mostrar su sección correspondiente
             const botonActivo = document.getElementById(tabActivaId);
             if (botonActivo) botonActivo.classList.add('tab-active');
-            if (tabs[tabActivaId]) tabs[tabActivaId].classList.remove('hidden');
+            
+            if (secciones[tabActivaId]) {
+                secciones[tabActivaId].classList.remove('hidden');
+            }
 
-            // Volver arriba de forma fluida
+            // Subir al inicio de la página suavemente
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 3. DESCARGAR OBRAS REALES DESDE SUPABASE Y GENERAR LA GRILLA
+
+        // 3. CARGAR GRIDS DESDE BASE DE DATOS
         async function cargarGaleriaDinamica() {
             const contenedorGaleria = document.getElementById('galeria-grid'); 
             if (!contenedorGaleria) return;
@@ -452,7 +460,6 @@
                         <p class="text-gray-500 text-sm mt-1">${obra.tecnica || 'Óleo'} • ${obra.anio || '2026'}</p>
                     `;
                     
-                    // Al hacer clic abre el modal detallado
                     card.addEventListener("click", () => {
                         modalImagen.src = obra.imagen_url || 'https://via.placeholder.com/600x400';
                         modalImagen.alt = obra.titulo || 'Obra';
@@ -500,7 +507,8 @@
             }
         }
 
-        // 4. LÓGICA PARA CERRAR EL MODAL
+
+        // 4. LOGICA DE CIERRE DEL MODAL
         if (btnCerrarModal) {
             btnCerrarModal.addEventListener("click", cerrarModalObra);
         }
@@ -522,12 +530,13 @@
             document.body.style.overflow = "auto";
         }
 
-        // 5. INICIALIZADOR PRINCIPAL AL CARGAR LA WEB
+
+        // 5. INICIALIZADOR PRINCIPAL AL CARGAR LA WEB (AMARRE DE EVENTOS CLIC)
         document.addEventListener("DOMContentLoaded", () => {
-            // Descargar catálogo de la base de datos
+            // Descargar imágenes de base de datos
             cargarGaleriaDinamica();
 
-            // Enlazar de forma manual las pestañas de navegación superiores (Menú de arriba)
+            // Enlazar clics de las pestañas superiores del Nav
             const menuInicio = document.getElementById('tab-inicio');
             const menuGaleria = document.getElementById('tab-galeria');
             const menuArtista = document.getElementById('tab-artista');
@@ -536,16 +545,19 @@
             if (menuGaleria) menuGaleria.addEventListener('click', (e) => { e.preventDefault(); cambiarPestana('tab-galeria'); });
             if (menuArtista) menuArtista.addEventListener('click', (e) => { e.preventDefault(); cambiarPestana('tab-artista'); });
 
-            // Enlazar el botón "Explorar Galería Completa" de la pestaña de inicio
+            // Enlazar el botón azul grande del inicio "Explorar Galería Completa"
             const btnExplorar = document.getElementById('explorar-galeria');
             if (btnExplorar) {
-                btnExplorar.addEventListener('click', (e) => { e.preventDefault(); cambiarPestana('tab-galeria'); });
+                btnExplorar.addEventListener('click', (e) => { 
+                    e.preventDefault(); 
+                    cambiarPestana('tab-galeria'); 
+                });
             }
 
-            // Evitar redirecciones molestas en links vacíos generales
+            // Bloquear los enlaces muertos generales
             document.querySelectorAll("a").forEach(link => {
                 link.addEventListener("click", function (e) {
-                    if (this.getAttribute("href") === "#" && !this.id.startsWith('tab-')) {
+                    if (this.getAttribute("href") === "#" && !this.id.startsWith('tab-') && this.id !== 'explorar-galeria') {
                         e.preventDefault();
                     }
                 });
