@@ -379,7 +379,7 @@
         </div>
     </div>
 <script>
-        // 1. CONFIGURACIÓN DE SUPABASE (¡Tus credenciales ya están listas aquí!)
+        // 1. CONFIGURACIÓN DE SUPABASE
         const SUPABASE_URL = "https://qvlhsggnxgapwqimhflw.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2bGhzZ2dueGdhcHdxaW1oZmx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0Mjk4NDksImV4cCI6MjA5NjAwNTg0OX0.SyZ34curAuUxn3oCiGc6sLN8_zL9kpUIZqaheDNy5Tg";
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -404,31 +404,21 @@
         };
 
         function cambiarPestana(tabActivaId) {
+            // Ocultar todas las secciones y quitar clases activas
             Object.keys(tabs).forEach(id => {
                 const boton = document.getElementById(id);
                 if (boton) boton.classList.remove('tab-active');
                 if (tabs[id]) tabs[id].classList.add('hidden');
             });
 
+            // Mostrar la sección seleccionada y activar su pestaña
             const botonActivo = document.getElementById(tabActivaId);
             if (botonActivo) botonActivo.classList.add('tab-active');
             if (tabs[tabActivaId]) tabs[tabActivaId].classList.remove('hidden');
 
+            // Volver arriba de forma fluida
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        Object.keys(tabs).forEach(id => {
-            const boton = document.getElementById(id);
-            if (boton) {
-                boton.addEventListener('click', () => cambiarPestana(id));
-            }
-        });
-
-        const btnExplorar = document.getElementById('explorar-galeria');
-        if (btnExplorar) {
-            btnExplorar.addEventListener('click', () => cambiarPestana('tab-galeria'));
-        }
-
 
         // 3. DESCARGAR OBRAS REALES DESDE SUPABASE Y GENERAR LA GRILLA
         async function cargarGaleriaDinamica() {
@@ -454,23 +444,24 @@
                     const card = document.createElement('div');
                     card.className = "bg-white rounded-xl shadow-lg p-6 artwork-image cursor-pointer";
                     card.innerHTML = `
-                    <img src="${obra.imagen_url || 'https://via.placeholder.com/600x400'}" 
-                    alt="${obra.titulo}" 
-                    class="w-full h-64 object-cover rounded-lg mb-4" 
-                    loading="lazy">
-                    <h3 class="text-xl font-semibold text-azul-profundo">${obra.titulo}</h3>
-                    <p class="text-gray-500 text-sm mt-1">${obra.tecnica || 'Acrílico sobre lienzo'} • ${obra.anio || '2026'}</p>
-                `;
+                        <img src="${obra.imagen_url || 'https://via.placeholder.com/600x400'}" 
+                             alt="${obra.titulo || 'Obra de arte'}" 
+                             class="w-full h-64 object-cover rounded-lg mb-4" 
+                             loading="lazy">
+                        <h3 class="text-xl font-semibold text-azul-profundo">${obra.titulo || 'Sin título'}</h3>
+                        <p class="text-gray-500 text-sm mt-1">${obra.tecnica || 'Óleo'} • ${obra.anio || '2026'}</p>
+                    `;
                     
+                    // Al hacer clic abre el modal detallado
                     card.addEventListener("click", () => {
-                        modalImagen.src = obra.imagen_url || obra.imagen || 'https://via.placeholder.com/600x400';
-                        modalImagen.alt = obra.titulo;
-                        modalTitulo.textContent = obra.titulo;
+                        modalImagen.src = obra.imagen_url || 'https://via.placeholder.com/600x400';
+                        modalImagen.alt = obra.titulo || 'Obra';
+                        modalTitulo.textContent = obra.titulo || 'Sin título';
                         modalDescripcion.textContent = obra.descripcion || "Sin descripción disponible.";
                         modalMedidas.textContent = obra.medidas || "No especificadas";
                         modalTecnica.textContent = obra.tecnica || "No especificada";
-                        modalAnio.textContent = obra.ano || "N/A";
-                        modalUbicacion.textContent = obra.ubicacion || "No especificada";
+                        modalAnio.textContent = obra.anio || "N/A";
+                        modalUbicacion.textContent = obra.lugar || "Taller";
 
                         modalDetalles.innerHTML = "";
                         let listaDetalles = [];
@@ -493,7 +484,7 @@
                             });
                         } else {
                             const li = document.createElement('li');
-                            li.textContent = "Obra original del artista";
+                            li.textContent = `Estado: ${obra.estado || 'Disponible'}`;
                             modalDetalles.appendChild(li);
                         }
 
@@ -508,7 +499,6 @@
                 console.error("Error al conectar o descargar de Supabase:", error);
             }
         }
-
 
         // 4. LÓGICA PARA CERRAR EL MODAL
         if (btnCerrarModal) {
@@ -532,13 +522,30 @@
             document.body.style.overflow = "auto";
         }
 
-
         // 5. INICIALIZADOR PRINCIPAL AL CARGAR LA WEB
         document.addEventListener("DOMContentLoaded", () => {
+            // Descargar catálogo de la base de datos
             cargarGaleriaDinamica();
+
+            // Enlazar de forma manual las pestañas de navegación superiores (Menú de arriba)
+            const menuInicio = document.getElementById('tab-inicio');
+            const menuGaleria = document.getElementById('tab-galeria');
+            const menuArtista = document.getElementById('tab-artista');
+
+            if (menuInicio) menuInicio.addEventListener('click', (e) => { e.preventDefault(); cambiarPestana('tab-inicio'); });
+            if (menuGaleria) menuGaleria.addEventListener('click', (e) => { e.preventDefault(); cambiarPestana('tab-galeria'); });
+            if (menuArtista) menuArtista.addEventListener('click', (e) => { e.preventDefault(); cambiarPestana('tab-artista'); });
+
+            // Enlazar el botón "Explorar Galería Completa" de la pestaña de inicio
+            const btnExplorar = document.getElementById('explorar-galeria');
+            if (btnExplorar) {
+                btnExplorar.addEventListener('click', (e) => { e.preventDefault(); cambiarPestana('tab-galeria'); });
+            }
+
+            // Evitar redirecciones molestas en links vacíos generales
             document.querySelectorAll("a").forEach(link => {
                 link.addEventListener("click", function (e) {
-                    if (this.getAttribute("href") === "#") {
+                    if (this.getAttribute("href") === "#" && !this.id.startsWith('tab-')) {
                         e.preventDefault();
                     }
                 });
