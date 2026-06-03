@@ -9,9 +9,15 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body class="bg-azul-claro min-h-screen text-azul-profundo">
@@ -20,25 +26,22 @@
         <div class="bg-white p-8 rounded-lg shadow-xl max-w-md w-full border border-blue-100">
             <div class="text-center mb-6">
                 <h1 class="font-serif text-2xl font-bold text-azul-oscuro">Galería Davica</h1>
-                <p class="text-gray-500 text-sm mt-1">Panel de Administración Obras</p>
+                <p class="text-gray-500 text-sm mt-1">Panel de Administración</p>
             </div>
             
             <form id="login-form" class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
-                    <input type="email" id="login-email" required 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-azul-medio focus:border-transparent outline-none">
+                    <input type="email" id="login-email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-azul-medio focus:border-transparent outline-none">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
-                    <input type="password" id="login-password" required 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-azul-medio focus:border-transparent outline-none">
+                    <input type="password" id="login-password" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-azul-medio focus:border-transparent outline-none">
                 </div>
                 
-                <div id="login-error" class="text-red-500 text-sm hidden bg-red-50 p-2 rounded border border-red-100"></div>
+                <div id="login-error" class="text-red-500 text-sm hidden"></div>
                 
-                <button type="submit" 
-                        class="w-full bg-azul-medio hover:bg-azul-hover text-white font-semibold py-2 rounded-lg transition-colors shadow-md">
+                <button type="submit" class="w-full bg-azul-medio hover:bg-azul-hover text-white font-semibold py-2 rounded-lg transition-colors shadow-md">
                     Iniciar Sesión
                 </button>
             </form>
@@ -47,108 +50,110 @@
 
     <div id="dashboard-container" class="hidden min-h-screen flex flex-col">
         <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <span class="font-serif text-xl font-bold text-azul-oscuro">Davica.uy</span>
-                <span class="bg-blue-50 text-azul-medio text-xs font-semibold px-2.5 py-1 rounded-full">Admin Mode</span>
-            </div>
-            <button id="btn-logout" class="text-gray-500 hover:text-red-600 font-medium transition-colors text-sm flex items-center space-x-1">
-                <i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span>
+            <h1 class="font-serif text-xl font-bold text-azul-oscuro">Panel de Control</h1>
+            <button id="btn-logout" class="text-gray-500 hover:text-red-600 font-medium transition-colors text-sm">
+                Cerrar Sesión
             </button>
         </header>
 
         <div class="flex flex-grow">
             <aside class="w-64 bg-white border-r border-gray-200 p-4 space-y-2">
-                <button onclick="cambiarTab('tabla-obras')" id="menu-tabla-obras"
-                        class="w-full text-left px-4 py-2.5 rounded-lg font-medium text-sm transition-colors bg-blue-50 text-azul-medio">
-                    <i class="fas fa-paint-brush mr-2"></i> Mis Obras
+                <button onclick="cambiarTab('obras')" class="w-full text-left px-4 py-2 rounded-lg font-medium text-sm transition-colors hover:bg-gray-50">
+                    Gestionar Obras
                 </button>
-                <button onclick="cambiarTab('nueva-obra')" id="menu-nueva-obra"
-                        class="w-full text-left px-4 py-2.5 rounded-lg font-medium text-sm transition-colors text-gray-600 hover:bg-gray-50">
-                    <i class="fas fa-plus-circle mr-2"></i> Añadir Obra
+                <button onclick="cambiarTab('configuracion')" class="w-full text-left px-4 py-2 rounded-lg font-medium text-sm transition-colors hover:bg-gray-50">
+                    Configuración General
                 </button>
             </aside>
 
-            <main class="flex-grow p-8 max-w-5xl">
-                
-                <div id="tab-tabla-obras" class="tab-content active space-y-6">
-                    <div class="flex justify-between items-center">
-                        <h2 class="text-xl font-bold text-azul-oscuro">Catálogo de Obras Registradas</h2>
-                        <span class="text-xs text-gray-500">Sincronizado en tiempo real con Supabase</span>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-gray-50 border-b border-gray-200 text-gray-600 font-semibold text-sm">
-                                    <th class="p-4">Obra</th>
-                                    <th class="p-4">Técnica</th>
-                                    <th class="p-4">Año</th>
-                                    <th class="p-4">Medidas</th>
-                                    <th class="p-4 text-center">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabla-obras-body" class="divide-y divide-gray-100 text-sm text-gray-700">
-                                <tr>
-                                    <td class="p-4 col-span-5 text-center text-gray-400 py-8">Cargando catálogo desde la base de datos...</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+            <main class="flex-grow p-8">
+                <div id="tab-obras" class="tab-content active">
+                    <h2 class="text-xl font-bold text-azul-oscuro mb-4">Mis Obras de Arte</h2>
+                    <p class="text-gray-600">Aquí podrás agregar, editar y eliminar las obras del catálogo virtual.</p>
                 </div>
 
-                <div id="tab-nueva-obra" class="tab-content space-y-6">
-                    <h2 class="text-xl font-bold text-azul-oscuro">Registrar Nueva Obra de Arte</h2>
-                    
-                    <form id="form-obra" class="bg-white p-6 rounded-xl shadow-md border border-gray-100 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Título de la Obra</label>
-                            <input type="text" id="obra-titulo" required class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-azul-medio">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Técnica (ej: Óleo sobre lienzo)</label>
-                            <input type="text" id="obra-tecnica" required class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-azul-medio">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Año de Creación</label>
-                            <input type="number" id="obra-anio" required class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-azul-medio">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Medidas (ej: 80x60 cm)</label>
-                            <input type="text" id="obra-medidas" required class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-azul-medio">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Ubicación / Estado (ej: Taller, Vendida)</label>
-                            <input type="text" id="obra-lugar" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-azul-medio">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">URL de la Imagen (Supabase Bucket / Externo)</label>
-                            <input type="url" id="obra-url" required class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-azul-medio">
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Descripción / Concepto de la Obra</label>
-                            <textarea id="obra-descripcion" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-azul-medio"></textarea>
-                        </div>
-                        
-                        <div class="md:col-span-2 flex justify-end pt-4">
-                            <button type="submit" class="bg-azul-medio hover:bg-azul-hover text-white font-semibold px-6 py-2 rounded-lg shadow transition-colors">
-                                Guardar Obra en Supabase
-                            </button>
-                        </div>
-                    </form>
+                <div id="tab-configuracion" class="tab-content">
+                    <h2 class="text-xl font-bold text-azul-oscuro mb-4">Configuración General</h2>
+                    <p class="text-gray-600">Configura los datos del portafolio y enlaces principales.</p>
                 </div>
-
             </main>
         </div>
     </div>
 
     <script>
-        // CONFIGURACIÓN CENTRALIZADA ÚNICA DE SUPABASE
         const SUPABASE_URL = "https://qvlhsggnxgapwqimhflw.supabase.co";
         const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2bGhzZ2dueGdhcHdxaW1oZmx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0Mjk4NDksImV4cCI6MjA5NjAwNTg0OX0.SyZ34curAuUxn3oCiGc6sLN8_zL9kpUIZqaheDNy5Tg";
         
-        // Inicialización correcta sin duplicar la variable global
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // CORRECCIÓN AQUÍ: Inicializamos directamente usando la constante sin redeclararla con 'const supabase ='
+        supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Mapeo de elementos de la interfaz
         const loginContainer = document.getElementById('login-container');
-        const dashboardContainer = document.
+        const dashboardContainer = document.getElementById('dashboard-container');
+        const loginForm = document.getElementById('login-form');
+        const loginError = document.getElementById('login-error');
+        const btnLogout = document.getElementById('btn-logout');
+
+        // Verificar Sesión
+        async function verificarSesion() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                mostrarDashboard();
+            } else {
+                mostrarLogin();
+            }
+        }
+
+        function mostrarDashboard() {
+            loginContainer.classList.add('hidden');
+            dashboardContainer.classList.remove('hidden');
+            cargarDatosExistentes();
+        }
+
+        function mostrarLogin() {
+            dashboardContainer.classList.add('hidden');
+            loginContainer.classList.remove('hidden');
+        }
+
+        // Cambiar de Pestaña administrativa
+        function cambiarTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        // Manejo del Formulario de Login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginError.classList.add('hidden');
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                loginError.textContent = "Credenciales incorrectas: " + error.message;
+                loginError.classList.remove('hidden');
+            } else {
+                mostrarDashboard();
+            }
+        });
+
+        // Manejo de Logout
+        btnLogout.addEventListener('click', async () => {
+            await supabase.auth.signOut();
+            mostrarLogin();
+        });
+
+        // --- MANEJO DE BASE DE DATOS ---
+        async function cargarDatosExistentes() {
+            console.log("Conectado con Supabase. Listo para descargar tablas de Obras y Configuración.");
+        }
+
+        // Evento de inicialización
+        document.addEventListener("DOMContentLoaded", verificarSesion);
+    </script>
+</body>
+</html>
