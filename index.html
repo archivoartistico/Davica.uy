@@ -460,21 +460,16 @@
             if (!obra) return;
 
             modalTitulo.textContent = obra.titulo;
-            modalImagen.src = obra.imagen;
+            modalImagen.src = obra.imagen_url;
             modalImagen.alt = obra.titulo;
             modalDescripcion.textContent = obra.descripcion;
             modalMedidas.textContent = obra.medidas;
             modalTecnica.textContent = obra.tecnica;
-            modalAno.textContent = obra.ano;
-            modalUbicacion.textContent = obra.ubicacion;
+            modalAno.textContent = obra.anio;
+            modalUbicacion.textContent = obra.lugar;
 
             // Limpiar y agregar detalles
             modalDetalles.innerHTML = "";
-            obra.detalles.forEach(detalle => {
-                const li = document.createElement("li");
-                li.textContent = detalle;
-                modalDetalles.appendChild(li);
-            });
 
             // Mostrar modal
             modalObra.classList.remove("hidden");
