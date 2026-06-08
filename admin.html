@@ -246,7 +246,7 @@
         
         // Verificar sesión activa al cargar
         async function verificarSesion() {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
                 mostrarDashboard();
             } else {
@@ -273,7 +273,7 @@
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
 
-            const { data, error } = await supabase.auth.signInWithPassword({
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
                 email: email,
                 password: password,
             });
@@ -288,7 +288,7 @@
 
         // Manejo de Logout
         btnLogout.addEventListener('click', async () => {
-            await supabase.auth.signOut();
+            await supabaseClient.auth.signOut();
             mostrarLogin();
         });
 
@@ -298,6 +298,63 @@
             console.log("Conectado con Supabase. Listo para descargar tablas de Obras y Configuración.");
             // Aquí se programarán las lecturas automáticas a las tablas 'obras' y 'configuracion'
         }
+        const formCatalogo = document.getElementById('form-catalogo');
+
+formCatalogo.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const titulo = document.getElementById('obra-titulo').value;
+    const anio = document.getElementById('obra-anio').value;
+    const tecnica = document.getElementById('obra-tecnica').value;
+    const medidas = document.getElementById('obra-medidas').value;
+    const lugar = document.getElementById('obra-lugar').value;
+    const estado = document.getElementById('obra-estado').value;
+    const imagenInput = document.getElementById('obra-imagen');
+
+    let imagen_url = "";
+
+    if (imagenInput.files.length > 0) {
+        const archivo = imagenInput.files[0];
+        const nombreArchivo = `${Date.now()}-${archivo.name}`;
+
+        const { error: uploadError } = await supabaseClient.storage
+            .from('obras')
+            .upload(nombreArchivo, archivo);
+
+        if (uploadError) {
+            alert("Error subiendo imagen: " + uploadError.message);
+            return;
+        }
+
+        const { data: urlData } = supabaseClient.storage
+            .from('obras')
+            .getPublicUrl(nombreArchivo);
+
+        imagen_url = urlData.publicUrl;
+    }
+
+    const { error } = await supabaseClient
+        .from('obras')
+        .insert([
+            {
+                titulo: titulo,
+                anio: anio,
+                tecnica: tecnica,
+                medidas: medidas,
+                lugar: lugar,
+                estado: estado,
+                imagen_url: imagen_url
+            }
+        ]);
+
+    if (error) {
+        alert("Error guardando obra: " + error.message);
+        return;
+    }
+
+    alert("Obra publicada correctamente.");
+    formCatalogo.reset();
+});
 
         // Evento de inicialización
         document.addEventListener("DOMContentLoaded", verificarSesion);
