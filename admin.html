@@ -296,12 +296,68 @@
             mostrarLogin();
         });
 
-        // --- MANEJO DE BASE DE DATOS (MOCKUPS / PLANTILLA DE FUNCIONES) ---
+    // --- MANEJO DE BASE DE DATOS (MOCKUPS / PLANTILLA DE FUNCIONES) ---
         
-        async function cargarDatosExistentes() {
-            console.log("Conectado con Supabase. Listo para descargar tablas de Obras y Configuración.");
-            // Aquí se programarán las lecturas automáticas a las tablas 'obras' y 'configuracion'
-        }
+    async function cargarDatosExistentes() {
+    const tabla = document.getElementById("tabla-obras-body");
+
+    tabla.innerHTML = `
+        <tr>
+            <td colspan="5" class="p-4 text-center text-gray-400">
+                Cargando obras...
+            </td>
+        </tr>
+    `;
+
+    const { data, error } = await supabaseClient
+        .from("obras")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error("Error cargando obras:", error);
+        tabla.innerHTML = `
+            <tr>
+                <td colspan="5" class="p-4 text-center text-red-500">
+                    Error cargando obras.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        tabla.innerHTML = `
+            <tr>
+                <td colspan="5" class="p-4 text-center text-gray-400">
+                    Todavía no hay obras cargadas.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tabla.innerHTML = "";
+
+    data.forEach(obra => {
+        tabla.innerHTML += `
+            <tr class="border-b">
+                <td class="p-3">
+                    <img src="${obra.imagen_url || obra.imagen || ''}" class="w-20 h-20 object-cover rounded">
+                </td>
+                <td class="p-3 font-semibold">${obra.titulo || "Sin título"}</td>
+                <td class="p-3">
+                    ${obra.anio || ""}<br>
+                    <span class="text-sm text-gray-500">${obra.tecnica || ""}</span>
+                </td>
+                <td class="p-3">${obra.estado || ""}</td>
+                <td class="p-3 text-right text-sm text-gray-400">
+                    Cargada
+                </td>
+            </tr>
+        `;
+    });
+}
         const formCatalogo = document.getElementById('form-catalogo');
 
 formCatalogo.addEventListener('submit', async (e) => {
@@ -360,6 +416,7 @@ formCatalogo.addEventListener('submit', async (e) => {
 
     alert("Obra publicada correctamente.");
     formCatalogo.reset();
+    cargarDatosExistentes();
 });
 
         // Evento de inicialización
