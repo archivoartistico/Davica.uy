@@ -609,6 +609,42 @@
                 const linkTiktok = document.querySelector("#contenido-artista a[href*='tiktok']");
                 if (linkTiktok) linkTiktok.href = config.artista_tiktok;
             }
+            // Footer
+if (config.footer_email) {
+    const footerEmail = document.querySelector("footer .fa-envelope")?.parentElement?.querySelector("span");
+    if (footerEmail) footerEmail.textContent = config.footer_email;
+}
+
+if (config.footer_telefono) {
+    const footerTelefono = document.querySelector("footer .fa-phone")?.parentElement?.querySelector("span");
+    if (footerTelefono) footerTelefono.textContent = config.footer_telefono;
+}
+
+if (config.footer_ubicacion) {
+    const contactoLista = document.querySelector("footer ul");
+
+    if (contactoLista && !document.getElementById("footer-ubicacion-publica")) {
+        contactoLista.innerHTML += `
+            <li id="footer-ubicacion-publica" class="flex items-center">
+                <i class="fas fa-map-marker-alt mr-3"></i>
+                <span>${config.footer_ubicacion}</span>
+            </li>
+        `;
+    }
+}
+
+if (config.footer_horario) {
+    const contactoLista = document.querySelector("footer ul");
+
+    if (contactoLista && !document.getElementById("footer-horario-publico")) {
+        contactoLista.innerHTML += `
+            <li id="footer-horario-publico" class="flex items-center">
+                <i class="fas fa-clock mr-3"></i>
+                <span>${config.footer_horario}</span>
+            </li>
+        `;
+    }
+}
         }
 
         // Event Listeners
