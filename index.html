@@ -526,7 +526,7 @@
             const { data: config, error } = await supabaseClient
                 .from("configuracion")
                 .select("*")
-                .eq("id", "principal")
+                .eq("id", 100)
                 .maybeSingle();
 
             if (error) {
