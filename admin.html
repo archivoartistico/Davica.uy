@@ -296,18 +296,41 @@
             mostrarLogin();
         });
 
-    // --- MANEJO DE BASE DE DATOS (MOCKUPS / PLANTILLA DE FUNCIONES) ---
-        
-    async function cargarDatosExistentes() {
+async function cargarDatosExistentes() {
     const tabla = document.getElementById("tabla-obras-body");
 
-    tabla.innerHTML = `
-        <tr>
-            <td colspan="5" class="p-4 text-center text-gray-400">
-                Cargando obras...
-            </td>
-        </tr>
-    `;
+    tabla.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400">Cargando obras...</td></tr>`;
+
+    const { data, error } = await supabaseClient
+        .from("obras")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error(error);
+        tabla.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error cargando obras.</td></tr>`;
+        return;
+    }
+
+    tabla.innerHTML = "";
+
+    data.forEach(obra => {
+        tabla.innerHTML += `
+            <tr class="border-b">
+                <td class="p-3">
+                    <img src="${obra.imagen_url || ''}" class="w-20 h-20 object-cover rounded">
+                </td>
+                <td class="p-3 font-semibold">${obra.titulo || "Sin título"}</td>
+                <td class="p-3">${obra.anio || ""}<br><span class="text-sm text-gray-500">${obra.tecnica || ""}</span></td>
+                <td class="p-3">${obra.estado || ""}</td>
+                <td class="p-3 text-right">
+                    <button onclick="editarObra('${obra.id}')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm mr-2">Editar</button>
+                    <button onclick="eliminarObra('${obra.id}')" class="bg-red-600 text-white px-3 py-1 rounded text-sm">Borrar</button>
+                </td>
+            </tr>
+        `;
+    });
+}
 
     const { data, error } = await supabaseClient
         .from("obras")
@@ -357,6 +380,46 @@
             </tr>
         `;
     });
+async function eliminarObra(id) {
+    if (!confirm("¿Seguro que querés borrar esta obra?")) return;
+
+    const { error } = await supabaseClient
+        .from("obras")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        alert("Error borrando obra: " + error.message);
+        return;
+    }
+
+    alert("Obra borrada correctamente.");
+    cargarDatosExistentes();
+}
+async function editarObra(id) {
+    const { data: obra, error } = await supabaseClient
+        .from("obras")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+    if (error) {
+        alert("Error cargando obra: " + error.message);
+        return;
+    }
+
+    document.getElementById("obra-titulo").value = obra.titulo || "";
+    document.getElementById("obra-anio").value = obra.anio || "";
+    document.getElementById("obra-tecnica").value = obra.tecnica || "";
+    document.getElementById("obra-medidas").value = obra.medidas || "";
+    document.getElementById("obra-lugar").value = obra.lugar || "";
+    document.getElementById("obra-estado").value = obra.estado || "Disponible";
+    document.getElementById("obra-descripcion").value = obra.descripcion || "";
+
+    formCatalogo.dataset.editandoId = id;
+
+    document.querySelector("#form-catalogo button[type='submit']").textContent = "Guardar cambios";
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
         const formCatalogo = document.getElementById('form-catalogo');
 
@@ -394,29 +457,55 @@ formCatalogo.addEventListener('submit', async (e) => {
         imagen_url = urlData.publicUrl;
     }
 
-    const { error } = await supabaseClient
-        .from('obras')
-        .insert([
-            {
-                titulo: titulo,
-                anio: anio,
-                tecnica: tecnica,
-                medidas: medidas,
-                lugar: lugar,
-                estado: estado,
-                descripcion: descripcion,
-                imagen_url: imagen_url
-            }
-        ]);
+    const datosObra = {
+    titulo,
+    anio,
+    tecnica,
+    medidas,
+    lugar,
+    estado,
+    descripcion,
+    imagen_url
+};
+
+let error;
+
+if (formCatalogo.dataset.editandoId) {
+
+    const resultado = await supabaseClient
+        .from("obras")
+        .update(datosObra)
+        .eq("id", formCatalogo.dataset.editandoId);
+
+    error = resultado.error;
+
+} else {
+
+    const resultado = await supabaseClient
+        .from("obras")
+        .insert([datosObra]);
+
+    error = resultado.error;
+}
 
     if (error) {
         alert("Error guardando obra: " + error.message);
         return;
     }
 
-    alert("Obra publicada correctamente.");
-    formCatalogo.reset();
-    cargarDatosExistentes();
+    alert(
+    formCatalogo.dataset.editandoId
+        ? "Obra editada correctamente."
+        : "Obra publicada correctamente."
+);
+
+formCatalogo.reset();
+
+delete formCatalogo.dataset.editandoId;
+
+document.querySelector("#form-catalogo button[type='submit']").textContent = "Publicar Obra";
+
+cargarDatosExistentes();
 });
 
         // Evento de inicialización
