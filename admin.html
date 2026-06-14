@@ -180,6 +180,42 @@
                         </div>
                         <button type="submit" class="bg-azul-medio hover:bg-azul-hover text-white px-6 py-2 rounded font-medium transition-colors">Actualizar Perfil</button>
                     </form>
+
+                    <div class="mt-8 pt-6 border-t border-gray-200">
+                        <h3 class="text-lg font-bold text-azul-oscuro mb-4">Formación y Trayectoria</h3>
+                        <form id="form-formacion" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                            <input type="hidden" id="formacion-id">
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Icono</label>
+                                <select id="formacion-icono" class="w-full p-2 border rounded">
+                                    <option value="fa-graduation-cap">Graduación</option>
+                                    <option value="fa-award">Premio</option>
+                                    <option value="fa-globe-europe">Mundo</option>
+                                    <option value="fa-palette">Paleta</option>
+                                    <option value="fa-book">Libro</option>
+                                    <option value="fa-star">Estrella</option>
+                                    <option value="fa-user">Persona</option>
+                                    <option value="fa-camera">Cámara</option>
+                                    <option value="fa-paint-brush">Pincel</option>
+                                </select>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold mb-1">Texto</label>
+                                <input type="text" id="formacion-texto" class="w-full p-2 border rounded" placeholder="Ej: Reconocimiento, exposición, formación..." required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Orden</label>
+                                <input type="number" id="formacion-orden" class="w-full p-2 border rounded" value="0">
+                            </div>
+                            <div class="md:col-span-4 flex gap-2">
+                                <button type="submit" id="btn-formacion-submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded font-medium transition-colors">Agregar ítem</button>
+                                <button type="button" id="btn-formacion-cancelar" class="hidden bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded font-medium transition-colors">Cancelar edición</button>
+                            </div>
+                        </form>
+                        <div id="lista-formacion" class="mt-5 space-y-3">
+                            <p class="text-gray-400 text-sm">Cargando formación y trayectoria...</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="tab-footer" class="tab-content space-y-6">
@@ -263,6 +299,7 @@
             adminDashboard.classList.remove('hidden');
             cargarDatosExistentes();
             cargarConfiguracion();
+            cargarFormacionTrayectoria();
         }
 
         function mostrarLogin() {
@@ -576,6 +613,143 @@ formFooter.addEventListener("submit", async (e) => {
         footer_horario: document.getElementById("footer-horario").value
     });
 });
+
+
+// --- FORMACIÓN Y TRAYECTORIA ---
+async function cargarFormacionTrayectoria() {
+    const lista = document.getElementById("lista-formacion");
+    if (!lista) return;
+
+    lista.innerHTML = `<p class="text-gray-400 text-sm">Cargando formación y trayectoria...</p>`;
+
+    const { data, error } = await supabaseClient
+        .from("formacion_trayectoria")
+        .select("*")
+        .order("orden", { ascending: true })
+        .order("id", { ascending: true });
+
+    if (error) {
+        console.error("Error cargando formación:", error);
+        lista.innerHTML = `<p class="text-red-500 text-sm">Error cargando formación y trayectoria.</p>`;
+        return;
+    }
+
+    if (!data || data.length === 0) {
+        lista.innerHTML = `<p class="text-gray-400 text-sm">Todavía no hay ítems cargados.</p>`;
+        return;
+    }
+
+    lista.innerHTML = "";
+
+    data.forEach(item => {
+        lista.innerHTML += `
+            <div class="flex items-center justify-between bg-gray-50 border rounded p-3 gap-3">
+                <div class="flex items-start gap-3">
+                    <i class="fas ${item.icono || 'fa-star'} text-azul-medio mt-1"></i>
+                    <div>
+                        <p class="text-gray-800">${item.texto || ''}</p>
+                        <p class="text-xs text-gray-400">Orden: ${item.orden || 0}</p>
+                    </div>
+                </div>
+                <div class="flex gap-2 shrink-0">
+                    <button type="button" onclick="editarFormacion(${item.id})" class="bg-blue-600 text-white px-3 py-1 rounded text-sm">Editar</button>
+                    <button type="button" onclick="eliminarFormacion(${item.id})" class="bg-red-600 text-white px-3 py-1 rounded text-sm">Borrar</button>
+                </div>
+            </div>
+        `;
+    });
+}
+
+const formFormacion = document.getElementById("form-formacion");
+const btnFormacionCancelar = document.getElementById("btn-formacion-cancelar");
+
+if (formFormacion) {
+    formFormacion.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const id = document.getElementById("formacion-id").value;
+        const texto = document.getElementById("formacion-texto").value;
+        const icono = document.getElementById("formacion-icono").value;
+        const orden = Number(document.getElementById("formacion-orden").value || 0);
+
+        const datos = { texto, icono, orden };
+        let error;
+
+        if (id) {
+            const resultado = await supabaseClient
+                .from("formacion_trayectoria")
+                .update(datos)
+                .eq("id", id);
+            error = resultado.error;
+        } else {
+            const resultado = await supabaseClient
+                .from("formacion_trayectoria")
+                .insert([datos]);
+            error = resultado.error;
+        }
+
+        if (error) {
+            alert("Error guardando formación: " + error.message);
+            return;
+        }
+
+        alert(id ? "Ítem actualizado correctamente." : "Ítem agregado correctamente.");
+        limpiarFormularioFormacion();
+        cargarFormacionTrayectoria();
+    });
+}
+
+if (btnFormacionCancelar) {
+    btnFormacionCancelar.addEventListener("click", limpiarFormularioFormacion);
+}
+
+function limpiarFormularioFormacion() {
+    document.getElementById("formacion-id").value = "";
+    document.getElementById("formacion-texto").value = "";
+    document.getElementById("formacion-icono").value = "fa-graduation-cap";
+    document.getElementById("formacion-orden").value = "0";
+    document.getElementById("btn-formacion-submit").textContent = "Agregar ítem";
+    document.getElementById("btn-formacion-cancelar").classList.add("hidden");
+}
+
+async function editarFormacion(id) {
+    const { data, error } = await supabaseClient
+        .from("formacion_trayectoria")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+    if (error) {
+        alert("Error cargando ítem: " + error.message);
+        return;
+    }
+
+    document.getElementById("formacion-id").value = data.id;
+    document.getElementById("formacion-texto").value = data.texto || "";
+    document.getElementById("formacion-icono").value = data.icono || "fa-star";
+    document.getElementById("formacion-orden").value = data.orden || 0;
+    document.getElementById("btn-formacion-submit").textContent = "Guardar cambios";
+    document.getElementById("btn-formacion-cancelar").classList.remove("hidden");
+    document.getElementById("form-formacion").scrollIntoView({ behavior: "smooth" });
+}
+
+async function eliminarFormacion(id) {
+    if (!confirm("¿Seguro que querés borrar este ítem?")) return;
+
+    const { error } = await supabaseClient
+        .from("formacion_trayectoria")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        alert("Error borrando ítem: " + error.message);
+        return;
+    }
+
+    alert("Ítem borrado correctamente.");
+    cargarFormacionTrayectoria();
+}
+
 
         // Evento de inicialización
         document.addEventListener("DOMContentLoaded", verificarSesion);

@@ -198,30 +198,26 @@
 
                             <div class="mt-6">
                                 <h4 class="font-semibold text-azul-profundo mb-3">Formación y Trayectoria</h4>
-                                <ul class="space-y-2 text-gray-700">
+                                <ul id="lista-formacion-publica" class="space-y-2 text-gray-700">
                                     <li class="flex items-start">
                                         <i class="fas fa-graduation-cap text-azul-medio mt-1 mr-3"></i>
                                         <span>Profesorado en Lengua, Literatura y Dibujo</span>
                                     </li>
                                     <li class="flex items-start">
                                         <i class="fas fa-award text-azul-medio mt-1 mr-3"></i>
-                                        <span>Semifinalista en competencia internacional de pintura "TARTGET PRIZE
-                                            2025"</span>
+                                        <span>Semifinalista en competencia internacional de pintura "TARTGET PRIZE 2025"</span>
                                     </li>
                                     <li class="flex items-start">
                                         <i class="fas fa-award text-azul-medio mt-1 mr-3"></i>
-                                        <span>Reconocimiento por alta calidad de pintura por "Luxembourg Art Prize
-                                            2024"</span>
+                                        <span>Reconocimiento por alta calidad de pintura por "Luxembourg Art Prize 2024"</span>
                                     </li>
                                     <li class="flex items-start">
                                         <i class="fas fa-award text-azul-medio mt-1 mr-3"></i>
-                                        <span>Reconocimiento por participación en "Festival Multicultural Literarte
-                                            2024"</span>
+                                        <span>Reconocimiento por participación en "Festival Multicultural Literarte 2024"</span>
                                     </li>
                                     <li class="flex items-start">
                                         <i class="fas fa-globe-europe text-azul-medio mt-1 mr-3"></i>
-                                        <span>Exposiciones virtuales internacionales en México, España y
-                                            Luxemburgo</span>
+                                        <span>Exposiciones virtuales internacionales en México, España y Luxemburgo</span>
                                     </li>
                                 </ul>
                             </div>
@@ -647,6 +643,37 @@ if (config.footer_horario) {
 }
         }
 
+
+        async function cargarFormacionPublica() {
+            const lista = document.getElementById("lista-formacion-publica");
+            if (!lista) return;
+
+            const { data, error } = await supabaseClient
+                .from("formacion_trayectoria")
+                .select("*")
+                .order("orden", { ascending: true })
+                .order("id", { ascending: true });
+
+            if (error) {
+                console.warn("No se pudo cargar formación y trayectoria:", error.message);
+                return;
+            }
+
+            if (!data || data.length === 0) return;
+
+            lista.innerHTML = "";
+
+            data.forEach(item => {
+                lista.innerHTML += `
+                    <li class="flex items-start">
+                        <i class="fas ${item.icono || 'fa-star'} text-azul-medio mt-1 mr-3"></i>
+                        <span>${item.texto || ''}</span>
+                    </li>
+                `;
+            });
+        }
+
+
         // Event Listeners
         tabInicio.addEventListener("click", () => cambiarTab("inicio"));
         tabGaleria.addEventListener("click", () => cambiarTab("galeria"));
@@ -684,6 +711,7 @@ if (config.footer_horario) {
         document.addEventListener("DOMContentLoaded", () => {
             inicializarGaleria();
             cargarConfiguracionPublica();
+            cargarFormacionPublica();
 
             // Prevenir comportamiento por defecto de enlaces
             document.querySelectorAll("a").forEach(link => {
