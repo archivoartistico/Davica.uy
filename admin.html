@@ -170,8 +170,8 @@
                                 <input type="url" id="artista-instagram" class="w-full p-2 border rounded" placeholder="https://instagram.com/davica.art">
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold mb-1">Enlace de Behance / Otras Redes</label>
-                                <input type="url" id="artista-red-alternativa" class="w-full p-2 border rounded" placeholder="https://behance.net/...">
+                                <label class="block text-sm font-semibold mb-1">Enlace de TikTok</label>
+                                <input type="url" id="artista-red-alternativa" class="w-full p-2 border rounded" placeholder="https://www.tiktok.com/@davica.uy">
                             </div>
                         </div>
                         <div>
@@ -261,7 +261,8 @@
         function mostrarDashboard() {
             loginContainer.classList.add('hidden');
             adminDashboard.classList.remove('hidden');
-            cargarDatosExistentes(); // Función para traer los datos de la BD al loguearse
+            cargarDatosExistentes();
+            cargarConfiguracion();
         }
 
         function mostrarLogin() {
@@ -471,6 +472,109 @@ delete formCatalogo.dataset.imagenActual;
 document.querySelector("#form-catalogo button[type='submit']").textContent = "Publicar Obra";
 
 cargarDatosExistentes();
+});
+
+
+
+async function cargarConfiguracion() {
+    const { data, error } = await supabaseClient
+        .from("configuracion")
+        .select("*")
+        .eq("id", "principal")
+        .maybeSingle();
+
+    if (error) {
+        console.warn("No se pudo cargar configuración:", error.message);
+        return;
+    }
+
+    if (!data) return;
+
+    document.getElementById("home-obra-dia").value = data.home_obra_dia || "";
+    document.getElementById("home-proyectos").value = data.home_proyectos || "";
+    document.getElementById("home-exposiciones").value = data.home_exposiciones || "";
+    document.getElementById("artista-bio").value = data.artista_bio || "";
+    document.getElementById("artista-instagram").value = data.artista_instagram || "";
+    document.getElementById("artista-red-alternativa").value = data.artista_tiktok || "";
+    document.getElementById("footer-email").value = data.footer_email || "";
+    document.getElementById("footer-telefono").value = data.footer_telefono || "";
+    document.getElementById("footer-ubicacion").value = data.footer_ubicacion || "";
+    document.getElementById("footer-horario").value = data.footer_horario || "";
+}
+
+async function guardarConfiguracion(datos) {
+    const { error } = await supabaseClient
+        .from("configuracion")
+        .upsert({ id: "principal", ...datos }, { onConflict: "id" });
+
+    if (error) {
+        alert("Error guardando cambios: " + error.message);
+        return false;
+    }
+
+    alert("Cambios guardados correctamente.");
+    return true;
+}
+
+const formInicio = document.getElementById("form-inicio");
+formInicio.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await guardarConfiguracion({
+        home_obra_dia: document.getElementById("home-obra-dia").value,
+        home_proyectos: document.getElementById("home-proyectos").value,
+        home_exposiciones: document.getElementById("home-exposiciones").value
+    });
+});
+
+const formArtista = document.getElementById("form-artista");
+formArtista.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const fotoInput = document.getElementById("artista-foto");
+    let artista_foto_url = null;
+
+    if (fotoInput.files.length > 0) {
+        const archivo = fotoInput.files[0];
+        const nombreArchivo = `artista-${Date.now()}-${archivo.name}`;
+
+        const { error: uploadError } = await supabaseClient.storage
+            .from("obras")
+            .upload(nombreArchivo, archivo);
+
+        if (uploadError) {
+            alert("Error subiendo foto: " + uploadError.message);
+            return;
+        }
+
+        const { data: urlData } = supabaseClient.storage
+            .from("obras")
+            .getPublicUrl(nombreArchivo);
+
+        artista_foto_url = urlData.publicUrl;
+    }
+
+    const datos = {
+        artista_bio: document.getElementById("artista-bio").value,
+        artista_instagram: document.getElementById("artista-instagram").value,
+        artista_tiktok: document.getElementById("artista-red-alternativa").value
+    };
+
+    if (artista_foto_url) {
+        datos.artista_foto_url = artista_foto_url;
+    }
+
+    await guardarConfiguracion(datos);
+});
+
+const formFooter = document.getElementById("form-footer");
+formFooter.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await guardarConfiguracion({
+        footer_email: document.getElementById("footer-email").value,
+        footer_telefono: document.getElementById("footer-telefono").value,
+        footer_ubicacion: document.getElementById("footer-ubicacion").value,
+        footer_horario: document.getElementById("footer-horario").value
+    });
 });
 
         // Evento de inicialización

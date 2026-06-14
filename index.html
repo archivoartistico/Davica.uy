@@ -516,6 +516,101 @@
             });
         }
 
+
+
+        function textoALineas(texto) {
+            return (texto || "").split("\n").map(linea => linea.trim()).filter(Boolean);
+        }
+
+        async function cargarConfiguracionPublica() {
+            const { data: config, error } = await supabaseClient
+                .from("configuracion")
+                .select("*")
+                .eq("id", "principal")
+                .maybeSingle();
+
+            if (error) {
+                console.warn("No se pudo cargar configuración pública:", error.message);
+                return;
+            }
+
+            if (!config) return;
+
+            // Inicio: obra destacada
+            if (config.home_obra_dia) {
+                const { data: obraDestacada } = await supabaseClient
+                    .from("obras")
+                    .select("*")
+                    .eq("id", config.home_obra_dia)
+                    .maybeSingle();
+
+                if (obraDestacada) {
+                    const tarjetaDestacada = document.querySelector("#contenido-inicio .artwork-image");
+                    const imgDestacada = tarjetaDestacada?.querySelector("img");
+                    const tituloDestacado = tarjetaDestacada?.querySelector("h4");
+                    const descripcionDestacada = tarjetaDestacada?.querySelector("p");
+
+                    tarjetaDestacada?.setAttribute("data-id", obraDestacada.id);
+                    if (imgDestacada) {
+                        imgDestacada.src = obraDestacada.imagen_url || obraDestacada.imagen || imgDestacada.src;
+                        imgDestacada.alt = obraDestacada.titulo || "Obra destacada";
+                    }
+                    if (tituloDestacado) tituloDestacado.textContent = obraDestacada.titulo || "Obra destacada";
+                    if (descripcionDestacada) descripcionDestacada.textContent = obraDestacada.descripcion || "";
+                }
+            }
+
+            // Inicio: exposición
+            if (config.home_exposiciones) {
+                const lineasExpo = textoALineas(config.home_exposiciones);
+                const bloqueExpo = document.querySelector("#contenido-inicio .space-y-4 .flex:nth-child(1) div:nth-child(2)");
+                if (bloqueExpo && lineasExpo.length > 0) {
+                    bloqueExpo.innerHTML = `
+                        <h4 class="font-semibold text-azul-profundo">${lineasExpo[0]}</h4>
+                        ${lineasExpo.slice(1).map(linea => `<p class="text-gray-600">${linea}</p>`).join("")}
+                    `;
+                }
+            }
+
+            // Inicio: proyectos
+            if (config.home_proyectos) {
+                const lineasProyectos = textoALineas(config.home_proyectos);
+                const bloqueProyectos = document.querySelector("#contenido-inicio .space-y-4 .flex:nth-child(2) div:nth-child(2)");
+                if (bloqueProyectos) {
+                    bloqueProyectos.innerHTML = `
+                        <h4 class="font-semibold text-azul-profundo">Proyectos futuros:</h4>
+                        ${lineasProyectos.map(linea => `<p class="text-gray-600">• ${linea.replace(/^•\s*/, "")}</p>`).join("")}
+                    `;
+                }
+            }
+
+            // Artista: biografía
+            if (config.artista_bio) {
+                const parrafosBio = document.querySelectorAll("#contenido-artista .space-y-4 > p");
+                if (parrafosBio.length > 0) {
+                    parrafosBio[0].textContent = config.artista_bio;
+                    for (let i = 1; i < parrafosBio.length; i++) parrafosBio[i].style.display = "none";
+                }
+            }
+
+            // Artista: foto
+            if (config.artista_foto_url) {
+                const fotoArtista = document.querySelector("#contenido-artista img");
+                if (fotoArtista) fotoArtista.src = config.artista_foto_url;
+            }
+
+            // Artista: redes
+            if (config.artista_instagram) {
+                const linkInstagram = document.querySelector("#contenido-artista a[href*='instagram']");
+                if (linkInstagram) linkInstagram.href = config.artista_instagram;
+            }
+
+            if (config.artista_tiktok) {
+                const linkTiktok = document.querySelector("#contenido-artista a[href*='tiktok']");
+                if (linkTiktok) linkTiktok.href = config.artista_tiktok;
+            }
+        }
+
         // Event Listeners
         tabInicio.addEventListener("click", () => cambiarTab("inicio"));
         tabGaleria.addEventListener("click", () => cambiarTab("galeria"));
@@ -552,6 +647,7 @@
         // Inicializar la página
         document.addEventListener("DOMContentLoaded", () => {
             inicializarGaleria();
+            cargarConfiguracionPublica();
 
             // Prevenir comportamiento por defecto de enlaces
             document.querySelectorAll("a").forEach(link => {
