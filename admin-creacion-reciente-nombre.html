@@ -72,9 +72,16 @@
                     <h2 class="text-xl font-bold border-b pb-2 mb-4 text-azul-oscuro">Sección Inicio</h2>
                     <form id="form-inicio" class="space-y-4">
                         <div>
-                            <label class="block text-sm font-semibold mb-1">ID de la Obra del Día</label>
-                            <input type="text" id="home-obra-dia" class="w-full p-2 border rounded" placeholder="Ej: 12345">
-                            <span class="text-xs text-gray-400">Introduce el identificador del cuadro que quieras destacar hoy.</span>
+                            <label class="block text-sm font-semibold mb-1">Creación más reciente</label>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <select id="home-obra-dia" class="w-full p-2 border rounded md:col-span-2">
+                                    <option value="">Cargando obras...</option>
+                                </select>
+                                <button type="button" id="btn-sin-obra-dia" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded font-medium transition-colors">
+                                    No hay obra del día
+                                </button>
+                            </div>
+                            <span class="text-xs text-gray-400">Elegí por nombre una obra ya subida. Si no querés destacar ninguna, usá el botón.</span>
                         </div>
                         <div>
                             <label class="block text-sm font-semibold mb-1">Proyectos Actuales</label>
@@ -298,12 +305,12 @@
             }
         }
 
-        function mostrarDashboard() {
+        async function mostrarDashboard() {
             loginContainer.classList.add('hidden');
             adminDashboard.classList.remove('hidden');
-            cargarDatosExistentes();
-            cargarConfiguracion();
-            cargarFormacionTrayectoria();
+            await cargarDatosExistentes();
+            await cargarConfiguracion();
+            await cargarFormacionTrayectoria();
         }
 
         function mostrarLogin() {
@@ -356,6 +363,7 @@ async function cargarDatosExistentes() {
 
     if (!data || data.length === 0) {
         tabla.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400">Todavía no hay obras cargadas.</td></tr>`;
+        poblarSelectorCreacionReciente([]);
         return;
     }
 
@@ -379,6 +387,39 @@ async function cargarDatosExistentes() {
                 </td>
             </tr>
         `;
+    });
+
+    poblarSelectorCreacionReciente(data);
+}
+
+function poblarSelectorCreacionReciente(obrasDisponibles) {
+    const selector = document.getElementById("home-obra-dia");
+    if (!selector) return;
+
+    const valorActual = selector.value || selector.dataset.valorGuardado || "";
+
+    selector.innerHTML = `
+        <option value="">Seleccionar obra subida...</option>
+        <option value="__NO_OBRA__">No hay obra del día</option>
+    `;
+
+    (obrasDisponibles || []).forEach(obra => {
+        if (!obra.titulo) return;
+        const option = document.createElement("option");
+        option.value = obra.titulo;
+        option.textContent = obra.titulo;
+        selector.appendChild(option);
+    });
+
+    selector.value = valorActual;
+}
+
+const btnSinObraDia = document.getElementById("btn-sin-obra-dia");
+if (btnSinObraDia) {
+    btnSinObraDia.addEventListener("click", () => {
+        const selector = document.getElementById("home-obra-dia");
+        selector.value = "__NO_OBRA__";
+        alert("Se marcó que no hay obra del día. Ahora tocá Guardar Cambios Inicio.");
     });
 }
 
@@ -531,7 +572,9 @@ async function cargarConfiguracion() {
 
     if (!data) return;
 
-    document.getElementById("home-obra-dia").value = data.home_obra_dia || "";
+    const selectorCreacion = document.getElementById("home-obra-dia");
+    selectorCreacion.dataset.valorGuardado = data.home_obra_dia || "";
+    selectorCreacion.value = data.home_obra_dia || "";
     document.getElementById("home-proyectos").value = data.home_proyectos || "";
     document.getElementById("home-exposiciones").value = data.home_exposiciones || "";
     document.getElementById("artista-bio").value = data.artista_bio || "";

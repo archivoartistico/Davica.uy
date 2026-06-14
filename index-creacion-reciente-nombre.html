@@ -532,27 +532,41 @@
 
             if (!config) return;
 
-            // Inicio: obra destacada
-            if (config.home_obra_dia) {
+            // Inicio: creación más reciente
+            const tarjetaDestacada = document.querySelector("#contenido-inicio .artwork-image");
+            const imgDestacada = tarjetaDestacada?.querySelector("img");
+            const tituloDestacado = tarjetaDestacada?.querySelector("h4");
+            const descripcionDestacada = tarjetaDestacada?.querySelector("p");
+
+            function mostrarSinCreacionReciente() {
+                tarjetaDestacada?.removeAttribute("data-id");
+                if (imgDestacada) imgDestacada.style.display = "none";
+                if (tituloDestacado) tituloDestacado.textContent = "No hay obras cargadas";
+                if (descripcionDestacada) {
+                    descripcionDestacada.textContent = "Por ahora no hay una creación más reciente seleccionada. Podés fijarte en la galería.";
+                }
+            }
+
+            if (config.home_obra_dia === "__NO_OBRA__") {
+                mostrarSinCreacionReciente();
+            } else if (config.home_obra_dia) {
                 const { data: obraDestacada } = await supabaseClient
                     .from("obras")
                     .select("*")
-                    .eq("id", config.home_obra_dia)
+                    .eq("titulo", config.home_obra_dia)
                     .maybeSingle();
 
                 if (obraDestacada) {
-                    const tarjetaDestacada = document.querySelector("#contenido-inicio .artwork-image");
-                    const imgDestacada = tarjetaDestacada?.querySelector("img");
-                    const tituloDestacado = tarjetaDestacada?.querySelector("h4");
-                    const descripcionDestacada = tarjetaDestacada?.querySelector("p");
-
                     tarjetaDestacada?.setAttribute("data-id", obraDestacada.id);
                     if (imgDestacada) {
+                        imgDestacada.style.display = "block";
                         imgDestacada.src = obraDestacada.imagen_url || obraDestacada.imagen || imgDestacada.src;
-                        imgDestacada.alt = obraDestacada.titulo || "Obra destacada";
+                        imgDestacada.alt = obraDestacada.titulo || "Creación más reciente";
                     }
-                    if (tituloDestacado) tituloDestacado.textContent = obraDestacada.titulo || "Obra destacada";
+                    if (tituloDestacado) tituloDestacado.textContent = obraDestacada.titulo || "Creación más reciente";
                     if (descripcionDestacada) descripcionDestacada.textContent = obraDestacada.descripcion || "";
+                } else {
+                    mostrarSinCreacionReciente();
                 }
             }
 
