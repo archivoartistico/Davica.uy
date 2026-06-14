@@ -161,8 +161,12 @@
                     <h2 class="text-xl font-bold border-b pb-2 mb-4 text-azul-oscuro">Perfil del Artista (Davica)</h2>
                     <form id="form-artista" class="space-y-4">
                         <div>
-                            <label class="block text-sm font-semibold mb-1">Biografía / Declaración de Artista</label>
+                            <label class="block text-sm font-semibold mb-1">Biografía</label>
                             <textarea id="artista-bio" rows="6" class="w-full p-2 border rounded" placeholder="Escribe la biografía que se muestra al lado de la foto..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-1">Declaración Artística</label>
+                            <textarea id="artista-declaracion" rows="5" class="w-full p-2 border rounded" placeholder="Escribe la declaración artística que aparece en el recuadro azul..."></textarea>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
@@ -531,6 +535,7 @@ async function cargarConfiguracion() {
     document.getElementById("home-proyectos").value = data.home_proyectos || "";
     document.getElementById("home-exposiciones").value = data.home_exposiciones || "";
     document.getElementById("artista-bio").value = data.artista_bio || "";
+    document.getElementById("artista-declaracion").value = data.artista_declaracion || "";
     document.getElementById("artista-instagram").value = data.artista_instagram || "";
     document.getElementById("artista-red-alternativa").value = data.artista_tiktok || "";
     document.getElementById("footer-email").value = data.footer_email || "";
@@ -592,6 +597,7 @@ formArtista.addEventListener("submit", async (e) => {
 
     const datos = {
         artista_bio: document.getElementById("artista-bio").value,
+        artista_declaracion: document.getElementById("artista-declaracion").value,
         artista_instagram: document.getElementById("artista-instagram").value,
         artista_tiktok: document.getElementById("artista-red-alternativa").value
     };

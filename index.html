@@ -249,7 +249,7 @@
 
                 <div class="bg-azul-oscuro text-white rounded-xl shadow-lg p-8">
                     <h3 class="text-2xl font-serif font-semibold mb-6">Declaración Artística</h3>
-                    <blockquote
+                    <blockquote id="declaracion-artistica-texto"
                         class="text-lg italic border-l-4 border-azul-medio pl-6 py-2 text-justify leading-relaxed break-words">
                         "El dibujo es una pasión que siempre me acompañó. Lo que me inspira, además de los grandes
                         artistas que he estudiado, es el aprendizaje constante, la experimentación y la búsqueda de una
@@ -587,6 +587,12 @@
                     parrafosBio[0].textContent = config.artista_bio;
                     for (let i = 1; i < parrafosBio.length; i++) parrafosBio[i].style.display = "none";
                 }
+            }
+
+            // Artista: declaración artística
+            if (config.artista_declaracion) {
+                const declaracion = document.getElementById("declaracion-artistica-texto");
+                if (declaracion) declaracion.textContent = config.artista_declaracion;
             }
 
             // Artista: foto
