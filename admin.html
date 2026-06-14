@@ -480,7 +480,7 @@ async function cargarConfiguracion() {
     const { data, error } = await supabaseClient
         .from("configuracion")
         .select("*")
-        .eq("id", "principal")
+        .eq("id", 1)
         .maybeSingle();
 
     if (error) {
@@ -505,7 +505,7 @@ async function cargarConfiguracion() {
 async function guardarConfiguracion(datos) {
     const { error } = await supabaseClient
         .from("configuracion")
-        .upsert({ id: "principal", ...datos }, { onConflict: "id" });
+        .upsert({ id: 1, ...datos }, { onConflict: "id" });
 
     if (error) {
         alert("Error guardando cambios: " + error.message);
