@@ -121,6 +121,10 @@
                                 </select>
                             </div>
                             <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold mb-1">Descripción</label>
+                                <textarea id="obra-descripcion" rows="4" class="w-full p-2 border rounded" placeholder="Escribe una descripción breve de la obra"></textarea>
+                            </div>
+                            <div class="md:col-span-2">
                                 <label class="block text-sm font-semibold mb-1">Imagen del Cuadro</label>
                                 <input type="file" id="obra-imagen" accept="image/*" class="w-full p-2 border border-dashed rounded bg-gray-50">
                             </div>
@@ -309,6 +313,7 @@ formCatalogo.addEventListener('submit', async (e) => {
     const medidas = document.getElementById('obra-medidas').value;
     const lugar = document.getElementById('obra-lugar').value;
     const estado = document.getElementById('obra-estado').value;
+    const descripcion = document.getElementById('obra-descripcion').value;
     const imagenInput = document.getElementById('obra-imagen');
 
     let imagen_url = "";
@@ -343,6 +348,7 @@ formCatalogo.addEventListener('submit', async (e) => {
                 medidas: medidas,
                 lugar: lugar,
                 estado: estado,
+                descripcion: descripcion,
                 imagen_url: imagen_url
             }
         ]);

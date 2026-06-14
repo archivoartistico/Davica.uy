@@ -435,16 +435,21 @@
 
         // Función para crear tarjeta de obra
         function crearTarjetaObra(obra) {
+            const descripcion = obra.descripcion || "Sin descripción.";
+            const imagen = obra.imagen_url || "Imagenes/Autorretrato 4.jpg";
+            const medidas = obra.medidas || "Sin medidas";
+            const anio = obra.anio || "Sin año";
+
             return `
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden artwork-image cursor-pointer" data-id="${obra.id}">
-                    <img src="${obra.imagen_url}" alt="${obra.titulo}" class="w-full h-64 object-cover" loading="lazy">
+                    <img src="${imagen}" alt="${obra.titulo || 'Obra sin título'}" class="w-full h-64 object-cover" loading="lazy">
                     <div class="p-6">
-                        <h4 class="text-xl font-semibold text-azul-profundo mb-2">${obra.titulo}</h4>
+                        <h4 class="text-xl font-semibold text-azul-profundo mb-2">${obra.titulo || 'Obra sin título'}</h4>
                         <div class="flex justify-between text-sm text-gray-600 mb-3">
-                            <span><i class="fas fa-ruler-combined mr-1"></i>${obra.medidas}</span>
-                            <span><i class="fas fa-calendar-alt mr-1"></i>${obra.anio}</span>
+                            <span><i class="fas fa-ruler-combined mr-1"></i>${medidas}</span>
+                            <span><i class="fas fa-calendar-alt mr-1"></i>${anio}</span>
                         </div>
-                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">${obra.descripcion.substring(0, 100)}...</p>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-2">${descripcion.substring(0, 100)}...</p>
                         <div class="flex items-center text-azul-medio font-medium">
                             <span>Ver detalles</span>
                             <i class="fas fa-arrow-right ml-2"></i>
@@ -456,53 +461,60 @@
 
         // Función para mostrar detalles de la obra en modal
         function mostrarDetallesObra(id) {
-            const obra = obras.find(o => o.id === id);
+            const obra = obras.find(o => String(o.id) === String(id));
             if (!obra) return;
 
-            modalTitulo.textContent = obra.titulo;
-            modalImagen.src = obra.imagen_url;
-            modalImagen.alt = obra.titulo;
-            modalDescripcion.textContent = obra.descripcion;
-            modalMedidas.textContent = obra.medidas;
-            modalTecnica.textContent = obra.tecnica;
-            modalAno.textContent = obra.anio;
-            modalUbicacion.textContent = obra.lugar;
+            modalTitulo.textContent = obra.titulo || "Obra sin título";
+            modalImagen.src = obra.imagen_url || "Imagenes/Autorretrato 4.jpg";
+            modalImagen.alt = obra.titulo || "Obra";
+            modalDescripcion.textContent = obra.descripcion || "Sin descripción.";
+            modalMedidas.textContent = obra.medidas || "Sin medidas";
+            modalTecnica.textContent = obra.tecnica || "Sin técnica";
+            modalAno.textContent = obra.anio || "Sin año";
+            modalUbicacion.textContent = obra.lugar || "Sin ubicación";
 
-            // Limpiar y agregar detalles
             modalDetalles.innerHTML = "";
 
-            // Mostrar modal
             modalObra.classList.remove("hidden");
             document.body.classList.add("modal-open");
             document.body.style.overflow = "hidden";
         }
 
-        // Inicializar galería
+        // Inicializar galería desde Supabase
         async function inicializarGaleria() {
-        const { data, error } = await supabaseClient
-        .from('obras')
-        .select('*')
-        .order('created_at', { ascending: false });
+            galeriaGrid.innerHTML = '<p class="text-gray-500">Cargando obras...</p>';
 
-        if (error) {
-        console.error(error);
-        return;
-        }
+            const { data, error } = await supabaseClient
+                .from('obras')
+                .select('*')
+                .order('created_at', { ascending: false });
 
-        obras = data;
-        galeriaGrid.innerHTML = "";
-        obras.forEach(obra => {
-        galeriaGrid.innerHTML += crearTarjetaObra(obra);
-        });
-        }
+            if (error) {
+                console.error("Error cargando obras:", error);
+                galeriaGrid.innerHTML = '<p class="text-red-500">No se pudieron cargar las obras.</p>';
+                return;
+            }
 
-            // Agregar event listeners a las tarjetas
+            obras = data || [];
+            galeriaGrid.innerHTML = "";
+
+            if (obras.length === 0) {
+                galeriaGrid.innerHTML = '<p class="text-gray-500">Todavía no hay obras cargadas.</p>';
+                return;
+            }
+
+            obras.forEach(obra => {
+                galeriaGrid.innerHTML += crearTarjetaObra(obra);
+            });
+
+            // Agregar event listeners después de crear las tarjetas
             document.querySelectorAll(".artwork-image").forEach(card => {
                 card.addEventListener("click", function () {
-                    const id = parseInt(this.getAttribute("data-id"));
+                    const id = this.getAttribute("data-id");
                     mostrarDetallesObra(id);
                 });
             });
+        }
 
         // Event Listeners
         tabInicio.addEventListener("click", () => cambiarTab("inicio"));
