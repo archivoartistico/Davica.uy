@@ -99,12 +99,22 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                 <div class="bg-white rounded-xl shadow-lg p-6">
                     <h3 class="text-2xl font-serif font-semibold text-azul-oscuro mb-4">Creación más reciente</h3>
-                    <div class="artwork-image cursor-pointer" data-id="1">
-                        <img src="Imagenes/Autorretrato 4.jpg" alt="Obra destacada del mes - Composición abstracta en azules"
-                            class="w-full h-64 object-cover rounded-lg mb-4" loading="lazy">
-                        <h4 class="text-xl font-semibold text-azul-profundo">"Autoretrato IV"</h4>
-                        <p class="text-gray-600 mt-2">Una cuarta obra que retrata a su artista.</p>
-                    </div>
+                    <div id="obra-destacada-inicio" class="artwork-image cursor-pointer">
+    <img id="inicio-imagen-destacada"
+         src=""
+         alt="Creación más reciente"
+         class="w-full h-64 object-cover rounded-lg mb-4">
+
+    <h4 id="inicio-titulo-destacado"
+        class="text-xl font-semibold text-azul-profundo">
+        Cargando...
+    </h4>
+
+    <p id="inicio-descripcion-destacada"
+       class="text-gray-600 mt-2">
+       Cargando obra...
+    </p>
+</div>
                 </div>
 
                 <div class="bg-white rounded-xl shadow-lg p-6">
@@ -654,19 +664,20 @@
                     .select("*")
                     .eq("titulo", config.home_obra_dia)
                     .maybeSingle();
+if (obraDestacada) {
 
-                if (obraDestacada) {
-                    tarjetaDestacada?.setAttribute("data-id", obraDestacada.id);
-                    if (imgDestacada) {
-                        imgDestacada.style.display = "block";
-                        imgDestacada.src = optimizarImagenSupabase(obraDestacada.imagen_url || obraDestacada.imagen || imgDestacada.src, 700, 65);
-                        imgDestacada.alt = obraDestacada.titulo || "Creación más reciente";
-                    }
-                    if (tituloDestacado) tituloDestacado.textContent = obraDestacada.titulo || "Creación más reciente";
-                    if (descripcionDestacada) descripcionDestacada.textContent = obraDestacada.descripcion || "";
-                } else {
-                    mostrarSinCreacionReciente();
-                }
+    document.getElementById("inicio-imagen-destacada").src =
+        obraDestacada.imagen_url;
+
+    document.getElementById("inicio-titulo-destacado").textContent =
+        obraDestacada.titulo;
+
+    document.getElementById("inicio-descripcion-destacada").textContent =
+        obraDestacada.descripcion || "";
+
+    document.getElementById("obra-destacada-inicio")
+        .setAttribute("data-id", obraDestacada.id);
+}
             }
 
             // Inicio: exposición
