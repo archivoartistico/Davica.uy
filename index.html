@@ -42,6 +42,11 @@
             background-color: #4A90E2;
             border-radius: 2px;
         }
+
+        .filtro-categoria-activo {
+            background-color: #4A90E2;
+            color: white;
+        }
     </style>
 </head>
 
@@ -152,6 +157,10 @@
                     Haz clic en cualquier obra para ver sus detalles técnicos completos: medidas, ubicación, técnica,
                     año y descripción.
                 </p>
+            </div>
+
+            <div id="filtros-categorias" class="flex flex-wrap justify-center gap-3 mb-8">
+                <button type="button" class="filtro-categoria filtro-categoria-activo px-4 py-2 rounded-full border border-azul-medio font-medium transition-colors" data-categoria="todas">Todas</button>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galeria-grid">
@@ -375,6 +384,8 @@
     <script>
 
     let obras = [];
+    let categoriaActiva = "todas";
+    let categoriasDisponibles = [];
     const SUPABASE_URL = "https://qvlhsggnxgapwqimhflw.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2bGhzZ2dueGdhcHdxaW1oZmx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0Mjk4NDksImV4cCI6MjA5NjAwNTg0OX0.SyZ34curAuUxn3oCiGc6sLN8_zL9kpUIZqaheDNy5Tg";
 
@@ -435,6 +446,7 @@
             const imagen = obra.imagen_url || "Imagenes/Autorretrato 4.jpg";
             const medidas = obra.medidas || "Sin medidas";
             const anio = obra.anio || "Sin año";
+            const categoria = obra.categorias?.nombre || "Sin categoría";
 
             return `
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden artwork-image cursor-pointer" data-id="${obra.id}">
@@ -445,6 +457,7 @@
                             <span><i class="fas fa-ruler-combined mr-1"></i>${medidas}</span>
                             <span><i class="fas fa-calendar-alt mr-1"></i>${anio}</span>
                         </div>
+                        <p class="text-xs text-azul-medio font-semibold uppercase tracking-wide mb-2">${categoria}</p>
                         <p class="text-gray-600 text-sm mb-4 line-clamp-2">${descripcion.substring(0, 100)}...</p>
                         <div class="flex items-center text-azul-medio font-medium">
                             <span>Ver detalles</span>
@@ -482,7 +495,7 @@
 
             const { data, error } = await supabaseClient
                 .from('obras')
-                .select('*')
+                .select('*, categorias(nombre)')
                 .order('created_at', { ascending: false });
 
             if (error) {
@@ -492,18 +505,70 @@
             }
 
             obras = data || [];
+            await cargarCategoriasPublicas();
+            renderizarGaleria();
+        }
+
+        async function cargarCategoriasPublicas() {
+            const contenedor = document.getElementById("filtros-categorias");
+            if (!contenedor) return;
+
+            const { data, error } = await supabaseClient
+                .from("categorias")
+                .select("*")
+                .order("nombre", { ascending: true });
+
+            if (error) {
+                console.warn("No se pudieron cargar categorías:", error.message);
+                contenedor.innerHTML = `
+                    <button type="button" class="filtro-categoria filtro-categoria-activo px-4 py-2 rounded-full border border-azul-medio font-medium transition-colors" data-categoria="todas">Todas</button>
+                `;
+                return;
+            }
+
+            categoriasDisponibles = data || [];
+
+            contenedor.innerHTML = `
+                <button type="button" class="filtro-categoria filtro-categoria-activo px-4 py-2 rounded-full border border-azul-medio font-medium transition-colors" data-categoria="todas">Todas</button>
+            `;
+
+            categoriasDisponibles.forEach(cat => {
+                contenedor.innerHTML += `
+                    <button type="button" class="filtro-categoria px-4 py-2 rounded-full border border-azul-medio text-azul-profundo font-medium transition-colors hover:bg-azul-claro" data-categoria="${cat.id}">${cat.nombre}</button>
+                `;
+            });
+
+            document.querySelectorAll(".filtro-categoria").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    categoriaActiva = btn.dataset.categoria;
+                    document.querySelectorAll(".filtro-categoria").forEach(b => b.classList.remove("filtro-categoria-activo"));
+                    btn.classList.add("filtro-categoria-activo");
+                    renderizarGaleria();
+                });
+            });
+        }
+
+        function renderizarGaleria() {
             galeriaGrid.innerHTML = "";
 
-            if (obras.length === 0) {
+            if (!obras || obras.length === 0) {
                 galeriaGrid.innerHTML = '<p class="text-gray-500">Todavía no hay obras cargadas.</p>';
                 return;
             }
 
-            obras.forEach(obra => {
+            const obrasFiltradas = categoriaActiva === "todas"
+                ? obras
+                : obras.filter(obra => String(obra.categoria_id) === String(categoriaActiva));
+
+            if (obrasFiltradas.length === 0) {
+                galeriaGrid.innerHTML = '<p class="text-gray-500">No hay obras en esta categoría.</p>';
+                return;
+            }
+
+            obrasFiltradas.forEach(obra => {
                 galeriaGrid.innerHTML += crearTarjetaObra(obra);
             });
 
-            // Agregar event listeners después de crear las tarjetas
             document.querySelectorAll(".artwork-image").forEach(card => {
                 card.addEventListener("click", function () {
                     const id = this.getAttribute("data-id");

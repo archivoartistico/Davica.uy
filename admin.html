@@ -127,6 +127,12 @@
                                     <option value="Exposición">En Exposición</option>
                                 </select>
                             </div>
+                            <div>
+                                <label class="block text-sm font-semibold mb-1">Categoría</label>
+                                <select id="obra-categoria" class="w-full p-2 border rounded">
+                                    <option value="">Sin categoría</option>
+                                </select>
+                            </div>
                             <div class="md:col-span-2">
                                 <label class="block text-sm font-semibold mb-1">Descripción</label>
                                 <textarea id="obra-descripcion" rows="4" class="w-full p-2 border rounded" placeholder="Escribe una descripción breve de la obra"></textarea>
@@ -141,6 +147,24 @@
                         </form>
                     </div>
 
+                    <div class="pt-6 border-t border-gray-200">
+                        <h2 class="text-xl font-bold border-b pb-2 mb-4 text-azul-oscuro">Categorías</h2>
+                        <form id="form-categoria" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end mb-5">
+                            <input type="hidden" id="categoria-id">
+                            <div class="md:col-span-3">
+                                <label class="block text-sm font-semibold mb-1">Nombre de la categoría</label>
+                                <input type="text" id="categoria-nombre" class="w-full p-2 border rounded" placeholder="Ej: Retratos, Paisajes, Abstractos" required>
+                            </div>
+                            <div class="flex gap-2">
+                                <button type="submit" id="btn-categoria-submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded font-medium transition-colors">Agregar</button>
+                                <button type="button" id="btn-categoria-cancelar" class="hidden bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded font-medium transition-colors">Cancelar</button>
+                            </div>
+                        </form>
+                        <div id="lista-categorias" class="space-y-2">
+                            <p class="text-gray-400 text-sm">Cargando categorías...</p>
+                        </div>
+                    </div>
+
                     <div>
                         <h2 class="text-xl font-bold border-b pb-2 mb-4 text-azul-oscuro">Obras Existentes</h2>
                         <div class="overflow-x-auto">
@@ -151,12 +175,13 @@
                                         <th class="p-3">Título</th>
                                         <th class="p-3">Año / Técnica</th>
                                         <th class="p-3">Estado</th>
+                                        <th class="p-3">Categoría</th>
                                         <th class="p-3 text-right">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tabla-obras-body">
                                     <tr>
-                                        <td colspan="5" class="p-4 text-center text-gray-400">Cargando obras del catálogo...</td>
+                                        <td colspan="6" class="p-4 text-center text-gray-400">Cargando obras del catálogo...</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -308,6 +333,7 @@
         async function mostrarDashboard() {
             loginContainer.classList.add('hidden');
             adminDashboard.classList.remove('hidden');
+            await cargarCategorias();
             await cargarDatosExistentes();
             await cargarConfiguracion();
             await cargarFormacionTrayectoria();
@@ -345,24 +371,149 @@
             mostrarLogin();
         });
 
+
+let categoriasDisponibles = [];
+
+async function cargarCategorias() {
+    const selector = document.getElementById("obra-categoria");
+    const lista = document.getElementById("lista-categorias");
+
+    const { data, error } = await supabaseClient
+        .from("categorias")
+        .select("*")
+        .order("nombre", { ascending: true });
+
+    if (error) {
+        console.error("Error cargando categorías:", error);
+        if (lista) lista.innerHTML = `<p class="text-red-500 text-sm">Error cargando categorías. Verificá que hayas creado la tabla en Supabase.</p>`;
+        if (selector) selector.innerHTML = `<option value="">Sin categoría</option>`;
+        return;
+    }
+
+    categoriasDisponibles = data || [];
+
+    if (selector) {
+        const valorActual = selector.value;
+        selector.innerHTML = `<option value="">Sin categoría</option>`;
+        categoriasDisponibles.forEach(cat => {
+            const option = document.createElement("option");
+            option.value = cat.id;
+            option.textContent = cat.nombre;
+            selector.appendChild(option);
+        });
+        selector.value = valorActual;
+    }
+
+    if (lista) {
+        if (categoriasDisponibles.length === 0) {
+            lista.innerHTML = `<p class="text-gray-400 text-sm">Todavía no hay categorías cargadas.</p>`;
+        } else {
+            lista.innerHTML = "";
+            categoriasDisponibles.forEach(cat => {
+                lista.innerHTML += `
+                    <div class="flex items-center justify-between bg-gray-50 border rounded p-3 gap-3">
+                        <span class="font-medium text-gray-800">${cat.nombre}</span>
+                        <div class="flex gap-2 shrink-0">
+                            <button type="button" onclick="editarCategoria(${cat.id}, '${String(cat.nombre || "").replace(/'/g, "\\'")}')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm">Editar</button>
+                            <button type="button" onclick="eliminarCategoria(${cat.id})" class="bg-red-600 text-white px-3 py-1 rounded text-sm">Borrar</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+    }
+}
+
+const formCategoria = document.getElementById("form-categoria");
+const btnCategoriaCancelar = document.getElementById("btn-categoria-cancelar");
+
+if (formCategoria) {
+    formCategoria.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("categoria-id").value;
+        const nombre = document.getElementById("categoria-nombre").value.trim();
+        if (!nombre) return;
+
+        let error;
+        if (id) {
+            const resultado = await supabaseClient
+                .from("categorias")
+                .update({ nombre })
+                .eq("id", id);
+            error = resultado.error;
+        } else {
+            const resultado = await supabaseClient
+                .from("categorias")
+                .insert([{ nombre }]);
+            error = resultado.error;
+        }
+
+        if (error) {
+            alert("Error guardando categoría: " + error.message);
+            return;
+        }
+
+        alert(id ? "Categoría editada correctamente." : "Categoría agregada correctamente.");
+        limpiarFormularioCategoria();
+        await cargarCategorias();
+        await cargarDatosExistentes();
+    });
+}
+
+if (btnCategoriaCancelar) {
+    btnCategoriaCancelar.addEventListener("click", limpiarFormularioCategoria);
+}
+
+function editarCategoria(id, nombre) {
+    document.getElementById("categoria-id").value = id;
+    document.getElementById("categoria-nombre").value = nombre || "";
+    document.getElementById("btn-categoria-submit").textContent = "Guardar";
+    document.getElementById("btn-categoria-cancelar").classList.remove("hidden");
+}
+
+function limpiarFormularioCategoria() {
+    document.getElementById("categoria-id").value = "";
+    document.getElementById("categoria-nombre").value = "";
+    document.getElementById("btn-categoria-submit").textContent = "Agregar";
+    document.getElementById("btn-categoria-cancelar").classList.add("hidden");
+}
+
+async function eliminarCategoria(id) {
+    if (!confirm("¿Seguro que querés borrar esta categoría? Las obras que la usen quedarán sin categoría, pero NO se borrarán.")) return;
+
+    const { error } = await supabaseClient
+        .from("categorias")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        alert("Error borrando categoría: " + error.message);
+        return;
+    }
+
+    alert("Categoría borrada correctamente. Las obras no se borraron.");
+    await cargarCategorias();
+    await cargarDatosExistentes();
+}
+
 async function cargarDatosExistentes() {
     const tabla = document.getElementById("tabla-obras-body");
 
-    tabla.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400">Cargando obras...</td></tr>`;
+    tabla.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-400">Cargando obras...</td></tr>`;
 
     const { data, error } = await supabaseClient
         .from("obras")
-        .select("*")
+        .select("*, categorias(nombre)")
         .order("created_at", { ascending: false });
 
     if (error) {
         console.error("Error cargando obras:", error);
-        tabla.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500">Error cargando obras.</td></tr>`;
+        tabla.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-red-500">Error cargando obras.</td></tr>`;
         return;
     }
 
     if (!data || data.length === 0) {
-        tabla.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400">Todavía no hay obras cargadas.</td></tr>`;
+        tabla.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-gray-400">Todavía no hay obras cargadas.</td></tr>`;
         poblarSelectorCreacionReciente([]);
         return;
     }
@@ -381,6 +532,7 @@ async function cargarDatosExistentes() {
                     <span class="text-sm text-gray-500">${obra.tecnica || ""}</span>
                 </td>
                 <td class="p-3">${obra.estado || ""}</td>
+                <td class="p-3">${obra.categorias?.nombre || "Sin categoría"}</td>
                 <td class="p-3 text-right">
                     <button onclick="editarObra('${obra.id}')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm mr-2">Editar</button>
                     <button onclick="eliminarObra('${obra.id}')" class="bg-red-600 text-white px-3 py-1 rounded text-sm">Borrar</button>
@@ -458,6 +610,7 @@ async function editarObra(id) {
     document.getElementById("obra-medidas").value = obra.medidas || "";
     document.getElementById("obra-lugar").value = obra.lugar || "";
     document.getElementById("obra-estado").value = obra.estado || "Disponible";
+    document.getElementById("obra-categoria").value = obra.categoria_id || "";
     document.getElementById("obra-descripcion").value = obra.descripcion || "";
 
     const formCatalogo = document.getElementById("form-catalogo");
@@ -479,6 +632,7 @@ formCatalogo.addEventListener('submit', async (e) => {
     const medidas = document.getElementById('obra-medidas').value;
     const lugar = document.getElementById('obra-lugar').value;
     const estado = document.getElementById('obra-estado').value;
+    const categoria_id = document.getElementById('obra-categoria').value || null;
     const descripcion = document.getElementById('obra-descripcion').value;
     const imagenInput = document.getElementById('obra-imagen');
 
@@ -511,6 +665,7 @@ formCatalogo.addEventListener('submit', async (e) => {
         medidas,
         lugar,
         estado,
+        categoria_id,
         descripcion,
         imagen_url: imagen_url || formCatalogo.dataset.imagenActual || ""
     };
