@@ -154,6 +154,12 @@
                 </p>
             </div>
 
+            <div id="filtros-categorias" class="flex flex-wrap justify-center gap-2 mb-8">
+                <button type="button" class="filtro-categoria bg-azul-medio text-white px-4 py-2 rounded-full text-sm font-medium transition-colors" data-categoria="todas">
+                    Todas
+                </button>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galeria-grid">
             </div>
         </section>
@@ -375,6 +381,7 @@
     <script>
 
     let obras = [];
+    let categoriaActiva = "todas";
     const SUPABASE_URL = "https://qvlhsggnxgapwqimhflw.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2bGhzZ2dueGdhcHdxaW1oZmx3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0Mjk4NDksImV4cCI6MjA5NjAwNTg0OX0.SyZ34curAuUxn3oCiGc6sLN8_zL9kpUIZqaheDNy5Tg";
 
@@ -388,6 +395,7 @@
         const contenidoGaleria = document.getElementById("contenido-galeria");
         const contenidoArtista = document.getElementById("contenido-artista");
         const galeriaGrid = document.getElementById("galeria-grid");
+        const filtrosCategorias = document.getElementById("filtros-categorias");
         const explorarGaleriaBtn = document.getElementById("explorar-galeria");
         const modalObra = document.getElementById("modal-obra");
         const cerrarModal = document.getElementById("cerrar-modal");
@@ -429,17 +437,30 @@
             }
         }
 
+        function optimizarImagenSupabase(url, ancho = 700, calidad = 75) {
+            if (!url) return "Imagenes/Autorretrato 4.jpg";
+            if (url.includes("/storage/v1/object/public/")) {
+                const separador = url.includes("?") ? "&" : "?";
+                return url.replace("/storage/v1/object/public/", "/storage/v1/render/image/public/") + `${separador}width=${ancho}&quality=${calidad}&resize=cover`;
+            }
+            return url;
+        }
+
         // Función para crear tarjeta de obra
         function crearTarjetaObra(obra) {
             const descripcion = obra.descripcion || "Sin descripción.";
-            const imagen = obra.imagen_url || "Imagenes/Autorretrato 4.jpg";
+            const imagen = optimizarImagenSupabase(obra.imagen_url || "Imagenes/Autorretrato 4.jpg", 700, 75);
             const medidas = obra.medidas || "Sin medidas";
             const anio = obra.anio || "Sin año";
+            const categoria = obra.categorias?.nombre || "Sin categoría";
 
             return `
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden artwork-image cursor-pointer" data-id="${obra.id}">
-                    <img src="${imagen}" alt="${obra.titulo || 'Obra sin título'}" class="w-full h-64 object-cover" loading="lazy">
+                    <img src="${imagen}" alt="${obra.titulo || 'Obra sin título'}" class="w-full h-64 object-cover" loading="lazy" decoding="async">
                     <div class="p-6">
+                        <div class="mb-3">
+                            <span class="inline-block bg-azul-claro text-azul-oscuro text-xs font-semibold px-3 py-1 rounded-full">${categoria}</span>
+                        </div>
                         <h4 class="text-xl font-semibold text-azul-profundo mb-2">${obra.titulo || 'Obra sin título'}</h4>
                         <div class="flex justify-between text-sm text-gray-600 mb-3">
                             <span><i class="fas fa-ruler-combined mr-1"></i>${medidas}</span>
@@ -461,7 +482,7 @@
             if (!obra) return;
 
             modalTitulo.textContent = obra.titulo || "Obra sin título";
-            modalImagen.src = obra.imagen_url || "Imagenes/Autorretrato 4.jpg";
+            modalImagen.src = optimizarImagenSupabase(obra.imagen_url || "Imagenes/Autorretrato 4.jpg", 1200, 85);
             modalImagen.alt = obra.titulo || "Obra";
             modalDescripcion.textContent = obra.descripcion || "Sin descripción.";
             modalMedidas.textContent = obra.medidas || "Sin medidas";
@@ -475,13 +496,70 @@
             document.body.style.overflow = "hidden";
         }
 
+        function crearBotonesFiltro() {
+            if (!filtrosCategorias) return;
+
+            const categorias = [...new Set(
+                obras
+                    .map(obra => obra.categorias?.nombre)
+                    .filter(Boolean)
+            )].sort((a, b) => a.localeCompare(b));
+
+            filtrosCategorias.innerHTML = `
+                <button type="button" class="filtro-categoria px-4 py-2 rounded-full text-sm font-medium transition-colors ${categoriaActiva === "todas" ? "bg-azul-medio text-white" : "bg-white text-azul-oscuro border border-azul-claro"}" data-categoria="todas">
+                    Todas
+                </button>
+                ${categorias.map(cat => `
+                    <button type="button" class="filtro-categoria px-4 py-2 rounded-full text-sm font-medium transition-colors ${categoriaActiva === cat ? "bg-azul-medio text-white" : "bg-white text-azul-oscuro border border-azul-claro"}" data-categoria="${cat}">
+                        ${cat}
+                    </button>
+                `).join("")}
+            `;
+
+            document.querySelectorAll(".filtro-categoria").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    categoriaActiva = btn.getAttribute("data-categoria") || "todas";
+                    crearBotonesFiltro();
+                    renderizarGaleria();
+                });
+            });
+        }
+
+        function renderizarGaleria() {
+            galeriaGrid.innerHTML = "";
+
+            const obrasFiltradas = categoriaActiva === "todas"
+                ? obras
+                : obras.filter(obra => obra.categorias?.nombre === categoriaActiva);
+
+            if (obrasFiltradas.length === 0) {
+                galeriaGrid.innerHTML = '<p class="text-gray-500">No hay obras en esta categoría.</p>';
+                return;
+            }
+
+            const fragmento = document.createDocumentFragment();
+            obrasFiltradas.forEach(obra => {
+                const contenedor = document.createElement("div");
+                contenedor.innerHTML = crearTarjetaObra(obra).trim();
+                fragmento.appendChild(contenedor.firstElementChild);
+            });
+            galeriaGrid.appendChild(fragmento);
+
+            document.querySelectorAll(".artwork-image").forEach(card => {
+                card.addEventListener("click", function () {
+                    const id = this.getAttribute("data-id");
+                    mostrarDetallesObra(id);
+                });
+            });
+        }
+
         // Inicializar galería desde Supabase
         async function inicializarGaleria() {
             galeriaGrid.innerHTML = '<p class="text-gray-500">Cargando obras...</p>';
 
             const { data, error } = await supabaseClient
                 .from('obras')
-                .select('*')
+                .select('*, categorias(nombre)')
                 .order('created_at', { ascending: false });
 
             if (error) {
@@ -491,24 +569,15 @@
             }
 
             obras = data || [];
-            galeriaGrid.innerHTML = "";
 
             if (obras.length === 0) {
                 galeriaGrid.innerHTML = '<p class="text-gray-500">Todavía no hay obras cargadas.</p>';
+                if (filtrosCategorias) filtrosCategorias.innerHTML = "";
                 return;
             }
 
-            obras.forEach(obra => {
-                galeriaGrid.innerHTML += crearTarjetaObra(obra);
-            });
-
-            // Agregar event listeners después de crear las tarjetas
-            document.querySelectorAll(".artwork-image").forEach(card => {
-                card.addEventListener("click", function () {
-                    const id = this.getAttribute("data-id");
-                    mostrarDetallesObra(id);
-                });
-            });
+            crearBotonesFiltro();
+            renderizarGaleria();
         }
 
 
@@ -559,7 +628,7 @@
                     tarjetaDestacada?.setAttribute("data-id", obraDestacada.id);
                     if (imgDestacada) {
                         imgDestacada.style.display = "block";
-                        imgDestacada.src = obraDestacada.imagen_url || obraDestacada.imagen || imgDestacada.src;
+                        imgDestacada.src = optimizarImagenSupabase(obraDestacada.imagen_url || obraDestacada.imagen || imgDestacada.src, 900, 80);
                         imgDestacada.alt = obraDestacada.titulo || "Creación más reciente";
                     }
                     if (tituloDestacado) tituloDestacado.textContent = obraDestacada.titulo || "Creación más reciente";
