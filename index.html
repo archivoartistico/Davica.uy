@@ -331,8 +331,8 @@
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div>
-                            <img id="modal-imagen" src="" alt="" class="w-full h-auto rounded-lg shadow-lg"
-                                loading="lazy">
+                            <img id="modal-imagen" src="" alt="" class="max-w-full h-auto object-contain rounded-lg shadow-lg mx-auto"
+                                loading="eager" decoding="async">
                         </div>
 
                         <div>
@@ -494,7 +494,7 @@
             if (!obra) return;
 
             modalTitulo.textContent = obra.titulo || "Obra sin título";
-            modalImagen.src = optimizarImagenSupabase(obra.imagen_url || "Imagenes/Autorretrato 4.jpg", 900, 75);
+            modalImagen.src = obra.imagen_url || "Imagenes/Autorretrato 4.jpg";
             modalImagen.alt = obra.titulo || "Obra";
             modalDescripcion.textContent = obra.descripcion || "Sin descripción.";
             modalMedidas.textContent = obra.medidas || "Sin medidas";
