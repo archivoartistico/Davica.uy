@@ -162,6 +162,12 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="galeria-grid">
             </div>
+
+            <div id="contenedor-ver-mas" class="text-center mt-8 hidden">
+                <button type="button" id="btn-ver-mas-obras" class="bg-azul-medio hover:bg-azul-hover text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
+                    Ver más obras
+                </button>
+            </div>
         </section>
 
         <!-- Sección Artista (oculta por defecto) -->
@@ -396,6 +402,8 @@
         const contenidoArtista = document.getElementById("contenido-artista");
         const galeriaGrid = document.getElementById("galeria-grid");
         const filtrosCategorias = document.getElementById("filtros-categorias");
+        const contenedorVerMas = document.getElementById("contenedor-ver-mas");
+        const btnVerMasObras = document.getElementById("btn-ver-mas-obras");
         const explorarGaleriaBtn = document.getElementById("explorar-galeria");
         const modalObra = document.getElementById("modal-obra");
         const cerrarModal = document.getElementById("cerrar-modal");
@@ -407,6 +415,10 @@
         const modalAno = document.getElementById("modal-ano");
         const modalUbicacion = document.getElementById("modal-ubicacion");
         const modalCategoria = document.getElementById("modal-categoria");
+
+        let galeriaCargada = false;
+        let cantidadVisible = 12;
+        const CANTIDAD_POR_CARGA = 12;
 
         // Función para cambiar pestañas
         function cambiarTab(tab) {
@@ -449,14 +461,14 @@
         // Función para crear tarjeta de obra
         function crearTarjetaObra(obra) {
             const descripcion = obra.descripcion || "Sin descripción.";
-            const imagen = optimizarImagenSupabase(obra.imagen_url || "Imagenes/Autorretrato 4.jpg", 700, 75);
+            const imagen = optimizarImagenSupabase(obra.imagen_url || "Imagenes/Autorretrato 4.jpg", 420, 55);
             const medidas = obra.medidas || "Sin medidas";
             const anio = obra.anio || "Sin año";
             const categoria = obra.categorias?.nombre || "Sin categoría";
 
             return `
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden artwork-image cursor-pointer" data-id="${obra.id}">
-                    <img src="${imagen}" alt="${obra.titulo || 'Obra sin título'}" class="w-full h-64 object-cover" loading="lazy" decoding="async">
+                    <img src="${imagen}" alt="${obra.titulo || 'Obra sin título'}" class="w-full h-64 object-cover" loading="lazy" decoding="async" width="420" height="256">
                     <div class="p-6">
                         <div class="mb-3">
                             <span class="inline-block bg-azul-claro text-azul-oscuro text-xs font-semibold px-3 py-1 rounded-full">${categoria}</span>
@@ -482,7 +494,7 @@
             if (!obra) return;
 
             modalTitulo.textContent = obra.titulo || "Obra sin título";
-            modalImagen.src = optimizarImagenSupabase(obra.imagen_url || "Imagenes/Autorretrato 4.jpg", 1200, 85);
+            modalImagen.src = optimizarImagenSupabase(obra.imagen_url || "Imagenes/Autorretrato 4.jpg", 900, 75);
             modalImagen.alt = obra.titulo || "Obra";
             modalDescripcion.textContent = obra.descripcion || "Sin descripción.";
             modalMedidas.textContent = obra.medidas || "Sin medidas";
@@ -519,6 +531,7 @@
             document.querySelectorAll(".filtro-categoria").forEach(btn => {
                 btn.addEventListener("click", () => {
                     categoriaActiva = btn.getAttribute("data-categoria") || "todas";
+                    cantidadVisible = CANTIDAD_POR_CARGA;
                     crearBotonesFiltro();
                     renderizarGaleria();
                 });
@@ -534,16 +547,28 @@
 
             if (obrasFiltradas.length === 0) {
                 galeriaGrid.innerHTML = '<p class="text-gray-500">No hay obras en esta categoría.</p>';
+                if (contenedorVerMas) contenedorVerMas.classList.add("hidden");
                 return;
             }
 
+            const obrasParaMostrar = obrasFiltradas.slice(0, cantidadVisible);
             const fragmento = document.createDocumentFragment();
-            obrasFiltradas.forEach(obra => {
+
+            obrasParaMostrar.forEach(obra => {
                 const contenedor = document.createElement("div");
                 contenedor.innerHTML = crearTarjetaObra(obra).trim();
                 fragmento.appendChild(contenedor.firstElementChild);
             });
+
             galeriaGrid.appendChild(fragmento);
+
+            if (contenedorVerMas) {
+                if (obrasFiltradas.length > cantidadVisible) {
+                    contenedorVerMas.classList.remove("hidden");
+                } else {
+                    contenedorVerMas.classList.add("hidden");
+                }
+            }
 
             document.querySelectorAll(".artwork-image").forEach(card => {
                 card.addEventListener("click", function () {
@@ -551,6 +576,12 @@
                     mostrarDetallesObra(id);
                 });
             });
+        }
+
+        async function cargarGaleriaSiHaceFalta() {
+            if (galeriaCargada) return;
+            galeriaCargada = true;
+            await inicializarGaleria();
         }
 
         // Inicializar galería desde Supabase
@@ -628,7 +659,7 @@
                     tarjetaDestacada?.setAttribute("data-id", obraDestacada.id);
                     if (imgDestacada) {
                         imgDestacada.style.display = "block";
-                        imgDestacada.src = optimizarImagenSupabase(obraDestacada.imagen_url || obraDestacada.imagen || imgDestacada.src, 900, 80);
+                        imgDestacada.src = optimizarImagenSupabase(obraDestacada.imagen_url || obraDestacada.imagen || imgDestacada.src, 700, 65);
                         imgDestacada.alt = obraDestacada.titulo || "Creación más reciente";
                     }
                     if (tituloDestacado) tituloDestacado.textContent = obraDestacada.titulo || "Creación más reciente";
@@ -764,12 +795,23 @@ if (config.footer_horario) {
 
         // Event Listeners
         tabInicio.addEventListener("click", () => cambiarTab("inicio"));
-        tabGaleria.addEventListener("click", () => cambiarTab("galeria"));
+        tabGaleria.addEventListener("click", () => {
+            cambiarTab("galeria");
+            cargarGaleriaSiHaceFalta();
+        });
         tabArtista.addEventListener("click", () => cambiarTab("artista"));
 
         explorarGaleriaBtn.addEventListener("click", () => {
             cambiarTab("galeria");
+            cargarGaleriaSiHaceFalta();
         });
+
+        if (btnVerMasObras) {
+            btnVerMasObras.addEventListener("click", () => {
+                cantidadVisible += CANTIDAD_POR_CARGA;
+                renderizarGaleria();
+            });
+        }
 
         cerrarModal.addEventListener("click", () => {
             modalObra.classList.add("hidden");
@@ -797,7 +839,6 @@ if (config.footer_horario) {
 
         // Inicializar la página
         document.addEventListener("DOMContentLoaded", () => {
-            inicializarGaleria();
             cargarConfiguracionPublica();
             cargarFormacionPublica();
 
